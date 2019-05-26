@@ -1,34 +1,34 @@
-EntityManager<Soldier> MovementSystem::soldiers;
+EntityManager<Unit> MovementSystem::units;
 
 void MovementSystem::init()
 {
     for(size_t i = 0; i < 4; ++i)
-        soldiers.createEntity();
+        units.createEntity();
 }
 
 void MovementSystem::update()
 {
-    soldiers.printEntities();
+    units.printEntities();
 
     std::cout << "----------------" << std::endl;
     std::cout << "MOVEMENT SYSTEM:" << std::endl;
     std::cout << "----------------" << std::endl;
 
-    Soldier* soldier;
+    Unit* unit;
     List<BaseComponent*>& memory = ComponentManager::getComponentMemory<Transform>();
     List<BaseComponent*>::iterator i;
     for(i = memory.begin(); i != memory.end(); ++i)
     {
-        soldier = (Soldier*)((*i)->entity);
-        soldier->getTransform()->position.x += soldier->getStats()->velocity;
-        soldier->getTransform()->position.y += soldier->getStats()->velocity;
-        soldier->getTransform()->position.z += soldier->getStats()->velocity;
+        unit = (Unit*)((*i)->entity);
+        unit->getTransform()->position.x += unit->getStats()->velocity;
+        unit->getTransform()->position.y += unit->getStats()->velocity;
+        unit->getTransform()->position.z += unit->getStats()->velocity;
     }
 
-    soldiers.printEntities();
+    units.printEntities();
 }
 
 void MovementSystem::destroy()
 {
-    soldiers.clear();
+    units.clear();
 }

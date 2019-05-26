@@ -11,7 +11,7 @@ public:
     static void destroy();
 
 private:
-    static EntityManager<Soldier> soldiers;
+    static EntityManager<Unit> units;
 };
 
 #endif // ECS_SYSTEM_H
