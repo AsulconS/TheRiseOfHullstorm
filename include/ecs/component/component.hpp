@@ -32,6 +32,7 @@ struct Transform : public Component<Transform>
 struct MeshRenderer : public Component<MeshRenderer>
 {
     Model* mesh;
+    uint32 index;
 
     bool isVisible;
 };

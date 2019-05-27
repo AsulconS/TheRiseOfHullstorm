@@ -15,9 +15,9 @@ void MovementSystem::update()
     for(i = memory.begin(); i != memory.end(); ++i)
     {
         unit = (Unit*)((*i)->entity);
-        //unit->getTransform()->position.x += unit->getStats()->velocity;
-        //unit->getTransform()->position.y += unit->getStats()->velocity;
-        unit->getTransform()->position.z += unit->getStats()->velocity;
+        //unit->transform->position.x += unit->stats->velocity;
+        //unit->transform->position.y += unit->stats->velocity;
+        unit->transform->position.z += unit->stats->velocity;
     }
 }
 

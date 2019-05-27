@@ -22,10 +22,11 @@ public:
 
     static GLFWwindow* getContextWindow();
 
+    static Vector<Model*> models;
+
 private:
     static GLFWwindow* window;
     static Shader shader;
-    static Model* mesh;
 
     static void initDisplay(uint32 glVersion);
 

@@ -1,6 +1,9 @@
 #ifndef ECS_UNIT_SYSTEM_H
 #define ECS_UNIT_SYSTEM_H
 
+#define VILLAGER_MODEL 0
+#define CHICKEN_MODEL  1
+
 #include "ecs/entities/entityManager.hpp"
 
 class UnitSystem

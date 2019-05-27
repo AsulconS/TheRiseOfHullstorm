@@ -16,10 +16,9 @@ public:
     virtual void print() = 0;
     uint32 ID;
 
-    Transform* getTransform() { return (Transform*)components[0]; }
+    Transform* transform;
 
 protected:
-    Vector<BaseComponent*> components;
     void internalInit(uint32 _ID);
 };
 
@@ -38,8 +37,8 @@ public:
     virtual void destroy();
     virtual void print();
 
-    MeshRenderer* getMeshRenderer() { return (MeshRenderer*)components[1]; }
-    Stats* getStats() { return (Stats*)components[2]; }
+    MeshRenderer* meshRenderer;
+    Stats* stats;
 };
 
 #endif // ECS_ENTITY_H

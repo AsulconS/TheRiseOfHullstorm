@@ -1,9 +1,10 @@
 GLFWwindow* RenderingSystem::window = NULL;
 Shader RenderingSystem::shader;
-Model* RenderingSystem::mesh = NULL;
+Vector<Model*> RenderingSystem::models;
 
 void RenderingSystem::init()
 {
+    // Create a Display for OpenGL 3.3
     initDisplay(3);
 
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
@@ -57,7 +58,10 @@ void RenderingSystem::init()
 
     // --------------------------------------------------------------------------
 
-    mesh = new Model("res/models/villager/villager.obj");
+    models.push_back(new Model("res/models/villager/villager.obj")); // 0
+    models.push_back(new Model("res/models/chicken/chicken.obj")); // 1
+
+    // --------------------------------------------------------------------------
 
     List<BaseComponent*>& memory = ComponentManager::getComponentMemory<MeshRenderer>();
     MeshRenderer* current;
@@ -66,7 +70,7 @@ void RenderingSystem::init()
     {
         current = (MeshRenderer*)(*i);
         if(current->isVisible)
-            current->mesh = mesh;
+            current->mesh = models[current->index];
     }
 }
 
@@ -97,10 +101,10 @@ void RenderingSystem::update()
         if(current->isVisible)
         {
             model = glm::mat4(1.0f);
-            model = glm::translate(model, current->entity->getTransform()->position);
-            model = glm::scale(model, current->entity->getTransform()->scale);
+            model = glm::translate(model, current->entity->transform->position);
+            model = glm::scale(model, current->entity->transform->scale);
             shader.setMat4("model", model);
-            mesh->render(shader);
+            current->mesh->render(shader);
         }
     }
 
@@ -109,6 +113,9 @@ void RenderingSystem::update()
 
 void RenderingSystem::destroy()
 {
+    for(size_t i = 0; i < models.size(); ++i)
+        delete models[i];
+
     glfwTerminate();
 }
 

@@ -4,13 +4,11 @@
 void Entity::internalInit(uint32 _ID)
 {
     this->ID = _ID;
-    Transform* transform = ComponentManager::createComponent<Transform>(this);
+    transform = ComponentManager::createComponent<Transform>(this);
 
     transform->position = { 0.0f, -0.5f, 0.0f };
     transform->scale    = { 0.15f, 0.15f, 0.15f };
     transform->rotation = { 0.0f, 0.0f, 0.0f };
-
-    components.push_back(transform);
 }
 
 void EmptyEntity::init(uint32 _ID)
@@ -28,23 +26,22 @@ void Unit::init(uint32 _ID)
 {
     internalInit(_ID);
 
-    MeshRenderer* meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
+    meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
     meshRenderer->mesh = NULL;
     meshRenderer->isVisible = true;
 
-    Stats* stats = ComponentManager::createComponent<Stats>(this);
+    stats = ComponentManager::createComponent<Stats>(this);
     stats->hp = 100.0f;
     stats->damage   = 20.0f;
     stats->defense  = 10.0f;
     stats->velocity = 0.005f;
-
-    components.push_back(meshRenderer);
-    components.push_back(stats);
 }
 
 void Unit::destroy()
 {
     if(!ComponentManager::deleteComponent<Transform>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<MeshRenderer>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<Stats>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
@@ -58,7 +55,6 @@ std::ostream& operator<<(std::ostream& o, glm::vec3& v)
 
 void EmptyEntity::print()
 {
-    Transform* transform = (Transform*)components[0];
     std::cout << "TRANSFORM COMPONENT:\n--------------------" << std::endl;
     std::cout << "Position:\t";
     std::cout << transform->position << std::endl;
@@ -75,8 +71,6 @@ void Unit::print()
     std::cout << "Unit Nr. " << ID << "                      ]" << std::endl;
     std::cout << "------------------------------------" << std::endl;
 
-    Transform* transform = getTransform();
-    Stats* stats = getStats();
     std::cout << "TRANSFORM COMPONENT:\n--------------------" << std::endl;
     std::cout << "Position:\t";
     std::cout << transform->position << std::endl;

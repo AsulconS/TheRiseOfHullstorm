@@ -2,8 +2,12 @@ EntityManager<Unit> UnitSystem::units;
 
 void UnitSystem::init()
 {
-    for(size_t i = 0; i < 1; ++i)
-        units.createEntity();
+    Unit* chicken = units.createEntity();
+    chicken->meshRenderer->index = CHICKEN_MODEL;
+    chicken->stats->velocity = 0.0025f;
+
+    Unit* villager = units.createEntity();
+    villager->meshRenderer->index = VILLAGER_MODEL;;
     
     units.printEntities();
 }
