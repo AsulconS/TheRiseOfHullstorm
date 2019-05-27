@@ -1,5 +1,5 @@
-#ifndef ECS_COMMON_H
-#define ECS_COMMON_H
+#ifndef COMMON_H
+#define COMMON_H
 
 #include <cstdint>
 #include <type_traits>
@@ -13,4 +13,4 @@ typedef uint32_t uint32;
 typedef int64_t int64;
 typedef uint64_t uint64;
 
-#endif // ECS_COMMON_H
+#endif // COMMON_H

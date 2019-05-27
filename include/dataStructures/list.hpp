@@ -5,4 +5,4 @@
 
 #define List std::list
 
-#endif // LIST_H
+#endif // DSTR_LIST_H

@@ -1,14 +1,34 @@
 #ifndef ECS_H
 #define ECS_H
 
-#include "ecs/componentManager.hpp"
-#include "ecs/entityManager.hpp"
-#include "ecs/system.hpp"
+#include "ecs/component/componentManager.hpp"
+#include "ecs/entities/entityManager.hpp"
+
+#include "ecs/systems/rendering/renderingSystem.hpp"
+#include "ecs/systems/rendering/shader.hpp"
+#include "ecs/systems/rendering/mesh.hpp"
+#include "ecs/systems/rendering/model.hpp"
+
+#include "ecs/systems/unit/unitSystem.hpp"
+
+#include "ecs/systems/input/inputSystem.hpp"
+
+#include "ecs/systems/mechanics/movementSystem.hpp"
 
 #ifdef ECS_IMPLEMENTATION
-    #include "ecs/componentManager.inl"
-    #include "ecs/entityManager.inl"
-    #include "ecs/system.inl"
+    #include "ecs/component/componentManager.inl"
+    #include "ecs/entities/entityManager.inl"
+
+    #include "ecs/systems/rendering/renderingSystem.inl"
+    #include "ecs/systems/rendering/shader.inl"
+    #include "ecs/systems/rendering/mesh.inl"
+    #include "ecs/systems/rendering/model.inl"
+
+    #include "ecs/systems/unit/unitSystem.inl"
+
+    #include "ecs/systems/input/inputSystem.inl"
+
+    #include "ecs/systems/mechanics/movementSystem.inl"
 #endif
 
 #endif // ECS_H

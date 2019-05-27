@@ -1,8 +1,8 @@
-#ifndef DSTR_ARRAY_H
-#define DSTR_ARRAY_H
+#ifndef DSTR_VECTOR_H
+#define DSTR_VECTOR_H
 
 #include <vector>
 
 #define Vector std::vector
 
-#endif // DSTR_ARRAY_H
+#endif // DSTR_VECTOR_H
