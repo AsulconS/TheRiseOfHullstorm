@@ -57,7 +57,7 @@ void Unit::init(uint32 _id)
     stats->hp       = 100.0f;
     stats->damage   = 20.0f;
     stats->defense  = 10.0f;
-    stats->velocity = 0.005f;
+    stats->velocity = 1.0f;
 }
 
 void Unit::destroy()

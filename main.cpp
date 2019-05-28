@@ -1,9 +1,25 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <chrono>
+
 #define  ECS_IMPLEMENTATION
 #define  STB_IMAGE_IMPLEMENTATION
 #include "ecs.hpp"
+
+static auto currentTime = std::chrono::steady_clock::now();
+static auto lastTime = currentTime;
+static auto timeSpan = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - lastTime);
+
+static float deltaTime = 0.0f;
+
+float getDeltaTime()
+{
+    currentTime = std::chrono::steady_clock::now();
+    timeSpan = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - lastTime);
+    lastTime = currentTime;
+    return timeSpan.count();
+}
 
 int main()
 {
@@ -15,15 +31,17 @@ int main()
 
     while(RenderingSystem::isActive())
     {
+        deltaTime = getDeltaTime();
+
         // Process Input
-        InputSystem::update();
-        UnitSystem::update();
+        InputSystem::update(deltaTime);
+        UnitSystem::update(deltaTime);
 
         // Then Trigger Systems
-        MovementSystem::update();
+        MovementSystem::update(deltaTime);
 
         // Finally Render the results
-        RenderingSystem::update();
+        RenderingSystem::update(deltaTime);
     }
 
     RenderingSystem::destroy();

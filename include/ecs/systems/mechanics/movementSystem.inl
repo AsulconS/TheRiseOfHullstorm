@@ -3,7 +3,7 @@ void MovementSystem::init()
     //
 }
 
-void MovementSystem::update()
+void MovementSystem::update(float deltaTime)
 {
     Unit* unit;
     List<BaseComponent*>& memory = ComponentManager::getComponentMemory<Transform>();
@@ -16,7 +16,7 @@ void MovementSystem::update()
         unit = (Unit*)((*i)->entity);
         //unit->transform->position.x += unit->stats->velocity;
         //unit->transform->position.y += unit->stats->velocity;
-        unit->transform->position.z += unit->stats->velocity;
+        unit->transform->position.z += unit->stats->velocity * deltaTime;
     }
 }
 

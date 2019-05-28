@@ -17,7 +17,7 @@ void UnitSystem::init()
 
         unit->meshRenderer->index = CHICKEN_MODEL;
 
-        unit->stats->velocity = 0.01f;
+        unit->stats->velocity = 1.0f;
     }
     for(size_t i = 0; i < 5; ++i)
     {
@@ -32,7 +32,7 @@ void UnitSystem::init()
 
         unit->meshRenderer->index = VILLAGER_MODEL;
 
-        unit->stats->velocity = 0.01f;
+        unit->stats->velocity = 1.0f;
     }
     for(size_t i = 0; i < 5; ++i)
     {
@@ -47,7 +47,7 @@ void UnitSystem::init()
 
         unit->meshRenderer->index = TREE_MODEL;
 
-        unit->stats->velocity = 0.01f;
+        unit->stats->velocity = 1.0f;
     }
 }
 
@@ -61,10 +61,10 @@ void UnitSystem::createVillager()
 
     unit->meshRenderer->index = VILLAGER_MODEL;
 
-    unit->stats->velocity = 0.01f;
+    unit->stats->velocity = 1.0f;
 }
 
-void UnitSystem::update()
+void UnitSystem::update(float deltaTime)
 {
     //
 }

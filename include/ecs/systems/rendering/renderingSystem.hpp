@@ -15,7 +15,7 @@ class RenderingSystem
 {
 public:
     static void init();
-    static void update();
+    static void update(float deltaTime);
     static void destroy();
 
     static bool isActive();
