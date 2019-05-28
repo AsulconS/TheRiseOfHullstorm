@@ -9,6 +9,8 @@ void InputSystem::update()
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
+    if(glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+        UnitSystem::createVillager();
     
     glfwPollEvents();
 }

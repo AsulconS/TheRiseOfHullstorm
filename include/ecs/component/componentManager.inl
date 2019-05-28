@@ -7,7 +7,6 @@ Vector<List<BaseComponent*>> ComponentManager::componentMemory;
 uint32 ComponentManager::registerComponent()
 {
     componentMemory.push_back(List<BaseComponent*>());
-    std::cout << "REGISTERED OK " << componentID << std::endl;
     return componentID++;
 }
 
@@ -40,7 +39,7 @@ bool ComponentManager::deleteComponent(Entity* entity)
 
     List<BaseComponent*>::iterator i;
     for(i = componentMemory[C::ID].begin(); i != componentMemory[C::ID].end(); ++i)
-        if((*i)->entity->ID == entity->ID)
+        if((*i)->entity->id == entity->id)
         {
             delete (*i);
             componentMemory[C::ID].erase(i);

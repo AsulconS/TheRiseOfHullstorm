@@ -8,11 +8,10 @@
 int main()
 {
     UnitSystem::init();
+    MovementSystem::init();
 
     RenderingSystem::init();
     InputSystem::init();
-
-    MovementSystem::init();
 
     while(RenderingSystem::isActive())
     {

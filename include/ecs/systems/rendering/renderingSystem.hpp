@@ -8,6 +8,7 @@
 #include "system/common.hpp"
 #include "dataStructures.hpp"
 #include "ecs/component/componentManager.hpp"
+#include "ecs/entities/entityManager.hpp"
 #include "ecs/systems/rendering/shader.hpp"
 
 class RenderingSystem
@@ -22,11 +23,12 @@ public:
 
     static GLFWwindow* getContextWindow();
 
-    static Vector<Model*> models;
-
 private:
     static GLFWwindow* window;
+    static Camera* mainCamera;
     static Shader shader;
+
+    static Vector<Model*> models;
 
     static void initDisplay(uint32 glVersion);
 

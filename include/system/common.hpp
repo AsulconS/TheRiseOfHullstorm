@@ -1,6 +1,14 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#define EMPTY_ENTITY  0
+#define CAMERA_ENTITY 1
+#define UNIT_ENTITY   2
+
+#define VILLAGER_MODEL 0
+#define CHICKEN_MODEL  1
+#define TREE_MODEL     2
+
 #include <cstdint>
 #include <type_traits>
 

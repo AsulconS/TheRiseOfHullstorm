@@ -1,5 +1,5 @@
 EntityManager<Unit> UnitSystem::units;
-//string unidad
+
 void UnitSystem::init()
 {
     Unit* unit;
@@ -17,7 +17,7 @@ void UnitSystem::init()
 
         unit->meshRenderer->index = CHICKEN_MODEL;
 
-        unit->stats->velocity = 0.0002f;
+        unit->stats->velocity = 0.01f;
     }
     for(size_t i = 0; i < 5; ++i)
     {
@@ -28,9 +28,11 @@ void UnitSystem::init()
 
         unit->transform->rotation.y = 64.0f * i;
 
+        unit->transform->scale = { 0.15f, 0.15f, 0.15f };
+
         unit->meshRenderer->index = VILLAGER_MODEL;
 
-        unit->stats->velocity = 0.0002f;
+        unit->stats->velocity = 0.01f;
     }
     for(size_t i = 0; i < 5; ++i)
     {
@@ -38,22 +40,33 @@ void UnitSystem::init()
 
         unit->transform->position.x = 2.5f * i - 5.0f;
         unit->transform->position.z = -4.0f;
-        unit->transform->scale = { 0.4f, 0.4f, 0.4f };
-
 
         unit->transform->rotation.y = 64.0f * i;
 
+        unit->transform->scale = { 0.4f, 0.4f, 0.4f };
+
         unit->meshRenderer->index = TREE_MODEL;
 
-        unit->stats->velocity = 0.0002f;
+        unit->stats->velocity = 0.01f;
     }
+}
 
-    units.printEntities();
+void UnitSystem::createVillager()
+{
+    Unit* unit = units.createEntity();
+
+    unit->transform->position.z = -1.0f;
+
+    unit->transform->scale = { 0.15f, 0.15f, 0.15f };
+
+    unit->meshRenderer->index = VILLAGER_MODEL;
+
+    unit->stats->velocity = 0.01f;
 }
 
 void UnitSystem::update()
 {
-    units.printEntities();
+    //
 }
 
 void UnitSystem::destroy()

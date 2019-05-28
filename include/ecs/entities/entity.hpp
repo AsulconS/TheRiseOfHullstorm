@@ -11,29 +11,40 @@
 class Entity
 {
 public:
-    virtual void init(uint32 _ID) = 0;
+    virtual void init(uint32 _id) = 0;
     virtual void destroy() = 0;
     virtual void print() = 0;
-    uint32 ID;
 
+    uint32 id;
+    uint32 type;
     Transform* transform;
 
 protected:
-    void internalInit(uint32 _ID);
+    void internalInit(uint32 _id, uint32 _type);
 };
 
 class EmptyEntity : public Entity
 {
 public:
-    virtual void init(uint32 _ID);
+    virtual void init(uint32 _id);
     virtual void destroy();
     virtual void print();
+};
+
+class Camera : public Entity
+{
+public:
+    virtual void init(uint32 _id);
+    virtual void destroy();
+    virtual void print();
+
+    CameraComponent* cameraComponent;
 };
 
 class Unit : public Entity
 {
 public:
-    virtual void init(uint32 _ID);
+    virtual void init(uint32 _id);
     virtual void destroy();
     virtual void print();
 

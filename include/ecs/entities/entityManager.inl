@@ -1,19 +1,22 @@
 // ENTITIES
 // --------
 
-void Entity::internalInit(uint32 _ID)
+void Entity::internalInit(uint32 _id, uint32 _type)
 {
-    this->ID = _ID;
+    this->id = _id;
+    this->type = _type;
     transform = ComponentManager::createComponent<Transform>(this);
 
-    transform->position = { 0.0f, -0.5f, 0.0f };
-    transform->scale    = { 0.15f, 0.15f, 0.15f };
+    transform->position = { 0.0f, 0.0f, 0.0f };
     transform->rotation = { 0.0f, 0.0f, 0.0f };
+    transform->scale    = { 1.0f, 1.0f, 1.0f };
+
+    transform->isStatic = false;
 }
 
-void EmptyEntity::init(uint32 _ID)
+void EmptyEntity::init(uint32 _id)
 {
-    internalInit(_ID);
+    internalInit(_id, EMPTY_ENTITY);
 }
 
 void EmptyEntity::destroy()
@@ -22,16 +25,36 @@ void EmptyEntity::destroy()
         std::cerr << "Something went wrong with this entity!" << std::endl;
 }
 
-void Unit::init(uint32 _ID)
+void Camera::init(uint32 _id)
 {
-    internalInit(_ID);
+    internalInit(_id, CAMERA_ENTITY);
+
+    cameraComponent = ComponentManager::createComponent<CameraComponent>(this);
+    cameraComponent->mainCamera = true;
+    cameraComponent->perspective = true;
+    cameraComponent->fov = 45.0f;
+    cameraComponent->cNear = 0.1f;
+    cameraComponent->cFar = 100.0f;
+}
+
+void Camera::destroy()
+{
+    if(!ComponentManager::deleteComponent<Transform>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<CameraComponent>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+}
+
+void Unit::init(uint32 _id)
+{
+    internalInit(_id, UNIT_ENTITY);
 
     meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
-    meshRenderer->mesh = NULL;
+    meshRenderer->index = 0;
     meshRenderer->isVisible = true;
 
     stats = ComponentManager::createComponent<Stats>(this);
-    stats->hp = 100.0f;
+    stats->hp       = 100.0f;
     stats->damage   = 20.0f;
     stats->defense  = 10.0f;
     stats->velocity = 0.005f;
@@ -65,10 +88,15 @@ void EmptyEntity::print()
     std::cout << std::endl;
 }
 
+void Camera::print()
+{
+    //
+}
+
 void Unit::print()
 {
     std::cout << "------------------------------------" << std::endl;
-    std::cout << "Unit Nr. " << ID << "                      ]" << std::endl;
+    std::cout << "Unit Nr. " << id << "                      ]" << std::endl;
     std::cout << "------------------------------------" << std::endl;
 
     std::cout << "TRANSFORM COMPONENT:\n--------------------" << std::endl;
@@ -115,7 +143,7 @@ bool EntityManager<E>::removeEntity(E* entity)
 {
     List<Entity*>::iterator i;
     for(i = entities.begin(); i != entities.end(); ++i)
-        if((*i)->ID == entity->ID)
+        if((*i)->id == entity->id)
         {
             (*i)->destroy();
             delete (*i);

@@ -1,4 +1,5 @@
 GLFWwindow* RenderingSystem::window = NULL;
+Camera* RenderingSystem::mainCamera = NULL;
 Shader RenderingSystem::shader;
 Vector<Model*> RenderingSystem::models;
 
@@ -6,6 +7,11 @@ void RenderingSystem::init()
 {
     // Create a Display for OpenGL 3.3
     initDisplay(3);
+
+    mainCamera = new Camera;
+    mainCamera->init(0);
+
+    mainCamera->transform->position = { 0.0f, 4.0f, 8.0f };
 
     glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
@@ -15,7 +21,7 @@ void RenderingSystem::init()
     shader.use();
 
     // Setting up Fragment Shader Uniforms
-    shader.setVec3("viewPos", glm::vec3(0.0f, 2.0f, 5.0f));
+    shader.setVec3("viewPos", mainCamera->transform->position);
 
     // Light Parameters
     // Directional Light
@@ -40,7 +46,7 @@ void RenderingSystem::init()
     shader.setFloat("pointLights[0].quadratic", 0.032f);
 
     // Spot Light
-    shader.setVec3("spotLight.position", glm::vec3(0.0f, 2.0f, 5.0f));
+    shader.setVec3("spotLight.position", mainCamera->transform->position);
     shader.setVec3("spotLight.direction", glm::vec3(0.0f, 0.0f, 0.0f));
 
     shader.setVec3("spotLight.ambient", 0.2f, 0.2f, 0.2f);
@@ -63,16 +69,6 @@ void RenderingSystem::init()
     models.push_back(new Model("res/models/tree/tree.obj")); // 2
 
     // --------------------------------------------------------------------------
-
-    List<BaseComponent*>& memory = ComponentManager::getComponentMemory<MeshRenderer>();
-    MeshRenderer* current;
-    List<BaseComponent*>::iterator i;
-    for(i = memory.begin(); i != memory.end(); ++i)
-    {
-        current = (MeshRenderer*)(*i);
-        if(current->isVisible)
-            current->mesh = models[current->index];
-    }
 }
 
 void RenderingSystem::update()
@@ -84,8 +80,17 @@ void RenderingSystem::update()
     glm::mat4 view  = glm::mat4(1.0f);
     glm::mat4 projection = glm::mat4(1.0f);
 
-    view = glm::lookAt(glm::vec3(0.0f, 2.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
+    // Setting the Camera
+    view = glm::lookAt(mainCamera->transform->position, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    if(mainCamera->cameraComponent->perspective)
+        projection = glm::perspective(mainCamera->cameraComponent->fov, // FOV
+                                      800.0f / 600.0f, // Aspect
+                                      mainCamera->cameraComponent->cNear, // NEAR
+                                      mainCamera->cameraComponent->cFar); // FAR
+    else
+        projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f,
+                                mainCamera->cameraComponent->cNear, // NEAR
+                                mainCamera->cameraComponent->cFar); // FAR
 
     shader.use();
 
@@ -108,7 +113,7 @@ void RenderingSystem::update()
             model = glm::rotate(model, glm::radians(current->entity->transform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
             model = glm::scale(model, current->entity->transform->scale);
             shader.setMat4("model", model);
-            current->mesh->render(shader);
+            models[current->index]->render(shader);
         }
     }
 
@@ -117,6 +122,9 @@ void RenderingSystem::update()
 
 void RenderingSystem::destroy()
 {
+    mainCamera->destroy();
+    delete mainCamera;
+
     for(size_t i = 0; i < models.size(); ++i)
         delete models[i];
 
@@ -148,7 +156,7 @@ void RenderingSystem::initDisplay(uint32 glVersion)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif // __APPLE__
 
-    window = glfwCreateWindow(800, 600, "The Rise of Hullstorm", glfwGetPrimaryMonitor(), NULL);
+    window = glfwCreateWindow(800, 600, "The Rise of Hullstorm", NULL, NULL);
     if(window == NULL)
     {
         std::cerr << "Unable to create window!" << std::endl;

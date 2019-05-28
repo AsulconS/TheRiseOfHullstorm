@@ -31,10 +31,18 @@ struct Transform : public Component<Transform>
 
 struct MeshRenderer : public Component<MeshRenderer>
 {
-    Model* mesh;
     uint32 index;
 
     bool isVisible;
+};
+
+struct CameraComponent : public Component<CameraComponent>
+{
+    bool mainCamera;
+    bool perspective;
+    float fov;
+    float cNear;
+    float cFar;
 };
 
 struct BoxCollider : public Component<BoxCollider>
