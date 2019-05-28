@@ -15,7 +15,7 @@ void RenderingSystem::init()
     shader.use();
 
     // Setting up Fragment Shader Uniforms
-    shader.setVec3("viewPos", glm::vec3(0.0f, 0.0f, 3.0f));
+    shader.setVec3("viewPos", glm::vec3(0.0f, 2.0f, 5.0f));
 
     // Light Parameters
     // Directional Light
@@ -40,7 +40,7 @@ void RenderingSystem::init()
     shader.setFloat("pointLights[0].quadratic", 0.032f);
 
     // Spot Light
-    shader.setVec3("spotLight.position", glm::vec3(0.0f, 0.0f, 3.0f));
+    shader.setVec3("spotLight.position", glm::vec3(0.0f, 2.0f, 5.0f));
     shader.setVec3("spotLight.direction", glm::vec3(0.0f, 0.0f, 0.0f));
 
     shader.setVec3("spotLight.ambient", 0.2f, 0.2f, 0.2f);
@@ -60,6 +60,7 @@ void RenderingSystem::init()
 
     models.push_back(new Model("res/models/villager/villager.obj")); // 0
     models.push_back(new Model("res/models/chicken/chicken.obj")); // 1
+    models.push_back(new Model("res/models/tree/tree.obj")); // 2
 
     // --------------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ void RenderingSystem::update()
     glm::mat4 view  = glm::mat4(1.0f);
     glm::mat4 projection = glm::mat4(1.0f);
 
-    view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    view = glm::lookAt(glm::vec3(0.0f, 2.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 
     shader.use();
@@ -102,6 +103,9 @@ void RenderingSystem::update()
         {
             model = glm::mat4(1.0f);
             model = glm::translate(model, current->entity->transform->position);
+            model = glm::rotate(model, glm::radians(current->entity->transform->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+            model = glm::rotate(model, glm::radians(current->entity->transform->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(current->entity->transform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
             model = glm::scale(model, current->entity->transform->scale);
             shader.setMat4("model", model);
             current->mesh->render(shader);
@@ -144,7 +148,7 @@ void RenderingSystem::initDisplay(uint32 glVersion)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif // __APPLE__
 
-    window = glfwCreateWindow(800, 600, "The Rise of Hullstorm", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "The Rise of Hullstorm", glfwGetPrimaryMonitor(), NULL);
     if(window == NULL)
     {
         std::cerr << "Unable to create window!" << std::endl;

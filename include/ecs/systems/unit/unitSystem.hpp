@@ -3,6 +3,7 @@
 
 #define VILLAGER_MODEL 0
 #define CHICKEN_MODEL  1
+#define TREE_MODEL     2
 
 #include "ecs/entities/entityManager.hpp"
 
