@@ -1,3 +1,5 @@
+float MovementSystem::scaleFactor = 0.0f;
+
 void MovementSystem::init()
 {
     //
@@ -17,6 +19,8 @@ void MovementSystem::update(float deltaTime)
         //unit->transform->position.x += unit->stats->velocity;
         //unit->transform->position.y += unit->stats->velocity;
         unit->transform->position.z += unit->stats->velocity * deltaTime;
+        unit->transform->rotation.y = sin(scaleFactor * deltaTime) * 8.0f;
+        scaleFactor += 1.0f;
     }
 }
 

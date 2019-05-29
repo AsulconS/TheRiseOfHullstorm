@@ -9,8 +9,10 @@ void InputSystem::update(float deltaTime)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
-    if(glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
         UnitSystem::createVillager();
+    if(glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+        UnitSystem::createChicken();
     
     glfwPollEvents();
 }

@@ -11,6 +11,7 @@ public:
     static void destroy();
 
     static void createVillager();
+    static void createChicken();
 
     static EntityManager<Unit>& getUnits();
 

@@ -64,6 +64,19 @@ void UnitSystem::createVillager()
     unit->stats->velocity = 1.0f;
 }
 
+void UnitSystem::createChicken()
+{
+    Unit* unit = units.createEntity();
+
+    unit->transform->position.z = -1.0f;
+
+    unit->transform->scale = { 0.1f, 0.1f, 0.1f };
+
+    unit->meshRenderer->index = CHICKEN_MODEL;
+
+    unit->stats->velocity = 1.0f;
+}
+
 void UnitSystem::update(float deltaTime)
 {
     //
