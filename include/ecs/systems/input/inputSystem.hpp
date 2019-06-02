@@ -5,6 +5,7 @@
 
 #include "system/common.hpp"
 #include "ecs/systems/rendering/renderingSystem.hpp"
+#include "ecs/systems/player/playerSystem.hpp"
 
 class InputSystem
 {
@@ -15,6 +16,9 @@ public:
 
 private:
     static GLFWwindow* window;
+    static bool isClicking;
+    
+    static uint32 currentDummy;
 };
 
 #endif // ECS_INPUT_SYSTEM_H

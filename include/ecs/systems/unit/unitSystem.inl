@@ -13,7 +13,7 @@ void UnitSystem::init()
 
         unit->transform->rotation.y = 64.0f * i;
 
-        unit->transform->scale = { 0.1f, 0.1f, 0.1f };
+        unit->transform->scale = { 0.15f, 0.15f, 0.15f };
 
         unit->meshRenderer->index = CHICKEN_MODEL;
 
@@ -70,7 +70,7 @@ void UnitSystem::createChicken(const glm::vec3& pos)
 
     unit->transform->position = pos;
 
-    unit->transform->scale = { 0.1f, 0.1f, 0.1f };
+    unit->transform->scale = { 0.15f, 0.15f, 0.15f };
 
     unit->meshRenderer->index = CHICKEN_MODEL;
 

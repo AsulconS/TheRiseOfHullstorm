@@ -16,6 +16,8 @@ public:
 
     void render(Shader& shader);
 
+    static uint32 loadTextureFromFile(const char* filename, const String& directory, bool isFlipped);
+
 private:
     // Model Data
     Vector<Mesh> meshes;
@@ -26,8 +28,6 @@ private:
     void processNode(aiNode* node, const aiScene* scene);
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
     Vector<Texture> loadMaterialTextures(aiMaterial* material, aiTextureType type, const String& typeName);
-
-    static uint32 loadTextureFromFile(const char* filename, const String& directory);
 };
 
 #endif // ECS_RENDERING_MODEL_H

@@ -16,7 +16,7 @@
 class RenderingSystem
 {
 public:
-    static void init();
+    static void init(uint32 width = 800, uint32 height = 600, uint32 glVersion = 3);
     static void update(float deltaTime);
     static void destroy();
 
@@ -26,22 +26,46 @@ public:
     static glm::vec3 from2DPosition(const glm::vec2& pos);
     static glm::vec3 rayCast(const glm::vec2& pos);
 
+    // ------------------------------------------------------------------------------
+
+    static GLFWwindow* window;
     static Camera* mainCamera;
+
+private:
+    static Shader shader;
+    static Shader hudShader;
+
+    // HUD Properties
+    // --------------
+    static uint32 HVAO;
+    static uint32 HVBO;
+    static uint32 HEBO;
+    static uint32 hudTexture;
+    static Vector<float> hudVertices;
+    static Vector<uint32> hudIndices;
+
+    // Loaded Models
+    static Vector<Model*> models;
+
+    // Window Properties
+    // -----------------
+    static uint32 windowWidth;
+    static uint32 windowHeight;
+
+    // Camera Properties
+    // -----------------
     static glm::mat4 projection;
     static glm::mat4 view;
     static glm::vec3 cameraFront;
-    
-    static uint32 windowWidth;
-    static uint32 windowHeight;
-    static GLFWwindow* getContextWindow();
 
-private:
-    static GLFWwindow* window;
-    static Shader shader;
+    // Rendering Functions
+    // -------------------
+    static void renderHud();
 
-    static Vector<Model*> models;
-
-    static void initDisplay(uint32 glVersion);
+    // Setup Functions
+    // ---------------------------------------------------------------------
+    static void initDisplay(uint32 width, uint32 height, uint32 glVersion);
+    static void loadHudVertices();
     static void setupCamera();
     static void setupLights();
     static void centerWindow();

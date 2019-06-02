@@ -26,8 +26,10 @@ int main()
     UnitSystem::init();
     MovementSystem::init();
 
-    RenderingSystem::init();
+    RenderingSystem::init(1280, 720);
     InputSystem::init();
+
+    PlayerSystem::init();
 
     while(RenderingSystem::isActive())
     {
@@ -36,6 +38,7 @@ int main()
         // Process Input
         InputSystem::update(deltaTime);
         UnitSystem::update(deltaTime);
+        PlayerSystem::update(deltaTime);
 
         // Then Trigger Systems
         MovementSystem::update(deltaTime);
@@ -47,6 +50,7 @@ int main()
     RenderingSystem::destroy();
     InputSystem::destroy();
     MovementSystem::destroy();
+    PlayerSystem::destroy();
 
     return 0;
 }

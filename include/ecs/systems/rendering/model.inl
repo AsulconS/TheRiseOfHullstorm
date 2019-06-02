@@ -121,7 +121,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* material, aiTexture
         if(!skip)
         {
             Texture texture;
-            texture.ID = loadTextureFromFile(str.C_Str(), directory);
+            texture.ID = loadTextureFromFile(str.C_Str(), directory, false);
             texture.type = typeName;
             texture.name = str.C_Str();
             textures.push_back(texture);
@@ -132,14 +132,15 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* material, aiTexture
     return textures;
 }
 
-uint32 Model::loadTextureFromFile(const char* _filename, const String& directory)
+uint32 Model::loadTextureFromFile(const char* _filename, const String& directory, bool isFlipped)
 {
     uint32 texture;
     String filename = String(_filename);
     String path = directory + '/' + filename;
 
     glGenTextures(1, &texture);
-    int width, height, nrComponents; // stbi_set_flip_vertically_on_load(true);
+    int width, height, nrComponents;
+    stbi_set_flip_vertically_on_load(isFlipped);
     unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
     // Load RAW Data
     if(data)

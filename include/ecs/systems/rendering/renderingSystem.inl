@@ -1,3 +1,6 @@
+// Static Initializations
+// ------------------------------------------------------
+
 GLFWwindow* RenderingSystem::window = NULL;
 Camera* RenderingSystem::mainCamera = NULL;
 glm::mat4 RenderingSystem::projection = glm::mat4(1.0f);
@@ -8,31 +11,47 @@ uint32 RenderingSystem::windowWidth = 800;
 uint32 RenderingSystem::windowHeight = 600;
 
 Shader RenderingSystem::shader;
+Shader RenderingSystem::hudShader;
+
+uint32 RenderingSystem::HVAO;
+uint32 RenderingSystem::HVBO;
+uint32 RenderingSystem::HEBO;
+uint32 RenderingSystem::hudTexture;
+Vector<float> RenderingSystem::hudVertices;
+Vector<uint32> RenderingSystem::hudIndices;
 Vector<Model*> RenderingSystem::models;
 
-void RenderingSystem::init()
+// ------------------------------------------------------
+
+void RenderingSystem::init(uint32 width, uint32 height, uint32 glVersion)
 {
     // Create a Display for OpenGL 3.3
-    initDisplay(3);
+    // -------------------------------
+    initDisplay(width, height, glVersion);
     centerWindow();
 
     shader.initShader("lightingShader");
+    hudShader.initShader("hudShader");
+
+    loadHudVertices();
 
     setupCamera();
     setupLights();
 
     // Loading Models
-    // --------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------
 
-    models.push_back(new Model("res/models/villager/villager.obj")); // 0
-    models.push_back(new Model("res/models/chicken/chicken.obj")); // 1
-    models.push_back(new Model("res/models/tree/tree.obj")); // 2
+    models.push_back(new Model("res/models/villager/villager.obj"));    // 0 : VILLAGER
+    models.push_back(new Model("res/models/chicken/chicken.obj"));      // 1 : CHICKEN
+    models.push_back(new Model("res/models/tree/tree.obj"));            // 2 : TREE
 
-    // --------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------
 }
 
 void RenderingSystem::update(float deltaTime)
 {
+    // Clear the Color and the Buffers
+    // -------------------------------
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -66,6 +85,9 @@ void RenderingSystem::update(float deltaTime)
         }
     }
 
+    hudShader.use();
+    renderHud();
+
     glfwSwapBuffers(window);
 }
 
@@ -76,6 +98,11 @@ void RenderingSystem::destroy()
 
     for(size_t i = 0; i < models.size(); ++i)
         delete models[i];
+    
+    glDeleteTextures(1, &hudTexture);
+    glDeleteVertexArrays(1, &HVAO);
+    glDeleteBuffers(1, &HVBO);
+    glDeleteBuffers(1, &HEBO);
 
     glfwTerminate();
 }
@@ -109,6 +136,18 @@ glm::vec3 RenderingSystem::rayCast(const glm::vec2& pos)
     glm::vec3 ray = glm::normalize(glm::vec3(worldSpaceCoords.x, worldSpaceCoords.y, worldSpaceCoords.z));
 
     return ray;
+}
+
+void RenderingSystem::renderHud()
+{
+    glActiveTexture(GL_TEXTURE0);
+
+    hudShader.setFloat("hud", 0);
+    glBindTexture(GL_TEXTURE_2D, hudTexture);
+
+    glBindVertexArray(HVAO);
+    glDrawElements(GL_TRIANGLES, hudIndices.size(), GL_UNSIGNED_INT, (void*)0);
+    glBindVertexArray(0);
 }
 
 void RenderingSystem::setupCamera()
@@ -188,11 +227,6 @@ void RenderingSystem::stop()
     glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
-GLFWwindow* RenderingSystem::getContextWindow()
-{
-    return window;
-}
-
 void RenderingSystem::centerWindow()
 {
     GLFWmonitor* monitor = glfwGetPrimaryMonitor();
@@ -211,7 +245,7 @@ void RenderingSystem::centerWindow()
     glfwSetWindowPos(window, monitorX + (mode->width - windowWidth) / 2, monitorY + (mode->height - windowHeight) / 2);
 }
 
-void RenderingSystem::initDisplay(uint32 glVersion)
+void RenderingSystem::initDisplay(uint32 width, uint32 height, uint32 glVersion)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersion);
@@ -221,6 +255,8 @@ void RenderingSystem::initDisplay(uint32 glVersion)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif // __APPLE__
 
+    windowWidth = width;
+    windowHeight = height;
     window = glfwCreateWindow(windowWidth, windowHeight, "The Rise of Hullstorm", NULL, NULL);
     if(window == NULL)
     {
@@ -241,11 +277,54 @@ void RenderingSystem::initDisplay(uint32 glVersion)
 
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void RenderingSystem::loadHudVertices()
+{
+    hudVertices =
+    {
+        // Position           // UV
+         1.0f,  1.0f,  0.0f,  1.0f, 1.0f,   // Top Right
+         1.0f, -1.0f,  0.0f,  1.0f, 0.0f,   // Bottom Right
+        -1.0f, -1.0f,  0.0f,  0.0f, 0.0f,   // Bottom Left
+        -1.0f,  1.0f,  0.0f,  0.0f, 1.0f    // Top Left
+    };
+
+    hudIndices =
+    {
+        2, 1, 3, 3, 1, 0
+    };
+
+    glGenVertexArrays(1, &HVAO);
+    glGenBuffers(1, &HVBO);
+    glGenBuffers(1, &HEBO);
+
+    glBindVertexArray(HVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, HVBO);
+    glBufferData(GL_ARRAY_BUFFER, hudVertices.size() * sizeof(float), &hudVertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, HEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, hudIndices.size() * sizeof(uint32), &hudIndices[0], GL_STATIC_DRAW);
+
+    // Vertex Position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // Vertex UV
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindVertexArray(0);
+
+    hudTexture = Model::loadTextureFromFile("hud1.png", "res/hud", true);
 }
 
 void RenderingSystem::framebufferSizeCallback(GLFWwindow* _window, int32 width, int32 height)
 {
     windowWidth = width;
     windowHeight = height;
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, windowWidth, windowHeight);
 }

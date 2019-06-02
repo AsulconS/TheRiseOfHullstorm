@@ -15,6 +15,8 @@
 
 #include "ecs/systems/mechanics/movementSystem.hpp"
 
+#include "ecs/systems/player/playerSystem.hpp"
+
 #ifdef ECS_IMPLEMENTATION
     #include "ecs/component/componentManager.inl"
     #include "ecs/entities/entityManager.inl"
@@ -27,6 +29,8 @@
     #include "ecs/systems/unit/unitSystem.inl"
 
     #include "ecs/systems/input/inputSystem.inl"
+
+    #include "ecs/systems/player/playerSystem.inl"
 
     #include "ecs/systems/mechanics/movementSystem.inl"
 #endif
