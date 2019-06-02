@@ -23,6 +23,8 @@ float getDeltaTime()
 
 int main()
 {
+    // Component Manager is Implicitly Initialized
+
     UnitSystem::init();
     MovementSystem::init();
 

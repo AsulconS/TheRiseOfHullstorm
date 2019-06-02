@@ -16,6 +16,10 @@ public:
 
 private:
     static GLFWwindow* window;
+
+    static double mouseXPos;
+    static double mouseYPos;
+    static bool isInBorder;
     static bool isClicking;
     
     static uint32 currentDummy;

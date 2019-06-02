@@ -28,14 +28,14 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
     // Create a Display for OpenGL 3.3
     // -------------------------------
     initDisplay(width, height, fullScreen, glVersion);
-    
+
     if(width && height)
         centerWindow();
 
     shader.initShader("lightingShader");
     hudShader.initShader("hudShader");
 
-    loadHudVertices();
+    loadHud();
 
     setupCamera();
     setupLights();
@@ -148,7 +148,8 @@ void RenderingSystem::renderHud()
 {
     glActiveTexture(GL_TEXTURE0);
 
-    hudShader.setFloat("hud", 0);
+    hudShader.setFloat("spriteTexture", 0);
+    hudShader.setVec2("offset", 0, 0);
     glBindTexture(GL_TEXTURE_2D, hudTexture);
 
     glBindVertexArray(HVAO);
@@ -285,15 +286,15 @@ void RenderingSystem::initDisplay(uint32 width, uint32 height, bool fullScreen, 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void RenderingSystem::loadHudVertices()
+void RenderingSystem::loadHud()
 {
     hudVertices =
     {
         // Position           // UV
-         1.0f,  1.0f,  0.0f,  1.0f, 1.0f,   // Top Right
-         1.0f, -1.0f,  0.0f,  1.0f, 0.0f,   // Bottom Right
-        -1.0f, -1.0f,  0.0f,  0.0f, 0.0f,   // Bottom Left
-        -1.0f,  1.0f,  0.0f,  0.0f, 1.0f    // Top Left
+         1.0f,  1.0f,  1.0f, 1.0f,   // Top Right
+         1.0f, -1.0f,  1.0f, 0.0f,   // Bottom Right
+        -1.0f, -1.0f,  0.0f, 0.0f,   // Bottom Left
+        -1.0f,  1.0f,  0.0f, 1.0f    // Top Left
     };
 
     hudIndices =
@@ -314,11 +315,11 @@ void RenderingSystem::loadHudVertices()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, hudIndices.size() * sizeof(uint32), &hudIndices[0], GL_STATIC_DRAW);
 
     // Vertex Position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     // Vertex UV
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);

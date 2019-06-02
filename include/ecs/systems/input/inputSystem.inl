@@ -2,7 +2,12 @@
 // ----------------------------------------
 
 GLFWwindow* InputSystem::window = NULL;
+
+double InputSystem::mouseXPos;
+double InputSystem::mouseYPos;
+bool InputSystem::isInBorder = false;
 bool InputSystem::isClicking = false;
+
 uint32 InputSystem::currentDummy = -1;
 
 // ----------------------------------------
@@ -10,12 +15,47 @@ uint32 InputSystem::currentDummy = -1;
 void InputSystem::init()
 {
     window = RenderingSystem::window;
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetScrollCallback(window, scrollCallback);
+    
+    mouseXPos = RenderingSystem::windowWidth / 2;
+    mouseYPos = RenderingSystem::windowHeight / 2;
+    glfwSetCursorPos(window, mouseXPos, mouseYPos);
 }
 
 void InputSystem::update(float deltaTime)
 {
+    glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
+
+    if(mouseXPos <= 1)
+    {
+        mouseXPos = 1;
+        RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    else if(mouseXPos >= (RenderingSystem::windowWidth - 1))
+    {
+        mouseXPos = RenderingSystem::windowWidth - 1;
+        RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    
+    if(mouseYPos <= 1)
+    {
+        mouseYPos = 1;
+        RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    else if(mouseYPos >= (RenderingSystem::windowHeight - 1))
+    {
+        mouseYPos = RenderingSystem::windowHeight - 1;
+        RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    
+    if(isInBorder)
+        glfwSetCursorPos(window, mouseXPos, mouseYPos);
+
     // Camera Movement
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
@@ -38,10 +78,8 @@ void InputSystem::update(float deltaTime)
     
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking)
     {
-        double x, y;
-        glfwGetCursorPos(window, &x, &y);
-        float xPos = (float)x;
-        float yPos = (float)y;
+        float xPos = (float)mouseXPos;
+        float yPos = (float)mouseYPos;
 
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
@@ -66,10 +104,8 @@ void InputSystem::update(float deltaTime)
     
     if(currentDummy != -1)
     {
-        double x, y;
-        glfwGetCursorPos(window, &x, &y);
-        float xPos = (float)x;
-        float yPos = (float)y;
+        float xPos = (float)mouseXPos;
+        float yPos = (float)mouseYPos;
 
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
         PlayerSystem::dummy->meshRenderer->index = currentDummy;

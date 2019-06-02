@@ -27,10 +27,15 @@ public:
     static glm::vec3 from2DPosition(const glm::vec2& pos);
     static glm::vec3 rayCast(const glm::vec2& pos);
 
-    // ------------------------------------------------------------------------------
-
-    static GLFWwindow* window;
+    // Main Camera
+    // -----------
     static Camera* mainCamera;
+
+    // Window Properties
+    // -----------------
+    static GLFWwindow* window;
+    static uint32 windowWidth;
+    static uint32 windowHeight;
 
 private:
     static Shader shader;
@@ -48,11 +53,6 @@ private:
     // Loaded Models
     static Vector<Model*> models;
 
-    // Window Properties
-    // -----------------
-    static uint32 windowWidth;
-    static uint32 windowHeight;
-
     // Camera Properties
     // -----------------
     static glm::mat4 projection;
@@ -66,7 +66,7 @@ private:
     // Setup Functions
     // ---------------------------------------------------------------------
     static void initDisplay(uint32 width, uint32 height, bool fullScreen, uint32 glVersion);
-    static void loadHudVertices();
+    static void loadHud();
     static void setupCamera();
     static void setupLights();
     static void centerWindow();
