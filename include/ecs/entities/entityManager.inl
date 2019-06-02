@@ -34,7 +34,7 @@ void Camera::init(uint32 _id)
     cameraComponent->perspective = true;
     cameraComponent->fov = 45.0f;
     cameraComponent->cNear = 0.1f;
-    cameraComponent->cFar = 100.0f;
+    cameraComponent->cFar = 1000.0f;
 }
 
 void Camera::destroy()

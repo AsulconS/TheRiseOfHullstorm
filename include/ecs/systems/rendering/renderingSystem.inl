@@ -7,8 +7,8 @@ glm::mat4 RenderingSystem::projection = glm::mat4(1.0f);
 glm::mat4 RenderingSystem::view = glm::mat4(1.0f);
 glm::vec3 RenderingSystem::cameraFront;
 
-uint32 RenderingSystem::windowWidth = 800;
-uint32 RenderingSystem::windowHeight = 600;
+uint32 RenderingSystem::windowWidth = 1280;
+uint32 RenderingSystem::windowHeight = 720;
 
 Shader RenderingSystem::shader;
 Shader RenderingSystem::hudShader;
@@ -23,12 +23,14 @@ Vector<Model*> RenderingSystem::models;
 
 // ------------------------------------------------------
 
-void RenderingSystem::init(uint32 width, uint32 height, uint32 glVersion)
+void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 glVersion)
 {
     // Create a Display for OpenGL 3.3
     // -------------------------------
-    initDisplay(width, height, glVersion);
-    centerWindow();
+    initDisplay(width, height, fullScreen, glVersion);
+    
+    if(width && height)
+        centerWindow();
 
     shader.initShader("lightingShader");
     hudShader.initShader("hudShader");
@@ -59,6 +61,10 @@ void RenderingSystem::update(float deltaTime)
 
     // Setting the Camera
     view = glm::lookAt(mainCamera->transform->position, glm::vec3(mainCamera->transform->position + cameraFront), glm::vec3(0.0f, 1.0f, 0.0f));
+    projection = glm::perspective(mainCamera->cameraComponent->fov, // FOV
+                                  (float)windowWidth / (float)windowHeight, // Aspect
+                                  mainCamera->cameraComponent->cNear, // NEAR
+                                  mainCamera->cameraComponent->cFar); // FAR
 
     shader.use();
 
@@ -155,17 +161,12 @@ void RenderingSystem::setupCamera()
     mainCamera = new Camera;
     mainCamera->init(0);
 
-    mainCamera->transform->position = { 0.0f, 8.0f, 8.0f };
+    mainCamera->transform->position = { 0.0f, 55.0f, 55.0f };
     mainCamera->transform->rotation = { -45.0f, 180.0f, 0.0f };
 
     cameraFront.x = glm::cos(glm::radians(mainCamera->transform->rotation.x)) * glm::sin(glm::radians(mainCamera->transform->rotation.y));
     cameraFront.y = glm::sin(glm::radians(mainCamera->transform->rotation.x));
     cameraFront.z = glm::cos(glm::radians(mainCamera->transform->rotation.x)) * glm::cos(glm::radians(mainCamera->transform->rotation.y));
-
-    projection = glm::perspective(mainCamera->cameraComponent->fov, // FOV
-                                  (float)windowWidth / (float)windowHeight, // Aspect
-                                  mainCamera->cameraComponent->cNear, // NEAR
-                                  mainCamera->cameraComponent->cFar); // FAR
 }
 
 void RenderingSystem::setupLights()
@@ -245,7 +246,7 @@ void RenderingSystem::centerWindow()
     glfwSetWindowPos(window, monitorX + (mode->width - windowWidth) / 2, monitorY + (mode->height - windowHeight) / 2);
 }
 
-void RenderingSystem::initDisplay(uint32 width, uint32 height, uint32 glVersion)
+void RenderingSystem::initDisplay(uint32 width, uint32 height, bool fullScreen, uint32 glVersion)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersion);
@@ -255,9 +256,12 @@ void RenderingSystem::initDisplay(uint32 width, uint32 height, uint32 glVersion)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif // __APPLE__
 
-    windowWidth = width;
-    windowHeight = height;
-    window = glfwCreateWindow(windowWidth, windowHeight, "The Rise of Hullstorm", NULL, NULL);
+    bool autoSize = !width || !height;
+    const GLFWvidmode* mode = (autoSize) ? glfwGetVideoMode(glfwGetPrimaryMonitor()) : NULL;
+
+    windowWidth = (autoSize) ? mode->width : width;
+    windowHeight = (autoSize) ? mode->height : height;
+    window = glfwCreateWindow(windowWidth, windowHeight, "The Rise of Hullstorm", (fullScreen) ? glfwGetPrimaryMonitor() : NULL, NULL);
     if(window == NULL)
     {
         std::cerr << "Unable to create window!" << std::endl;
@@ -319,7 +323,8 @@ void RenderingSystem::loadHudVertices()
 
     glBindVertexArray(0);
 
-    hudTexture = Model::loadTextureFromFile("hud1.png", "res/hud", true);
+    String folder = "res/hud/" + std::to_string(windowWidth) + 'x' + std::to_string(windowHeight);
+    hudTexture = Model::loadTextureFromFile("hud1.png", folder, true);
 }
 
 void RenderingSystem::framebufferSizeCallback(GLFWwindow* _window, int32 width, int32 height)

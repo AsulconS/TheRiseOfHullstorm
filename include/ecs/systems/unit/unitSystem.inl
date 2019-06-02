@@ -4,50 +4,51 @@ void UnitSystem::init()
 {
     Unit* unit;
 
+    // VILLAGERS
     for(size_t i = 0; i < 5; ++i)
     {
         unit = units.createEntity();
 
-        unit->transform->position.x = 0.5f * i - 1.0f;
-        unit->transform->position.z = 0.5f;
+        unit->transform->position.x = 8.0f * i - 16.0f;
+        unit->transform->position.z = -2.0f;
 
         unit->transform->rotation.y = 64.0f * i;
-
-        unit->transform->scale = { 0.15f, 0.15f, 0.15f };
-
-        unit->meshRenderer->index = CHICKEN_MODEL;
-
-        unit->stats->velocity = 1.0f;
-    }
-    for(size_t i = 0; i < 5; ++i)
-    {
-        unit = units.createEntity();
-
-        unit->transform->position.x = 1.25f * i - 2.25f;
-        unit->transform->position.z = -1.0f;
-
-        unit->transform->rotation.y = 64.0f * i;
-
-        unit->transform->scale = { 0.15f, 0.15f, 0.15f };
 
         unit->meshRenderer->index = VILLAGER_MODEL;
 
-        unit->stats->velocity = 1.0f;
+        unit->stats->velocity = 10.0f;
     }
+
+    // CHICKENS
     for(size_t i = 0; i < 5; ++i)
     {
         unit = units.createEntity();
 
-        unit->transform->position.x = 2.5f * i - 5.0f;
-        unit->transform->position.z = -4.0f;
+        unit->transform->position.x = 4.0f * i - 8.0f;
+        unit->transform->position.z = 8.0f;
 
         unit->transform->rotation.y = 64.0f * i;
 
-        unit->transform->scale = { 0.4f, 0.4f, 0.4f };
+        unit->meshRenderer->index = CHICKEN_MODEL;
+
+        unit->stats->velocity = 10.0f;
+    }
+
+    // TREES
+    for(size_t i = 0; i < 5; ++i)
+    {
+        unit = units.createEntity();
+
+        unit->transform->position.x = 16.0f * i - 32.0f;
+        unit->transform->position.z = -14.0f;
+
+        unit->transform->rotation.y = 64.0f * i;
+
+        unit->transform->scale = { 2.5f, 2.5f, 2.5f };
 
         unit->meshRenderer->index = TREE_MODEL;
 
-        unit->stats->velocity = 1.0f;
+        unit->stats->velocity = 10.0f;
     }
 }
 
@@ -57,11 +58,9 @@ void UnitSystem::createVillager(const glm::vec3& pos)
 
     unit->transform->position = pos;
 
-    unit->transform->scale = { 0.15f, 0.15f, 0.15f };
-
     unit->meshRenderer->index = VILLAGER_MODEL;
 
-    unit->stats->velocity = 1.0f;
+    unit->stats->velocity = 10.0f;
 }
 
 void UnitSystem::createChicken(const glm::vec3& pos)
@@ -70,11 +69,9 @@ void UnitSystem::createChicken(const glm::vec3& pos)
 
     unit->transform->position = pos;
 
-    unit->transform->scale = { 0.15f, 0.15f, 0.15f };
-
     unit->meshRenderer->index = CHICKEN_MODEL;
 
-    unit->stats->velocity = 1.0f;
+    unit->stats->velocity = 10.0f;
 }
 
 void UnitSystem::update(float deltaTime)

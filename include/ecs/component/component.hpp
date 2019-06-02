@@ -6,7 +6,6 @@
 #include "system/common.hpp"
 
 class Entity;
-class Model;
 
 struct BaseComponent
 {

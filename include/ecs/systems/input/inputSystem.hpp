@@ -19,6 +19,8 @@ private:
     static bool isClicking;
     
     static uint32 currentDummy;
+
+    static void scrollCallback(GLFWwindow* _window, double xOffset, double yOffset);
 };
 
 #endif // ECS_INPUT_SYSTEM_H

@@ -26,7 +26,7 @@ int main()
     UnitSystem::init();
     MovementSystem::init();
 
-    RenderingSystem::init(1280, 720);
+    RenderingSystem::init();
     InputSystem::init();
 
     PlayerSystem::init();

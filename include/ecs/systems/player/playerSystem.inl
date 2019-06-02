@@ -6,7 +6,6 @@ void PlayerSystem::init()
     dummy->init(0);
 
     dummy->meshRenderer->isVisible = false;
-    dummy->transform->scale = { 0.15f, 0.15f, 0.15f };
 }
 
 void PlayerSystem::update(float deltaTime)

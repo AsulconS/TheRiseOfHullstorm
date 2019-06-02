@@ -1,11 +1,17 @@
+// Static Initializations
+// ----------------------------------------
+
 GLFWwindow* InputSystem::window = NULL;
 bool InputSystem::isClicking = false;
 uint32 InputSystem::currentDummy = -1;
+
+// ----------------------------------------
 
 void InputSystem::init()
 {
     window = RenderingSystem::window;
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetScrollCallback(window, scrollCallback);
 }
 
 void InputSystem::update(float deltaTime)
@@ -14,13 +20,13 @@ void InputSystem::update(float deltaTime)
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        RenderingSystem::mainCamera->transform->position.z -= 4.0f * deltaTime;
+        RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        RenderingSystem::mainCamera->transform->position.z += 4.0f * deltaTime;
+        RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
     if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        RenderingSystem::mainCamera->transform->position.x += 4.0f * deltaTime;
+        RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
     if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        RenderingSystem::mainCamera->transform->position.x -= 4.0f * deltaTime;
+        RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
     
     // Dummy Creator
     if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
@@ -78,4 +84,16 @@ void InputSystem::update(float deltaTime)
 void InputSystem::destroy()
 {
     std::cout << "Input system Destroyed" << std::endl;
+}
+
+void InputSystem::scrollCallback(GLFWwindow* _window, double xOffset, double yOffset)
+{
+    float& fov = RenderingSystem::mainCamera->cameraComponent->fov;
+    if(fov >= 44.3f && fov <= 45.0f)
+        fov -= (float)yOffset / 32.0f;
+    
+    if(fov <= 44.3f)
+        fov = 44.3f;
+    if(fov >= 45.0f)
+        fov = 45.0f;
 }

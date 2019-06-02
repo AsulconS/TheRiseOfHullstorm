@@ -8,6 +8,8 @@
 #include "system/common.hpp"
 #include "dataStructures.hpp"
 
+#include "ecs/systems/rendering/mesh.hpp"
+
 class Model
 {
 public:
@@ -20,10 +22,13 @@ public:
 
 private:
     // Model Data
+    // ----------
     Vector<Mesh> meshes;
     Vector<Texture> texturesLoaded;
     String directory;
 
+    // Internal Data Processing
+    // ------------------------
     void loadModel(const String& path);
     void processNode(aiNode* node, const aiScene* scene);
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);

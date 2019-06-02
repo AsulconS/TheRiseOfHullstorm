@@ -12,11 +12,12 @@
 #include "ecs/component/componentManager.hpp"
 #include "ecs/entities/entityManager.hpp"
 #include "ecs/systems/rendering/shader.hpp"
+#include "ecs/systems/rendering/model.hpp"
 
 class RenderingSystem
 {
 public:
-    static void init(uint32 width = 800, uint32 height = 600, uint32 glVersion = 3);
+    static void init(uint32 width = 1280, uint32 height = 720, bool fullScreen = false, uint32 glVersion = 3);
     static void update(float deltaTime);
     static void destroy();
 
@@ -64,7 +65,7 @@ private:
 
     // Setup Functions
     // ---------------------------------------------------------------------
-    static void initDisplay(uint32 width, uint32 height, uint32 glVersion);
+    static void initDisplay(uint32 width, uint32 height, bool fullScreen, uint32 glVersion);
     static void loadHudVertices();
     static void setupCamera();
     static void setupLights();

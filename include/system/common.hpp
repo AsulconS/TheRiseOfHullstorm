@@ -9,6 +9,8 @@
 #define CHICKEN_MODEL  1
 #define TREE_MODEL     2
 
+#define AUTO_SIZE 0, 0
+
 #include <cstdint>
 #include <type_traits>
 
