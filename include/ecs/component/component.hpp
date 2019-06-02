@@ -40,6 +40,7 @@ struct CameraComponent : public Component<CameraComponent>
 {
     bool mainCamera;
     bool perspective;
+    
     float fov;
     float cNear;
     float cFar;

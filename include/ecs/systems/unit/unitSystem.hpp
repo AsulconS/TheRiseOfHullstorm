@@ -10,8 +10,8 @@ public:
     static void update(float deltaTime);
     static void destroy();
 
-    static void createVillager();
-    static void createChicken();
+    static void createVillager(const glm::vec3& pos);
+    static void createChicken(const glm::vec3& pos);
 
     static EntityManager<Unit>& getUnits();
 

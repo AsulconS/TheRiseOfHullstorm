@@ -51,11 +51,11 @@ void UnitSystem::init()
     }
 }
 
-void UnitSystem::createVillager()
+void UnitSystem::createVillager(const glm::vec3& pos)
 {
     Unit* unit = units.createEntity();
 
-    unit->transform->position.z = -1.0f;
+    unit->transform->position = pos;
 
     unit->transform->scale = { 0.15f, 0.15f, 0.15f };
 
@@ -64,11 +64,11 @@ void UnitSystem::createVillager()
     unit->stats->velocity = 1.0f;
 }
 
-void UnitSystem::createChicken()
+void UnitSystem::createChicken(const glm::vec3& pos)
 {
     Unit* unit = units.createEntity();
 
-    unit->transform->position.z = -1.0f;
+    unit->transform->position = pos;
 
     unit->transform->scale = { 0.1f, 0.1f, 0.1f };
 

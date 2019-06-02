@@ -10,9 +10,6 @@ public:
     static void init();
     static void update(float deltaTime);
     static void destroy();
-
-private:
-    static float scaleFactor;
 };
 
 #endif // ECS_MOVEMENT_SYSTEM_H
