@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+#include "system/stb_image.h"
+#include "system/stb_image_write.h"
 #include "system/common.hpp"
 #include "dataStructures.hpp"
 #include "ecs/component/componentManager.hpp"
@@ -27,6 +29,11 @@ public:
 
     static glm::vec3 from2DPosition(const glm::vec2& pos);
     static glm::vec3 rayCast(const glm::vec2& pos);
+
+    // Utils
+    // -----
+    static uint32 loadTextureFromFile(const char* filename, const String& directory, bool isFlipped);
+    static void saveScreenshot(const String& filename);
 
     // Main Camera
     // -----------

@@ -52,26 +52,48 @@ void UnitSystem::init()
     }
 }
 
-void UnitSystem::createVillager(const glm::vec3& pos)
+void UnitSystem::createVillager(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
 {
     Unit* unit = units.createEntity();
 
     unit->transform->position = pos;
+    unit->transform->rotation = rot;
+    unit->transform->scale    = sca;
 
     unit->meshRenderer->index = VILLAGER_MODEL;
 
     unit->stats->velocity = 10.0f;
 }
 
-void UnitSystem::createChicken(const glm::vec3& pos)
+void UnitSystem::createChicken(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
 {
     Unit* unit = units.createEntity();
 
     unit->transform->position = pos;
+    unit->transform->rotation = rot;
+    unit->transform->scale    = sca;
 
     unit->meshRenderer->index = CHICKEN_MODEL;
 
     unit->stats->velocity = 10.0f;
+}
+
+void UnitSystem::spawnTree(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
+{
+    Unit* unit = units.createEntity();
+
+    unit->transform->position = pos;
+    unit->transform->rotation = rot;
+    unit->transform->scale    = sca;
+
+    unit->meshRenderer->index = TREE_MODEL;
+
+    unit->stats->velocity = 10.0f;
+}
+
+void UnitSystem::clear()
+{
+    units.clear();
 }
 
 void UnitSystem::update(float deltaTime)

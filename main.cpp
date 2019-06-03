@@ -1,10 +1,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <cstdio>
 #include <chrono>
 
 #define  ECS_IMPLEMENTATION
 #define  STB_IMAGE_IMPLEMENTATION
+#define  STB_IMAGE_WRITE_IMPLEMENTATION
 #include "ecs.hpp"
 
 static auto currentTime = std::chrono::steady_clock::now();
@@ -24,7 +26,6 @@ float getDeltaTime()
 int main()
 {
     // Component Manager is Implicitly Initialized
-
     UnitSystem::init();
     MovementSystem::init();
 
@@ -32,7 +33,9 @@ int main()
     InputSystem::init();
 
     PlayerSystem::init();
+    MapSystem::init();
 
+    MapSystem::loadMap(2);
     while(RenderingSystem::isActive())
     {
         deltaTime = getDeltaTime();
@@ -47,6 +50,7 @@ int main()
 
         // Finally Render the results
         RenderingSystem::update(deltaTime);
+        MapSystem::update(deltaTime);
     }
 
     RenderingSystem::destroy();
@@ -54,6 +58,7 @@ int main()
     MovementSystem::destroy();
     PlayerSystem::destroy();
     UnitSystem::destroy();
+    MapSystem::destroy();
 
     return 0;
 }

@@ -103,7 +103,7 @@ E* EntityManager<E>::createEntity()
     E* entity = new E;
     entity->init(currentID++);
 
-    entities.push_back(entity);
+    entities.push_front(entity);
 
     return entity;
 }

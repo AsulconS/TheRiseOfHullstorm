@@ -1,5 +1,3 @@
-#include "system/stb_image.h"
-
 Model::Model(const std::string& path)
 {
     loadModel(path);
@@ -121,7 +119,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* material, aiTexture
         if(!skip)
         {
             Texture texture;
-            texture.ID = loadTextureFromFile(str.C_Str(), directory, false);
+            texture.ID = RenderingSystem::loadTextureFromFile(str.C_Str(), directory, false);
             texture.type = typeName;
             texture.name = str.C_Str();
             textures.push_back(texture);
@@ -130,45 +128,4 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* material, aiTexture
     }
 
     return textures;
-}
-
-uint32 Model::loadTextureFromFile(const char* _filename, const String& directory, bool isFlipped)
-{
-    uint32 texture;
-    String filename = String(_filename);
-    String path = directory + '/' + filename;
-
-    glGenTextures(1, &texture);
-    int width, height, nrComponents;
-    stbi_set_flip_vertically_on_load(isFlipped);
-    unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
-    // Load RAW Data
-    if(data)
-    {
-        GLenum format;
-        if(nrComponents == 1)
-            format = GL_RED;
-        else if(nrComponents == 3)
-            format = GL_RGB;
-        else if(nrComponents == 4)
-            format = GL_RGBA;
-        
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        stbi_image_free(data);
-    }
-    else
-    {
-        std::cerr << "Failed to load texture" << std::endl;
-        stbi_image_free(data);
-    }
-
-    return texture;
 }

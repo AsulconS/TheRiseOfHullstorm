@@ -16,6 +16,7 @@ public:
 
 private:
     static GLFWwindow* window;
+    static uint32 screenshotCount;
 
     static double mouseXPos;
     static double mouseYPos;

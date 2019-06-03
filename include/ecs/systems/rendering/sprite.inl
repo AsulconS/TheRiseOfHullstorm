@@ -74,7 +74,7 @@ void Sprite::setTexture(const String& path, const String& name)
 
     texturePath = path;
     textureName = name;
-    texture = Model::loadTextureFromFile(textureName.c_str(), texturePath, true);
+    texture = RenderingSystem::loadTextureFromFile(textureName.c_str(), texturePath, true);
 }
 
 void Sprite::setPosition(const glm::vec2& pos)

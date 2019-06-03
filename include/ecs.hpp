@@ -15,6 +15,7 @@
 #include "ecs/systems/input/inputSystem.hpp"
 
 #include "ecs/systems/mechanics/movementSystem.hpp"
+#include "ecs/systems/mechanics/mapSystem.hpp"
 
 #include "ecs/systems/player/playerSystem.hpp"
 
@@ -32,9 +33,10 @@
 
     #include "ecs/systems/input/inputSystem.inl"
 
-    #include "ecs/systems/player/playerSystem.inl"
-
     #include "ecs/systems/mechanics/movementSystem.inl"
+    #include "ecs/systems/mechanics/mapSystem.inl"
+
+    #include "ecs/systems/player/playerSystem.inl"
 #endif
 
 #endif // ECS_H

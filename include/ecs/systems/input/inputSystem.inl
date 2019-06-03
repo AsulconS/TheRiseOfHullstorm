@@ -2,6 +2,7 @@
 // ----------------------------------------
 
 GLFWwindow* InputSystem::window = NULL;
+uint32 InputSystem::screenshotCount = 0;
 
 double InputSystem::mouseXPos;
 double InputSystem::mouseYPos;
@@ -60,6 +61,9 @@ void InputSystem::update(float deltaTime)
     // Camera Movement
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
+    if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_PRESS)
+        RenderingSystem::saveScreenshot("screenshots/screenshot-" + std::to_string(screenshotCount++) + ".jpg");
+    
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)

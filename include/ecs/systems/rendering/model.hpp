@@ -9,6 +9,7 @@
 #include "dataStructures.hpp"
 
 #include "ecs/systems/rendering/mesh.hpp"
+#include "ecs/systems/rendering/renderingSystem.hpp"
 
 class Model
 {
@@ -17,8 +18,6 @@ public:
     virtual ~Model();
 
     void render(Shader& shader);
-
-    static uint32 loadTextureFromFile(const char* filename, const String& directory, bool isFlipped);
 
 private:
     // Model Data

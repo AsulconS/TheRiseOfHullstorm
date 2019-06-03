@@ -21,10 +21,10 @@ os:
 	@echo $(C_OS)
 
 build: $(OBJECTS)
-	$(CXX) $(CXX_FLAGS) $(OBJECTS) $(INCLUDE) $(LIBS) -o main
+	$(CXX) $(OBJECTS) $(INCLUDE) $(LIBS) -o main $(CXX_FLAGS)
 
 main.o: main.cpp
-	$(CXX) $(CXX_FLAGS) $(INCLUDE) -c main.cpp
+	$(CXX) $(INCLUDE) -c main.cpp $(CXX_FLAGS)
 
 glad.o: glad.c
 	$(CC) -c glad.c
