@@ -39,7 +39,7 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
     // Loading Cursor
     // --------------
     folder = "res/hud/cursors";
-    cursor.init(32, 32, glm::vec2(windowWidth / 2, windowHeight / 2), folder, "lightblue_cursor.png");
+    cursor.init(64, 64, glm::vec2(windowWidth / 2, windowHeight / 2), folder, "lightblue_cursor.png");
 
     setupCamera();
     setupLights();
