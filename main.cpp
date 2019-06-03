@@ -29,7 +29,7 @@ int main()
     UnitSystem::init();
     MovementSystem::init();
 
-    RenderingSystem::init(AUTO_SIZE, true);
+    RenderingSystem::init();
     InputSystem::init();
 
     PlayerSystem::init();

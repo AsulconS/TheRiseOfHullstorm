@@ -7,7 +7,11 @@ void MapSystem::init(bool mapsOnLoad)
     if(mapsOnLoad)
         loadMaps();
     
-    if (mapFiles[0] != "map01.rohmap")
+    std::stringstream initMapStream(mapFiles[1]);
+    String test;
+    initMapStream >> test;
+
+    if(test != "map01.rohmap")
         std::reverse(mapFiles.begin(), mapFiles.end());
 }
 
@@ -35,6 +39,8 @@ void MapSystem::loadMap(uint32 index)
 
     std::stringstream mapStream(mapFiles[index]);
 
+    String filename;
+    mapStream >> filename;
     mapStream >> marker;
     while(marker != -1)
     {
@@ -92,7 +98,7 @@ void MapSystem::loadMaps()
                 filedir = readdir(directory);
                 continue;
             }
-            mapFiles.push_back(loadMapFromFile("res/maps/" + filename));
+            mapFiles.push_back(loadMapFromFile(filename));
             filedir = readdir(directory);
         }
         closedir(directory);
@@ -101,7 +107,7 @@ void MapSystem::loadMaps()
         perror("Could not open the directory!");
 }
 
-String MapSystem::loadMapFromFile(const String& path)
+String MapSystem::loadMapFromFile(const String& filename)
 {
     String code;
     std::ifstream mapFile;
@@ -109,8 +115,10 @@ String MapSystem::loadMapFromFile(const String& path)
     mapFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try
     {
-        mapFile.open(path);
+        mapFile.open("res/maps/" + filename);
         std::stringstream shaderStream;
+        shaderStream << filename;
+        shaderStream << '\n';
         shaderStream << mapFile.rdbuf();
         mapFile.close();
         code = shaderStream.str();

@@ -2,6 +2,7 @@
 #define ECS_MAP_SYSTEM_H
 
 #include <fstream>
+#include <cstddef>
 #include <algorithm>
 
 #ifdef _WIN32
@@ -27,7 +28,7 @@ public:
 private:
     static Vector<String> mapFiles;
 
-    static String loadMapFromFile(const String& path);
+    static String loadMapFromFile(const String& filename);
 };
 
 #endif // ECS_MAP_SYSTEM_H
