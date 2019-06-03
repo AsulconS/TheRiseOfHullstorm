@@ -28,7 +28,7 @@ int main()
     UnitSystem::init();
     MovementSystem::init();
 
-    RenderingSystem::init();
+    RenderingSystem::init(AUTO_SIZE, true);
     InputSystem::init();
 
     PlayerSystem::init();
@@ -53,6 +53,7 @@ int main()
     InputSystem::destroy();
     MovementSystem::destroy();
     PlayerSystem::destroy();
+    UnitSystem::destroy();
 
     return 0;
 }

@@ -13,6 +13,7 @@
 #include "ecs/entities/entityManager.hpp"
 #include "ecs/systems/rendering/shader.hpp"
 #include "ecs/systems/rendering/model.hpp"
+#include "ecs/systems/rendering/sprite.hpp"
 
 class RenderingSystem
 {
@@ -30,6 +31,7 @@ public:
     // Main Camera
     // -----------
     static Camera* mainCamera;
+    static Sprite cursor;
 
     // Window Properties
     // -----------------
@@ -43,12 +45,7 @@ private:
 
     // HUD Properties
     // --------------
-    static uint32 HVAO;
-    static uint32 HVBO;
-    static uint32 HEBO;
-    static uint32 hudTexture;
-    static Vector<float> hudVertices;
-    static Vector<uint32> hudIndices;
+    static Sprite hud;
 
     // Loaded Models
     static Vector<Model*> models;
@@ -59,14 +56,9 @@ private:
     static glm::mat4 view;
     static glm::vec3 cameraFront;
 
-    // Rendering Functions
-    // -------------------
-    static void renderHud();
-
     // Setup Functions
     // ---------------------------------------------------------------------
     static void initDisplay(uint32 width, uint32 height, bool fullScreen, uint32 glVersion);
-    static void loadHud();
     static void setupCamera();
     static void setupLights();
     static void centerWindow();

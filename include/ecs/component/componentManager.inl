@@ -3,6 +3,7 @@
 
 uint32 ComponentManager::componentID = 0;
 Vector<List<BaseComponent*>> ComponentManager::componentMemory;
+List<BaseComponent*>::iterator ComponentManager::componentIt;
 
 uint32 ComponentManager::registerComponent()
 {
@@ -37,12 +38,11 @@ bool ComponentManager::deleteComponent(Entity* entity)
     // Static Assertion: The type must be a component
     static_assert(std::is_base_of<BaseComponent, C>::value, "|| THE C TYPE MUST BE A *COMPONENT* ||");
 
-    List<BaseComponent*>::iterator i;
-    for(i = componentMemory[C::ID].begin(); i != componentMemory[C::ID].end(); ++i)
-        if((*i)->entity->id == entity->id)
+    for(componentIt = componentMemory[C::ID].begin(); componentIt != componentMemory[C::ID].end(); ++componentIt)
+        if((*componentIt)->entity == entity)
         {
-            delete (*i);
-            componentMemory[C::ID].erase(i);
+            delete (*componentIt);
+            componentMemory[C::ID].erase(componentIt);
             return true;
         }
     

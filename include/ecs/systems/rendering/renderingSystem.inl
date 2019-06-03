@@ -12,13 +12,9 @@ uint32 RenderingSystem::windowHeight = 720;
 
 Shader RenderingSystem::shader;
 Shader RenderingSystem::hudShader;
+Sprite RenderingSystem::hud;
+Sprite RenderingSystem::cursor;
 
-uint32 RenderingSystem::HVAO;
-uint32 RenderingSystem::HVBO;
-uint32 RenderingSystem::HEBO;
-uint32 RenderingSystem::hudTexture;
-Vector<float> RenderingSystem::hudVertices;
-Vector<uint32> RenderingSystem::hudIndices;
 Vector<Model*> RenderingSystem::models;
 
 // ------------------------------------------------------
@@ -35,7 +31,15 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
     shader.initShader("lightingShader");
     hudShader.initShader("hudShader");
 
-    loadHud();
+    // Loading HUD
+    // -----------
+    String folder = "res/hud/" + std::to_string(windowWidth) + 'x' + std::to_string(windowHeight);
+    hud.init(windowWidth, windowHeight, glm::vec2(windowWidth / 2, windowHeight / 2), folder, "hud1.png");
+
+    // Loading Cursor
+    // --------------
+    folder = "res/hud/cursors";
+    cursor.init(32, 32, glm::vec2(windowWidth / 2, windowHeight / 2), folder, "lightblue_cursor.png");
 
     setupCamera();
     setupLights();
@@ -52,8 +56,9 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
 
 void RenderingSystem::update(float deltaTime)
 {
-    // Clear the Color and the Buffers
-    // -------------------------------
+    // Setup and Clear the Color and the Buffers
+    // -----------------------------------------
+    glEnable(GL_DEPTH_TEST);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -91,8 +96,12 @@ void RenderingSystem::update(float deltaTime)
         }
     }
 
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glDisable(GL_DEPTH_TEST);
+
     hudShader.use();
-    renderHud();
+    hud.render(hudShader);
+    cursor.render(hudShader);
 
     glfwSwapBuffers(window);
 }
@@ -105,10 +114,8 @@ void RenderingSystem::destroy()
     for(size_t i = 0; i < models.size(); ++i)
         delete models[i];
     
-    glDeleteTextures(1, &hudTexture);
-    glDeleteVertexArrays(1, &HVAO);
-    glDeleteBuffers(1, &HVBO);
-    glDeleteBuffers(1, &HEBO);
+    hud.destroy();
+    cursor.destroy();
 
     glfwTerminate();
 }
@@ -142,19 +149,6 @@ glm::vec3 RenderingSystem::rayCast(const glm::vec2& pos)
     glm::vec3 ray = glm::normalize(glm::vec3(worldSpaceCoords.x, worldSpaceCoords.y, worldSpaceCoords.z));
 
     return ray;
-}
-
-void RenderingSystem::renderHud()
-{
-    glActiveTexture(GL_TEXTURE0);
-
-    hudShader.setFloat("spriteTexture", 0);
-    hudShader.setVec2("offset", 0, 0);
-    glBindTexture(GL_TEXTURE_2D, hudTexture);
-
-    glBindVertexArray(HVAO);
-    glDrawElements(GL_TRIANGLES, hudIndices.size(), GL_UNSIGNED_INT, (void*)0);
-    glBindVertexArray(0);
 }
 
 void RenderingSystem::setupCamera()
@@ -280,52 +274,9 @@ void RenderingSystem::initDisplay(uint32 width, uint32 height, bool fullScreen, 
         return;
     }
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-void RenderingSystem::loadHud()
-{
-    hudVertices =
-    {
-        // Position           // UV
-         1.0f,  1.0f,  1.0f, 1.0f,   // Top Right
-         1.0f, -1.0f,  1.0f, 0.0f,   // Bottom Right
-        -1.0f, -1.0f,  0.0f, 0.0f,   // Bottom Left
-        -1.0f,  1.0f,  0.0f, 1.0f    // Top Left
-    };
-
-    hudIndices =
-    {
-        2, 1, 3, 3, 1, 0
-    };
-
-    glGenVertexArrays(1, &HVAO);
-    glGenBuffers(1, &HVBO);
-    glGenBuffers(1, &HEBO);
-
-    glBindVertexArray(HVAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, HVBO);
-    glBufferData(GL_ARRAY_BUFFER, hudVertices.size() * sizeof(float), &hudVertices[0], GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, HEBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, hudIndices.size() * sizeof(uint32), &hudIndices[0], GL_STATIC_DRAW);
-
-    // Vertex Position
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // Vertex UV
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0);
-
-    String folder = "res/hud/" + std::to_string(windowWidth) + 'x' + std::to_string(windowHeight);
-    hudTexture = Model::loadTextureFromFile("hud1.png", folder, true);
 }
 
 void RenderingSystem::framebufferSizeCallback(GLFWwindow* _window, int32 width, int32 height)

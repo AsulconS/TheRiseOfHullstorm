@@ -32,6 +32,7 @@ public:
 private:
     static uint32 componentID;
     static Vector<List<BaseComponent*>> componentMemory;
+    static List<BaseComponent*>::iterator componentIt;
 };
 
 #endif // ECS_COMPONENT_MANAGER_H

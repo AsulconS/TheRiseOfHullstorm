@@ -11,11 +11,12 @@
 class Sprite
 {
 public:
-    void init(uint32 width, uint32 height, const String& path, const String& name);
+    void init(uint32 width, uint32 height, const glm::vec2& pos, const String& path, const String& name);
     void destroy();
     void render(Shader& shader);
 
     void setTexture(const String& path, const String& name);
+    void setPosition(const glm::vec2& pos);
 
 private:
     uint32 VAO;

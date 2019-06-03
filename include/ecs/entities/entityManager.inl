@@ -78,47 +78,17 @@ std::ostream& operator<<(std::ostream& o, glm::vec3& v)
 
 void EmptyEntity::print()
 {
-    std::cout << "TRANSFORM COMPONENT:\n--------------------" << std::endl;
-    std::cout << "Position:\t";
-    std::cout << transform->position << std::endl;
-    std::cout << "Rotation:\t";
-    std::cout << transform->rotation << std::endl;
-    std::cout << "Scale:\t\t";
-    std::cout << transform->scale << std::endl;
-    std::cout << std::endl;
+    std::cout << "EmptyEntity " << id << " Deleted Successfully!" << std::endl;
 }
 
 void Camera::print()
 {
-    //
+    std::cout << "Camera " << id << " Deleted Successfully!" << std::endl;
 }
 
 void Unit::print()
 {
-    std::cout << "------------------------------------" << std::endl;
-    std::cout << "Unit Nr. " << id << "                      ]" << std::endl;
-    std::cout << "------------------------------------" << std::endl;
-
-    std::cout << "TRANSFORM COMPONENT:\n--------------------" << std::endl;
-    std::cout << "Position:\t";
-    std::cout << transform->position << std::endl;
-    std::cout << "Rotation:\t";
-    std::cout << transform->rotation << std::endl;
-    std::cout << "Scale:\t\t";
-    std::cout << transform->scale << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "STATS COMPONENT:\n--------------------" << std::endl;
-    std::cout << "HP:\t\t";
-    std::cout << stats->hp << std::endl;
-    std::cout << "Damage:\t\t";
-    std::cout << stats->damage << std::endl;
-    std::cout << "Defense:\t";
-    std::cout << stats->damage << std::endl;
-    std::cout << "Velocity:\t";
-    std::cout << stats->velocity << std::endl;
-
-    std::cout << "------------------------------------" << std::endl;
+    std::cout << "Unit " << id << " Destroyed Successfully!" << std::endl;
 }
 
 // ENTITY MANAGER DEFINITIONS

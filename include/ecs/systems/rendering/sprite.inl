@@ -1,7 +1,7 @@
-void Sprite::init(uint32 width, uint32 height, const String& path, const String& name)
+void Sprite::init(uint32 width, uint32 height, const glm::vec2& pos, const String& path, const String& name)
 {
-    float mappedHalfWidth  = width  / RenderingSystem::windowWidth  / 2.0f;
-    float mappedHalfHeight = height / RenderingSystem::windowHeight / 2.0f;
+    float mappedHalfWidth  = (float)width  / (float)RenderingSystem::windowWidth;
+    float mappedHalfHeight = (float)height / (float)RenderingSystem::windowHeight;
 
     vertices =
     {
@@ -39,6 +39,7 @@ void Sprite::init(uint32 width, uint32 height, const String& path, const String&
 
     glBindVertexArray(0);
 
+    position = pos;
     setTexture(path, name);
 }
 
@@ -47,7 +48,10 @@ void Sprite::render(Shader& shader)
     glActiveTexture(GL_TEXTURE0);
 
     shader.setFloat("spriteTexture", 0);
-    shader.setVec2("offset", position);
+
+    float mappedX = (2.0f * position.x) / RenderingSystem::windowWidth - 1.0f;
+    float mappedY = 1.0f - (2.0f * position.y) / RenderingSystem::windowHeight;
+    shader.setVec2("offset", mappedX, mappedY);
     glBindTexture(GL_TEXTURE_2D, texture);
 
     glBindVertexArray(VAO);
@@ -71,4 +75,9 @@ void Sprite::setTexture(const String& path, const String& name)
     texturePath = path;
     textureName = name;
     texture = Model::loadTextureFromFile(textureName.c_str(), texturePath, true);
+}
+
+void Sprite::setPosition(const glm::vec2& pos)
+{
+    position = pos;
 }

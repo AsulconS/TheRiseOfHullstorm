@@ -26,6 +26,7 @@ void InputSystem::init()
 void InputSystem::update(float deltaTime)
 {
     glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
+    RenderingSystem::cursor.setPosition(glm::vec2((float)mouseXPos, (float)mouseYPos));
 
     if(mouseXPos <= 1)
     {
