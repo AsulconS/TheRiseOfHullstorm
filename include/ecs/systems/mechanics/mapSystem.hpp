@@ -2,8 +2,13 @@
 #define ECS_MAP_SYSTEM_H
 
 #include <fstream>
+#include <algorithm>
 
-#include "system/dirent.h"
+#ifdef _WIN32
+    #include "system/dirent.h"
+#else
+    #include <dirent.h>
+#endif
 
 #include "ecs/component/componentManager.hpp"
 #include "ecs/entities/entityManager.hpp"

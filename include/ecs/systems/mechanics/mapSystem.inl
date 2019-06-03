@@ -6,6 +6,9 @@ void MapSystem::init(bool mapsOnLoad)
 
     if(mapsOnLoad)
         loadMaps();
+    
+    if (mapFiles[0] != "map01.rohmap")
+        std::reverse(mapFiles.begin(), mapFiles.end());
 }
 
 void MapSystem::update(float deltaTime)
