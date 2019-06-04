@@ -19,18 +19,31 @@
 class ComponentManager
 {
 public:
-    static uint32 registerComponent();
+    static uint32 registerComponentType();
 
     template <typename C>
     static C* createComponent(Entity* entity);
+
+    class Experimental
+    {
+        template <typename C>
+        static C* registerComponent(C* component, Entity* entity);
+
+        static void clearMemory();
+    };
+
     template <typename C>
     static bool deleteComponent(Entity* entity);
 
     template <typename C>
     static List<BaseComponent*>& getComponentMemory();
 
+    static void outLog();
+
 private:
     static uint32 componentID;
+    static uint32 globalComponentsCount;
+    static uint32 destroyedGlobalComponentsCount;
     static Vector<List<BaseComponent*>> componentMemory;
     static List<BaseComponent*>::iterator componentIt;
 };

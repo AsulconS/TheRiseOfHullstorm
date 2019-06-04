@@ -7,6 +7,9 @@ template <typename E>
 class EntityManager
 {
 public:
+    explicit EntityManager() {}
+    virtual ~EntityManager();
+
     E* createEntity();
     bool removeEntity(E* entity);
     void clear();

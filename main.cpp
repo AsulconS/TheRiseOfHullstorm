@@ -60,5 +60,8 @@ int main()
     UnitSystem::destroy();
     MapSystem::destroy();
 
+    ComponentManager::outLog();
+    std::cout << destroyedGlobalEntitiesCount << " entities destroyed!" << std::endl;
+
     return 0;
 }

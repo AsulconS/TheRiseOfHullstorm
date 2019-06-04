@@ -9,7 +9,7 @@ double InputSystem::mouseYPos;
 bool InputSystem::isInBorder = false;
 bool InputSystem::isClicking = false;
 
-uint32 InputSystem::currentDummy = -1;
+uint32 InputSystem::currentDummyModel = -1;
 
 // ----------------------------------------
 
@@ -75,11 +75,11 @@ void InputSystem::update(float deltaTime)
     
     // Dummy Creator
     if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
-        currentDummy = VILLAGER_MODEL;
+        currentDummyModel = VILLAGER_MODEL;
     if(glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-        currentDummy = CHICKEN_MODEL;
+        currentDummyModel = CHICKEN_MODEL;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        currentDummy = -1;
+        currentDummyModel = -1;
     
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking)
     {
@@ -88,14 +88,16 @@ void InputSystem::update(float deltaTime)
 
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
-        switch (currentDummy)
+        switch (currentDummyModel)
         {
             case VILLAGER_MODEL:
                 PlayerSystem::createVillager(pos);
+                std::cout << "Villager created in pos: " << pos << std::endl;
                 break;
             
             case CHICKEN_MODEL:
                 PlayerSystem::createChicken(pos);
+                std::cout << "Chicken created in pos: " << pos << std::endl;
                 break;
 
             default:
@@ -107,13 +109,13 @@ void InputSystem::update(float deltaTime)
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
         isClicking = false;
     
-    if(currentDummy != -1)
+    if(currentDummyModel != -1)
     {
         float xPos = (float)mouseXPos;
         float yPos = (float)mouseYPos;
 
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
-        PlayerSystem::dummy->meshRenderer->index = currentDummy;
+        PlayerSystem::dummy->meshRenderer->index = currentDummyModel;
         PlayerSystem::dummy->meshRenderer->isVisible = true;
     }
     else

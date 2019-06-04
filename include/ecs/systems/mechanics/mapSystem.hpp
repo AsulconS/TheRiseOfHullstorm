@@ -2,7 +2,6 @@
 #define ECS_MAP_SYSTEM_H
 
 #include <fstream>
-#include <cstddef>
 #include <algorithm>
 
 #ifdef _WIN32

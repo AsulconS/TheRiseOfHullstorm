@@ -2,16 +2,14 @@ Vector<String> MapSystem::mapFiles;
 
 void MapSystem::init(bool mapsOnLoad)
 {
-    mapFiles.push_back("");
-
     if(mapsOnLoad)
         loadMaps();
     
-    std::stringstream initMapStream(mapFiles[1]);
+    std::stringstream initMapStream(mapFiles[0]);
     String test;
     initMapStream >> test;
 
-    if(test != "map01.rohmap")
+    if(test != "map00.rohmap")
         std::reverse(mapFiles.begin(), mapFiles.end());
 }
 

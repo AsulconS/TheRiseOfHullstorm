@@ -47,9 +47,10 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
     // Loading Models
     // ---------------------------------------------------------------------------------
 
-    models.push_back(new Model("res/models/villager/villager.obj"));    // 0 : VILLAGER
-    models.push_back(new Model("res/models/chicken/chicken.obj"));      // 1 : CHICKEN
-    models.push_back(new Model("res/models/tree/tree.obj"));            // 2 : TREE
+    models.push_back(new Model("res/models/primitives/cube.obj"));      // 0 : DEFAULT
+    models.push_back(new Model("res/models/villager/villager.obj"));    // 1 : VILLAGER
+    models.push_back(new Model("res/models/chicken/chicken.obj"));      // 2 : CHICKEN
+    models.push_back(new Model("res/models/tree/tree.obj"));            // 3 : TREE
 
     // ---------------------------------------------------------------------------------
 }
@@ -126,8 +127,9 @@ glm::vec3 RenderingSystem::from2DPosition(const glm::vec2& pos)
 
     glm::vec3 yVec = glm::vec3(0.0f, -mainCamera->transform->position.y, 0.0f);
     glm::vec3 target = mainCamera->transform->position.y * mainCamera->transform->position.y / glm::dot(yVec, ray) * ray;
+    glm::vec3 finalPos = mainCamera->transform->position + target; finalPos.y = 0.0f;
 
-    return mainCamera->transform->position + target;
+    return finalPos;
 }
 
 glm::vec3 RenderingSystem::rayCast(const glm::vec2& pos)

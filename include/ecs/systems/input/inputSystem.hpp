@@ -23,7 +23,7 @@ private:
     static bool isInBorder;
     static bool isClicking;
     
-    static uint32 currentDummy;
+    static uint32 currentDummyModel;
 
     static void scrollCallback(GLFWwindow* _window, double xOffset, double yOffset);
 };

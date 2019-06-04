@@ -1,6 +1,9 @@
 // ENTITIES
 // --------
 
+static uint32 globalEntitiesCount = 0;
+static uint32 destroyedGlobalEntitiesCount = 0;
+
 void Entity::internalInit(uint32 _id, uint32 _type)
 {
     this->id = _id;
@@ -12,6 +15,8 @@ void Entity::internalInit(uint32 _id, uint32 _type)
     transform->scale    = { 1.0f, 1.0f, 1.0f };
 
     transform->isStatic = false;
+
+    ++globalEntitiesCount;
 }
 
 void EmptyEntity::init(uint32 _id)
@@ -23,6 +28,8 @@ void EmptyEntity::destroy()
 {
     if(!ComponentManager::deleteComponent<Transform>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
+    
+    ++destroyedGlobalEntitiesCount;
 }
 
 void Camera::init(uint32 _id)
@@ -43,6 +50,8 @@ void Camera::destroy()
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<CameraComponent>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
+    
+    ++destroyedGlobalEntitiesCount;
 }
 
 void Unit::init(uint32 _id)
@@ -50,7 +59,7 @@ void Unit::init(uint32 _id)
     internalInit(_id, UNIT_ENTITY);
 
     meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
-    meshRenderer->index = 0;
+    meshRenderer->index = DEFAULT_MODEL;
     meshRenderer->isVisible = true;
 
     stats = ComponentManager::createComponent<Stats>(this);
@@ -68,6 +77,8 @@ void Unit::destroy()
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<Stats>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
+    
+    ++destroyedGlobalEntitiesCount;
 }
 
 std::ostream& operator<<(std::ostream& o, glm::vec3& v)
@@ -93,6 +104,12 @@ void Unit::print()
 
 // ENTITY MANAGER DEFINITIONS
 // --------------------------
+
+template <typename E>
+EntityManager<E>::~EntityManager()
+{
+    clear();
+}
 
 template <typename E>
 E* EntityManager<E>::createEntity()
@@ -127,6 +144,9 @@ bool EntityManager<E>::removeEntity(E* entity)
 template <typename E>
 void EntityManager<E>::clear()
 {
+    if(entities.empty())
+        return;
+    
     List<Entity*>::iterator i;
     for(i = entities.begin(); i != entities.end(); ++i)
     {
