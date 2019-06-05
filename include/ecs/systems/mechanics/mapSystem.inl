@@ -5,12 +5,7 @@ void MapSystem::init(bool mapsOnLoad)
     if(mapsOnLoad)
         loadMaps();
     
-    std::stringstream initMapStream(mapFiles[0]);
-    String test;
-    initMapStream >> test;
-
-    if(test != "map00.rohmap")
-        std::reverse(mapFiles.begin(), mapFiles.end());
+    std::sort(mapFiles.begin(), mapFiles.end());
 }
 
 void MapSystem::update(float deltaTime)
