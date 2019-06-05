@@ -74,7 +74,6 @@ bool ComponentManager::deleteComponent(Entity* entity)
         {
             delete (*componentIt);
             componentMemory[C::ID].erase(componentIt);
-            --globalComponentsCount;
             ++destroyedGlobalComponentsCount;
             return true;
         }
@@ -93,5 +92,6 @@ List<BaseComponent*>& ComponentManager::getComponentMemory()
 
 void ComponentManager::outLog()
 {
+    std::cout << globalComponentsCount << " components created!" << std::endl;
     std::cout << destroyedGlobalComponentsCount << " components destroyed!" << std::endl;
 }

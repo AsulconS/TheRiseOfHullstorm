@@ -93,6 +93,7 @@ void RenderingSystem::update(float deltaTime)
             model = glm::rotate(model, glm::radians(current->entity->transform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
             model = glm::scale(model, current->entity->transform->scale);
             shader.setMat4("model", model);
+            shader.setFloat("alpha", current->alpha);
             models[current->index]->render(shader);
         }
     }

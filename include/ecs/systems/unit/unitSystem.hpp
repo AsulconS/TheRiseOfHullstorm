@@ -3,6 +3,11 @@
 
 #include "ecs/entities/entityManager.hpp"
 
+/* Unit System:
+ * ---------------
+ * Entities: n
+ * Components: 3n
+ * --------------- */
 class UnitSystem
 {
 public:

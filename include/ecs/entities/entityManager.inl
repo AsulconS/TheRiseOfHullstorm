@@ -60,6 +60,7 @@ void Unit::init(uint32 _id)
 
     meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
     meshRenderer->index = DEFAULT_MODEL;
+    meshRenderer->alpha = 1.0f;
     meshRenderer->isVisible = true;
 
     stats = ComponentManager::createComponent<Stats>(this);

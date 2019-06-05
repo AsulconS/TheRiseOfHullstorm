@@ -8,6 +8,7 @@ double InputSystem::mouseXPos;
 double InputSystem::mouseYPos;
 bool InputSystem::isInBorder = false;
 bool InputSystem::isClicking = false;
+bool InputSystem::isSaving = false;
 
 uint32 InputSystem::currentDummyModel = -1;
 
@@ -22,6 +23,8 @@ void InputSystem::init()
     mouseXPos = RenderingSystem::windowWidth / 2;
     mouseYPos = RenderingSystem::windowHeight / 2;
     glfwSetCursorPos(window, mouseXPos, mouseYPos);
+
+    screenshotCount = loadValueFromFile<uint32>("sc");
 }
 
 void InputSystem::update(float deltaTime)
@@ -61,8 +64,14 @@ void InputSystem::update(float deltaTime)
     // Camera Movement
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
-    if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_PRESS)
+    
+    if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_PRESS && !isSaving)
+    {
         RenderingSystem::saveScreenshot("screenshots/screenshot-" + std::to_string(screenshotCount++) + ".jpg");
+        isSaving = true;
+    }
+    if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_RELEASE)
+        isSaving = false;
     
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
@@ -126,7 +135,45 @@ void InputSystem::update(float deltaTime)
 
 void InputSystem::destroy()
 {
+    saveValueToFile<uint32>(screenshotCount, "sc");
     std::cout << "Input system Destroyed" << std::endl;
+}
+
+template <typename T>
+T InputSystem::loadValueFromFile(const String& filename)
+{
+    T value;
+    std::ifstream file;
+
+    file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    try
+    {
+        file.open("meta/" + filename + ".meta");
+        file >> value;
+        file.close();
+    }
+    catch(const std::ifstream::failure& e)
+    {
+        std::cerr << "Error loading meta! " << e.what() << std::endl;
+    }
+
+    return value;
+}
+
+template <typename T>
+void InputSystem::saveValueToFile(const T& value, const String& filename)
+{
+    std::ofstream file;
+    try
+    {
+        file.open("meta/" + filename + ".meta");
+        file << value;
+        file.close();
+    }
+    catch(const std::ofstream::failure& e)
+    {
+        std::cerr << "Error saving meta! " << e.what() << std::endl;
+    }
 }
 
 void InputSystem::scrollCallback(GLFWwindow* _window, double xOffset, double yOffset)

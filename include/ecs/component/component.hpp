@@ -32,6 +32,7 @@ struct MeshRenderer : public Component<MeshRenderer>
 {
     uint32 index;
 
+    float alpha;
     bool isVisible;
 };
 

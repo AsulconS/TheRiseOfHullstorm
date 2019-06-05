@@ -67,6 +67,8 @@ uniform int nrPointLights;
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform SpotLight spotLight;
 
+uniform float alpha;
+
 void main()
 {
     // Properties
@@ -81,7 +83,7 @@ void main()
     // Spot Lights
     result += calcSpotLight(spotLight, norm, fragPos, viewDir);
     
-    FragColor = vec4(result, 1.0f);
+    FragColor = vec4(result, alpha);
 }
 
 vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir)

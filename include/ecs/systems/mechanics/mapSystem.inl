@@ -1,11 +1,11 @@
-Vector<String> MapSystem::mapFiles;
+Vector<GameMap> MapSystem::maps;
 
 void MapSystem::init(bool mapsOnLoad)
 {
     if(mapsOnLoad)
         loadMaps();
     
-    std::sort(mapFiles.begin(), mapFiles.end());
+    std::sort(maps.begin(), maps.end());
 }
 
 void MapSystem::update(float deltaTime)
@@ -22,18 +22,15 @@ void MapSystem::loadMap(uint32 index)
 {
     UnitSystem::clear();
 
-    uint32 marker;
-    uint32 count;
-    float  param;
+    uint32 marker; // Holds the model
+    uint32 count;  // Holds how many models to load
 
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
 
-    std::stringstream mapStream(mapFiles[index]);
+    std::stringstream mapStream(maps[index].data);
 
-    String filename;
-    mapStream >> filename;
     mapStream >> marker;
     while(marker != -1)
     {
@@ -76,6 +73,8 @@ void MapSystem::loadMap(uint32 index)
 
 void MapSystem::loadMaps()
 {
+    maps.clear();
+
     String filename;
     DIR* directory = opendir("res/maps");
     dirent* filedir;
@@ -91,7 +90,7 @@ void MapSystem::loadMaps()
                 filedir = readdir(directory);
                 continue;
             }
-            mapFiles.push_back(loadMapFromFile(filename));
+            maps.push_back(GameMap(filename, loadMapFromFile(filename)));
             filedir = readdir(directory);
         }
         closedir(directory);
@@ -110,15 +109,13 @@ String MapSystem::loadMapFromFile(const String& filename)
     {
         mapFile.open("res/maps/" + filename);
         std::stringstream shaderStream;
-        shaderStream << filename;
-        shaderStream << '\n';
         shaderStream << mapFile.rdbuf();
         mapFile.close();
         code = shaderStream.str();
     }
-    catch(std::ifstream::failure e)
+    catch(const std::ifstream::failure& e)
     {
-        std::cerr << "Error loading shader! " << e.what() << std::endl;
+        std::cerr << "Error loading map! " << e.what() << std::endl;
     }
 
     return code;

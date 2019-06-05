@@ -4,6 +4,11 @@
 #include "ecs/component/componentManager.hpp"
 #include "ecs/entities/entityManager.hpp"
 
+/* Input System:
+ * --------------
+ * Entities: 1
+ * Components: 3
+ * -------------- */
 class PlayerSystem
 {
 public:

@@ -5,6 +5,7 @@ void PlayerSystem::init()
     dummy = new Unit;
     dummy->init(0);
 
+    dummy->meshRenderer->alpha = 0.25f;
     dummy->meshRenderer->isVisible = false;
 }
 

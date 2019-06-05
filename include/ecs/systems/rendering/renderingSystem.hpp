@@ -17,6 +17,11 @@
 #include "ecs/systems/rendering/model.hpp"
 #include "ecs/systems/rendering/sprite.hpp"
 
+/* Rendering System:
+ * ------------------
+ * Entities: 1
+ * Components: 2
+ * ------------------ */
 class RenderingSystem
 {
 public:
