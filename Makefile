@@ -15,6 +15,10 @@ else
 	LIBS += -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lassimp
 endif
 
+ifndef ARGS
+	ARGS = NULL
+endif
+
 all: os build trash
 
 os:
@@ -24,7 +28,7 @@ build: $(OBJECTS)
 	$(CXX) $(OBJECTS) $(INCLUDE) $(LIBS) -o main $(CXX_FLAGS)
 
 main.o: main.cpp
-	$(CXX) $(INCLUDE) -c main.cpp $(CXX_FLAGS)
+	$(CXX) -D$(ARGS) $(INCLUDE) -c main.cpp $(CXX_FLAGS)
 
 glad.o: glad.c
 	$(CC) -c glad.c

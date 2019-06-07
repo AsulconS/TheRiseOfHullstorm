@@ -23,11 +23,20 @@ private:
     static GLFWwindow* window;
     static uint32 screenshotCount;
 
+    // Mouse Properties
+    // ----------------
     static double mouseXPos;
     static double mouseYPos;
     static bool isInBorder;
     static bool isClicking;
     static bool isSaving;
+    // -----------------
+    #ifdef MOUSE_FIX
+        static double virtualXPos;
+        static double virtualYPos;
+        static double lastMouseXPos;
+        static double lastMouseYPos;
+    #endif
     
     static uint32 currentDummyModel;
 

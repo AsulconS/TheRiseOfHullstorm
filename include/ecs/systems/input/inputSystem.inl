@@ -10,6 +10,13 @@ bool InputSystem::isInBorder = false;
 bool InputSystem::isClicking = false;
 bool InputSystem::isSaving = false;
 
+#ifdef MOUSE_FIX
+    double InputSystem::virtualXPos;
+    double InputSystem::virtualYPos;
+    double InputSystem::lastMouseXPos;
+    double InputSystem::lastMouseYPos;
+#endif
+
 uint32 InputSystem::currentDummyModel = -1;
 
 // ----------------------------------------
@@ -17,12 +24,22 @@ uint32 InputSystem::currentDummyModel = -1;
 void InputSystem::init()
 {
     window = RenderingSystem::window;
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetScrollCallback(window, scrollCallback);
-    
-    mouseXPos = RenderingSystem::windowWidth / 2;
-    mouseYPos = RenderingSystem::windowHeight / 2;
-    glfwSetCursorPos(window, mouseXPos, mouseYPos);
+
+    #ifdef MOUSE_FIX
+        virtualXPos = RenderingSystem::windowWidth / 2;
+        virtualYPos = RenderingSystem::windowHeight / 2;
+        glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+        RenderingSystem::cursor.setPosition(glm::vec2((float)virtualXPos, (float)virtualYPos));
+    #else
+        mouseXPos = RenderingSystem::windowWidth / 2;
+        mouseYPos = RenderingSystem::windowHeight / 2;
+
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        glfwSetCursorPos(window, mouseXPos, mouseYPos);
+    #endif
 
     screenshotCount = loadValueFromFile<uint32>("sc");
 }
@@ -30,36 +47,67 @@ void InputSystem::init()
 void InputSystem::update(float deltaTime)
 {
     glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
-    RenderingSystem::cursor.setPosition(glm::vec2((float)mouseXPos, (float)mouseYPos));
 
-    if(mouseXPos <= 1)
-    {
-        mouseXPos = 1;
-        RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
-        isInBorder = true;
-    }
-    else if(mouseXPos >= (RenderingSystem::windowWidth - 1))
-    {
-        mouseXPos = RenderingSystem::windowWidth - 1;
-        RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
-        isInBorder = true;
-    }
-    
-    if(mouseYPos <= 1)
-    {
-        mouseYPos = 1;
-        RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
-        isInBorder = true;
-    }
-    else if(mouseYPos >= (RenderingSystem::windowHeight - 1))
-    {
-        mouseYPos = RenderingSystem::windowHeight - 1;
-        RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
-        isInBorder = true;
-    }
-    
-    if(isInBorder)
-        glfwSetCursorPos(window, mouseXPos, mouseYPos);
+    #ifdef MOUSE_FIX
+        virtualXPos += mouseXPos - lastMouseXPos;
+        virtualYPos += mouseYPos - lastMouseYPos;
+        lastMouseXPos = mouseXPos;
+        lastMouseYPos = mouseYPos;
+        RenderingSystem::cursor.setPosition(glm::vec2((float)virtualXPos, (float)virtualYPos));
+
+        if(virtualXPos <= 1)
+        {
+            virtualXPos = 1;
+            RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
+        }
+        else if(virtualXPos >= (RenderingSystem::windowWidth - 1))
+        {
+            virtualXPos = RenderingSystem::windowWidth - 1;
+            RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
+        }
+        
+        if(virtualYPos <= 1)
+        {
+            virtualYPos = 1;
+            RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
+        }
+        else if(virtualYPos >= (RenderingSystem::windowHeight - 1))
+        {
+            virtualYPos = RenderingSystem::windowHeight - 1;
+            RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
+        }
+    #else
+        RenderingSystem::cursor.setPosition(glm::vec2((float)mouseXPos, (float)mouseYPos));
+
+        if(mouseXPos <= 1)
+        {
+            mouseXPos = 1;
+            RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
+            isInBorder = true;
+        }
+        else if(mouseXPos >= (RenderingSystem::windowWidth - 1))
+        {
+            mouseXPos = RenderingSystem::windowWidth - 1;
+            RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
+            isInBorder = true;
+        }
+        
+        if(mouseYPos <= 1)
+        {
+            mouseYPos = 1;
+            RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
+            isInBorder = true;
+        }
+        else if(mouseYPos >= (RenderingSystem::windowHeight - 1))
+        {
+            mouseYPos = RenderingSystem::windowHeight - 1;
+            RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
+            isInBorder = true;
+        }
+
+        if(isInBorder)
+            glfwSetCursorPos(window, mouseXPos, mouseYPos);
+    #endif
 
     // Camera Movement
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
