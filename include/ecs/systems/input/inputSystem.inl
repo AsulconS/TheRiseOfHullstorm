@@ -29,8 +29,8 @@ void InputSystem::init()
     #ifdef MOUSE_FIX
         virtualXPos = RenderingSystem::windowWidth / 2;
         virtualYPos = RenderingSystem::windowHeight / 2;
-        glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
 
         RenderingSystem::cursor.setPosition(glm::vec2((float)virtualXPos, (float)virtualYPos));
     #else

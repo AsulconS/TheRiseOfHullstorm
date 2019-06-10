@@ -10,13 +10,15 @@ LIBS		:=
 ifeq ($(OS),Windows_NT)
 	C_OS += Windows
 	LIBS += -lglfw3 -lopengl32 -lglu32 -lgdi32 -luser32 -lkernel32 -lassimp
+	PARAMS :=
 else
 	C_OS += Linux
 	LIBS += -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lassimp
-endif
-
-ifndef ARGS
-	ARGS = NULL
+	ifndef ARGS
+		PARAMS = -DNULL
+	else
+		PARAMS = -D$(ARGS)
+	endif
 endif
 
 all: os build trash
@@ -28,7 +30,7 @@ build: $(OBJECTS)
 	$(CXX) $(OBJECTS) $(INCLUDE) $(LIBS) -o main $(CXX_FLAGS)
 
 main.o: main.cpp
-	$(CXX) -D$(ARGS) $(INCLUDE) -c main.cpp $(CXX_FLAGS)
+	$(CXX) $(PARAMS) $(INCLUDE) -c main.cpp $(CXX_FLAGS)
 
 glad.o: glad.c
 	$(CC) -c glad.c

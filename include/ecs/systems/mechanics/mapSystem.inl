@@ -64,6 +64,7 @@ void MapSystem::loadMap(uint32 index)
                     break;
                 
                 default:
+                    UnitSystem::createUnknown(4.0f * position, rotation, scale);
                     break;
             }
         }

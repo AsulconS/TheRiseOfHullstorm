@@ -52,6 +52,19 @@ void UnitSystem::init()
     }
 }
 
+void UnitSystem::createUnknown(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
+{
+    Unit* unit = units.createEntity();
+
+    unit->transform->position = pos;
+    unit->transform->rotation = rot;
+    unit->transform->scale    = sca;
+
+    unit->meshRenderer->index = DEFAULT_MODEL;
+
+    unit->stats->velocity = 10.0f;
+}
+
 void UnitSystem::createVillager(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
 {
     Unit* unit = units.createEntity();
