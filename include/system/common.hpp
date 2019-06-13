@@ -5,6 +5,7 @@
 #define CAMERA_ENTITY 1
 #define UNIT_ENTITY   2
 
+#define EMPTY_MODEL   -1
 #define DEFAULT_MODEL  0
 #define VILLAGER_MODEL 1
 #define CHICKEN_MODEL  2

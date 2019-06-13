@@ -27,17 +27,12 @@ private:
     // ----------------
     static double mouseXPos;
     static double mouseYPos;
-    static double lastMouseXPos;
-    static double lastMouseYPos;
-    static double virtualXPos;
-    static double virtualYPos;
-    // -----------------
+    static bool isInBorder;
     static bool isClicking;
     static bool isSaving;
+    // -----------------
     
     static uint32 currentDummyModel;
-
-    static void mouseBoundingsCalculation(float deltaTime);
 
     template <typename T>
     static T loadValueFromFile(const String& filename);

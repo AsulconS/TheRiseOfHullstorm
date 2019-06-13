@@ -12,7 +12,11 @@
 
 #include "ecs/systems/unit/unitSystem.hpp"
 
-#include "ecs/systems/input/inputSystem.hpp"
+#ifndef ECS_LEGACY
+    #include "ecs/systems/input/inputSystem.hpp"
+#else
+    #include "legacy/ecs/systems/input/inputSystem.hpp"
+#endif
 
 #include "ecs/systems/mechanics/movementSystem.hpp"
 #include "ecs/systems/mechanics/mapSystem.hpp"
@@ -31,7 +35,11 @@
 
     #include "ecs/systems/unit/unitSystem.inl"
 
-    #include "ecs/systems/input/inputSystem.inl"
+    #ifndef ECS_LEGACY
+        #include "ecs/systems/input/inputSystem.inl"
+    #else
+        #include "legacy/ecs/systems/input/inputSystem.inl"
+    #endif
 
     #include "ecs/systems/mechanics/movementSystem.inl"
     #include "ecs/systems/mechanics/mapSystem.inl"

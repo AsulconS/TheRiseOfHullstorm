@@ -6,15 +6,11 @@ uint32 InputSystem::screenshotCount = 0;
 
 double InputSystem::mouseXPos;
 double InputSystem::mouseYPos;
-double InputSystem::lastMouseXPos;
-double InputSystem::lastMouseYPos;
-double InputSystem::virtualXPos;
-double InputSystem::virtualYPos;
-
+bool InputSystem::isInBorder = false;
 bool InputSystem::isClicking = false;
 bool InputSystem::isSaving = false;
 
-uint32 InputSystem::currentDummyModel = EMPTY_MODEL;
+uint32 InputSystem::currentDummyModel = DUMMY_MODEL;
 
 // ----------------------------------------
 
@@ -23,36 +19,56 @@ void InputSystem::init()
     window = RenderingSystem::window;
     glfwSetScrollCallback(window, scrollCallback);
 
-    virtualXPos = RenderingSystem::windowWidth / 2;
-    virtualYPos = RenderingSystem::windowHeight / 2;
-    
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwGetCursorPos(window, &lastMouseXPos, &lastMouseYPos);
+    mouseXPos = RenderingSystem::windowWidth / 2;
+    mouseYPos = RenderingSystem::windowHeight / 2;
 
-    RenderingSystem::cursor.setPosition(glm::vec2((float)virtualXPos, (float)virtualYPos));
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetCursorPos(window, mouseXPos, mouseYPos);
 
     screenshotCount = loadValueFromFile<uint32>("sc");
 }
 
 void InputSystem::update(float deltaTime)
 {
-    // Mouse Pre-Calculations
-    // ---------------------------------------------------------
-    mouseBoundingsCalculation(deltaTime);
-    float xPos = (float)virtualXPos;
-    float yPos = (float)virtualYPos;
+    glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
+    float xPos = (float)mouseXPos;
+    float yPos = (float)mouseYPos;
 
-    RenderingSystem::cursor.setPosition(glm::vec2(xPos, yPos));
-    // ---------------------------------------------------------
+    if(mouseXPos <= 1)
+    {
+        mouseXPos = 1;
+        RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    else if(mouseXPos >= (RenderingSystem::windowWidth - 1))
+    {
+        mouseXPos = RenderingSystem::windowWidth - 1;
+        RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    
+    if(mouseYPos <= 1)
+    {
+        mouseYPos = 1;
+        RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
+        isInBorder = true;
+    }
+    else if(mouseYPos >= (RenderingSystem::windowHeight - 1))
+    {
+        mouseYPos = RenderingSystem::windowHeight - 1;
+        RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
+        isInBorder = true;
+    }
 
-    // Exit Processing
-    // ----------------------------------------------------
+    if(isInBorder)
+        glfwSetCursorPos(window, mouseXPos, mouseYPos);
+    
+    RenderingSystem::cursor.setPosition(glm::vec2((float)mouseXPos, (float)mouseYPos));
+
+    // Camera Movement
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         RenderingSystem::stop();
-    // ----------------------------------------------------
     
-    // Screenshot Processing
-    // -------------------------------------------------------------------------------------------------------------
     if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_PRESS && !isSaving)
     {
         RenderingSystem::saveScreenshot("screenshots/screenshot-" + std::to_string(screenshotCount++) + ".jpg");
@@ -60,10 +76,7 @@ void InputSystem::update(float deltaTime)
     }
     if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_RELEASE)
         isSaving = false;
-    // -------------------------------------------------------------------------------------------------------------
     
-    // Camera Keyboard-Directional Movement
-    // ---------------------------------------------------------------------------
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
@@ -72,25 +85,20 @@ void InputSystem::update(float deltaTime)
         RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
     if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
-    // ---------------------------------------------------------------------------
     
-    // Dummy Model
-    // -----------------------------------------------
+    // Dummy Creator
     if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
         currentDummyModel = VILLAGER_MODEL;
     if(glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
         currentDummyModel = CHICKEN_MODEL;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        currentDummyModel = EMPTY_MODEL;
-    // -----------------------------------------------
+        currentDummyModel = -1;
     
-    // Dummy Creator
-    // -------------------------------------------------------------------------------------------------------------------------
-    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking && (currentDummyModel != EMPTY_MODEL))
+    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking)
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
-        switch(currentDummyModel)
+        switch (currentDummyModel)
         {
             case VILLAGER_MODEL:
                 PlayerSystem::createVillager(pos);
@@ -103,8 +111,6 @@ void InputSystem::update(float deltaTime)
                 break;
 
             default:
-                UnitSystem::createUnknown(pos);
-                std::cout << "Unknown Unit created in pos: " << pos << std::endl;
                 break;
         }
 
@@ -112,11 +118,8 @@ void InputSystem::update(float deltaTime)
     }
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
         isClicking = false;
-    // -------------------------------------------------------------------------------------------------------------------------
     
-    // Dummy Constant Model
-    // -----------------------------------------------------------------------------------------------------
-    if(currentDummyModel != EMPTY_MODEL)
+    if(currentDummyModel != -1)
     {
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
         PlayerSystem::dummy->meshRenderer->index = currentDummyModel;
@@ -124,10 +127,7 @@ void InputSystem::update(float deltaTime)
     }
     else
         PlayerSystem::dummy->meshRenderer->isVisible = false;
-    // -----------------------------------------------------------------------------------------------------
     
-    // Events Polled
-    // ---------------
     glfwPollEvents();
 }
 
@@ -135,38 +135,6 @@ void InputSystem::destroy()
 {
     saveValueToFile<uint32>(screenshotCount, "sc");
     std::cout << "Input system Destroyed" << std::endl;
-}
-
-void InputSystem::mouseBoundingsCalculation(float deltaTime)
-{
-    glfwGetCursorPos(window, &mouseXPos, &mouseYPos);
-
-    virtualXPos += mouseXPos - lastMouseXPos;
-    virtualYPos += mouseYPos - lastMouseYPos;
-    lastMouseXPos = mouseXPos;
-    lastMouseYPos = mouseYPos;
-
-    if(virtualXPos <= 1)
-    {
-        virtualXPos = 1;
-        RenderingSystem::mainCamera->transform->position.x -= 64.0f * deltaTime;
-    }
-    else if(virtualXPos >= (RenderingSystem::windowWidth - 1))
-    {
-        virtualXPos = RenderingSystem::windowWidth - 1;
-        RenderingSystem::mainCamera->transform->position.x += 64.0f * deltaTime;
-    }
-    
-    if(virtualYPos <= 1)
-    {
-        virtualYPos = 1;
-        RenderingSystem::mainCamera->transform->position.z -= 64.0f * deltaTime;
-    }
-    else if(virtualYPos >= (RenderingSystem::windowHeight - 1))
-    {
-        virtualYPos = RenderingSystem::windowHeight - 1;
-        RenderingSystem::mainCamera->transform->position.z += 64.0f * deltaTime;
-    }
 }
 
 template <typename T>
