@@ -17,6 +17,7 @@ public:
 
     uint32 id;
     uint32 type;
+    
     Transform* transform;
 
 protected:

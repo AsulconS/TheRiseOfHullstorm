@@ -1,7 +1,7 @@
 // ENTITIES
 // --------
 
-static uint32 globalEntitiesCount = 0;
+static uint32 createdGlobalEntitiesCount = 0;
 static uint32 destroyedGlobalEntitiesCount = 0;
 
 void Entity::internalInit(uint32 _id, uint32 _type)
@@ -16,7 +16,7 @@ void Entity::internalInit(uint32 _id, uint32 _type)
 
     transform->isStatic = false;
 
-    ++globalEntitiesCount;
+    ++createdGlobalEntitiesCount;
 }
 
 void EmptyEntity::init(uint32 _id)

@@ -42,7 +42,7 @@ public:
 
 private:
     static uint32 componentID;
-    static uint32 globalComponentsCount;
+    static uint32 createdGlobalComponentsCount;
     static uint32 destroyedGlobalComponentsCount;
     static Vector<List<BaseComponent*>> componentMemory;
     static List<BaseComponent*>::iterator componentIt;

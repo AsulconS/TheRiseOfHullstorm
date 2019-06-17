@@ -1,9 +1,10 @@
 // Regristation for components
-// ---------------------------
+// ---------------------------------------------------------------
 
 uint32 ComponentManager::componentID = 0;
-uint32 ComponentManager::globalComponentsCount = 0;
+uint32 ComponentManager::createdGlobalComponentsCount = 0;
 uint32 ComponentManager::destroyedGlobalComponentsCount = 0;
+
 Vector<List<BaseComponent*>> ComponentManager::componentMemory;
 List<BaseComponent*>::iterator ComponentManager::componentIt;
 
@@ -12,6 +13,8 @@ uint32 ComponentManager::registerComponentType()
     componentMemory.push_back(List<BaseComponent*>());
     return componentID++;
 }
+
+// ---------------------------------------------------------------
 
 // The Components are registered into the Manager
 // ----------------------------------------------
@@ -31,7 +34,7 @@ C* ComponentManager::createComponent(Entity* entity)
     component->entity = entity;
     componentMemory[C::ID].push_front(component);
 
-    ++globalComponentsCount;
+    ++createdGlobalComponentsCount;
     return component;
 }
 
@@ -47,7 +50,7 @@ C* ComponentManager::Experimental::registerComponent(C* component, Entity* entit
     component->entity = entity;
     componentMemory[C::ID].push_front(component);
 
-    ++globalComponentsCount;
+    ++createdGlobalComponentsCount;
     return component;
 }
 
@@ -92,6 +95,6 @@ List<BaseComponent*>& ComponentManager::getComponentMemory()
 
 void ComponentManager::outLog()
 {
-    std::cout << globalComponentsCount << " components created!" << std::endl;
+    std::cout << createdGlobalComponentsCount << " components created!" << std::endl;
     std::cout << destroyedGlobalComponentsCount << " components destroyed!" << std::endl;
 }

@@ -15,7 +15,7 @@ static auto timeSpan = std::chrono::duration_cast<std::chrono::duration<float>>(
 
 static float deltaTime = 0.0f;
 
-float getDeltaTime()
+static float getDeltaTime()
 {
     currentTime = std::chrono::steady_clock::now();
     timeSpan = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - lastTime);
@@ -61,7 +61,7 @@ int main()
     MapSystem::destroy();
 
     ComponentManager::outLog();
-    std::cout << globalEntitiesCount << " entities created!" << std::endl;
+    std::cout << createdGlobalEntitiesCount << " entities created!" << std::endl;
     std::cout << destroyedGlobalEntitiesCount << " entities destroyed!" << std::endl;
 
     return 0;
