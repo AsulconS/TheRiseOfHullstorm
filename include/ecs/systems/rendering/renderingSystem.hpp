@@ -52,6 +52,8 @@ public:
     static uint32 windowHeight;
 
 private:
+    explicit RenderingSystem() {}
+
     static Shader shader;
     static Shader hudShader;
 

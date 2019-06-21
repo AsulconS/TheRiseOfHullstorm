@@ -42,6 +42,8 @@ public:
     static void loadMaps();
 
 private:
+    explicit MapSystem() {}
+
     static Vector<GameMap> maps;
 
     static String loadMapFromFile(const String& filename);

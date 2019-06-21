@@ -27,6 +27,8 @@ public:
     static EntityManager<Unit>& getUnits();
 
 private:
+    explicit UnitSystem() {}
+
     static EntityManager<Unit> units;
 };
 

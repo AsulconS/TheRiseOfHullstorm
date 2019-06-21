@@ -119,7 +119,12 @@ void RenderingSystem::destroy()
     hud.destroy();
     cursor.destroy();
 
+    shader.destroyShader();
+    hudShader.destroyShader();
+
     glfwTerminate();
+
+    std::cout << "Rendering System Destroyed" << std::endl;
 }
 
 glm::vec3 RenderingSystem::from2DPosition(const glm::vec2& pos)

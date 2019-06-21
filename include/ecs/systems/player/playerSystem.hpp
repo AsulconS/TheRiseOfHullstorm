@@ -20,6 +20,9 @@ public:
     static void createChicken(const glm::vec3& pos);
 
     static Unit* dummy;
+
+private:
+    explicit PlayerSystem() {}
 };
 
 #endif // ECS_PLAYER_SYSTEM_H

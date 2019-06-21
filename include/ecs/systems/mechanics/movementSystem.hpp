@@ -10,6 +10,9 @@ public:
     static void init();
     static void update(float deltaTime);
     static void destroy();
+
+private:
+    explicit MovementSystem() {}
 };
 
 #endif // ECS_MOVEMENT_SYSTEM_H

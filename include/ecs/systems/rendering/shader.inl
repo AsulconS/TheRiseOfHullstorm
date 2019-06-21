@@ -16,15 +16,16 @@ void Shader::initShader(const String& name)
     glAttachShader(program, shaders[FRAGMENT_SHADER]);
 
     glLinkProgram(program);
+    
     checkErrors(program, true);
 }
 
-Shader::~Shader()
+void Shader::destroyShader()
 {
     glDetachShader(program, shaders[VERTEX_SHADER]);
-    glDetachShader(program, shaders[FRAGMENT_SHADER]);
-
     glDeleteShader(shaders[VERTEX_SHADER]);
+
+    glDetachShader(program, shaders[FRAGMENT_SHADER]);
     glDeleteShader(shaders[FRAGMENT_SHADER]);
 
     glDeleteProgram(program);

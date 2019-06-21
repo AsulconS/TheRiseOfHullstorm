@@ -22,5 +22,5 @@ void MovementSystem::update(float deltaTime)
 
 void MovementSystem::destroy()
 {
-    //
+    std::cout << "Movement System Destroyed" << std::endl;
 }

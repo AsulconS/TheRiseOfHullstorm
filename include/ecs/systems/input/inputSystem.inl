@@ -134,7 +134,7 @@ void InputSystem::update(float deltaTime)
 void InputSystem::destroy()
 {
     saveValueToFile<uint32>(screenshotCount, "sc");
-    std::cout << "Input system Destroyed" << std::endl;
+    std::cout << "Input System Destroyed" << std::endl;
 }
 
 void InputSystem::mouseBoundingsCalculation(float deltaTime)

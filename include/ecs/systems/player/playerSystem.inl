@@ -18,6 +18,8 @@ void PlayerSystem::destroy()
 {
     dummy->destroy();
     delete dummy;
+
+    std::cout << "Player System Destroyed" << std::endl;
 }
 
 void PlayerSystem::createVillager(const glm::vec3& pos)

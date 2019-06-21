@@ -41,6 +41,8 @@ public:
     static void outLog();
 
 private:
+    explicit ComponentManager() {}
+
     static uint32 componentID;
     static uint32 createdGlobalComponentsCount;
     static uint32 destroyedGlobalComponentsCount;

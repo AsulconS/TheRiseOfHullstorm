@@ -15,7 +15,7 @@ void MapSystem::update(float deltaTime)
 
 void MapSystem::destroy()
 {
-    //
+    std::cout << "Map System Destroyed" << std::endl;
 }
 
 void MapSystem::loadMap(uint32 index)

@@ -117,6 +117,7 @@ void UnitSystem::update(float deltaTime)
 void UnitSystem::destroy()
 {
     units.clear();
+    std::cout << "Unit System Destroyed" << std::endl;
 }
 
 EntityManager<Unit>& UnitSystem::getUnits()

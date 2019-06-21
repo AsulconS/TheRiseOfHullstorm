@@ -20,6 +20,8 @@ public:
     static void destroy();
 
 private:
+    explicit InputSystem() {}
+
     static GLFWwindow* window;
     static uint32 screenshotCount;
 
