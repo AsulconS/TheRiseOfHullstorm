@@ -16,12 +16,14 @@ void EnvironmentFactory::forge(Unit* instance, const UnitType unit)
 
 void EnvironmentFactory::forgeTree01(Unit* instance)
 {
+    instance->transform->isStatic = true;
     instance->meshRenderer->index = TREE01;
     instance->stats->velocity = 0.0f;
 }
 
 void EnvironmentFactory::forgeTree02(Unit* instance)
 {
+    instance->transform->isStatic = true;
     instance->meshRenderer->index = TREE02;
     instance->stats->velocity = 0.0f;
 }

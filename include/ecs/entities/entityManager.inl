@@ -16,6 +16,8 @@ void Entity::internalInit(uint32 _id, uint32 _type)
 
     transform->isStatic = false;
 
+    transform->targetPoint = { 0.0f, 0.0f, 0.0f };
+
     ++createdGlobalEntitiesCount;
 }
 
@@ -63,6 +65,9 @@ void Unit::init(uint32 _id)
     meshRenderer->alpha = 1.0f;
     meshRenderer->isVisible = true;
 
+    boxCollider = ComponentManager::createComponent<BoxCollider>(this);
+    boxCollider->size = { 8.0f, 8.0f, 8.0f };
+
     stats = ComponentManager::createComponent<Stats>(this);
     stats->hp       = 100.0f;
     stats->damage   = 20.0f;
@@ -75,6 +80,8 @@ void Unit::destroy()
     if(!ComponentManager::deleteComponent<Transform>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<MeshRenderer>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<BoxCollider>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<Stats>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;

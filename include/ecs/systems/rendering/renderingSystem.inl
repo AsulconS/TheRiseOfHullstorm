@@ -169,7 +169,7 @@ void RenderingSystem::setupCamera()
     mainCamera = new Camera;
     mainCamera->init(0);
 
-    mainCamera->transform->position = { 0.0f, 55.0f, 55.0f };
+    mainCamera->transform->position = { 0.0f, 64.0f, 64.0f };
     mainCamera->transform->rotation = { -45.0f, 180.0f, 0.0f };
 
     cameraFront.x = glm::cos(glm::radians(mainCamera->transform->rotation.x)) * glm::sin(glm::radians(mainCamera->transform->rotation.y));

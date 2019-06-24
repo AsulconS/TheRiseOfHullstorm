@@ -24,7 +24,7 @@ void MapSystem::loadMap(uint32 index, bool external)
 {
     UnitSystem::clear();
 
-    float localScale = (external) ? 4.0f : 1.0f;
+    float localScale = (external) ? 2.0f : 1.0f;
 
     uint32 marker; // Holds the model
     uint32 count;  // Holds how many models to load

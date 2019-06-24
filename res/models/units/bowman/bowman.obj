@@ -1,6 +1,6 @@
 # Blender v2.79 (sub 0) OBJ File: ''
 # www.blender.org
-mtllib archer.mtl
+mtllib bowman.mtl
 o Cylinder
 v -0.108813 0.171106 0.022926
 v -0.072824 0.399595 0.022926

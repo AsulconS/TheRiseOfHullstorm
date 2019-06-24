@@ -24,6 +24,7 @@ struct Transform : public Component<Transform>
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
+    glm::vec3 targetPoint;
 
     bool isStatic;
 };

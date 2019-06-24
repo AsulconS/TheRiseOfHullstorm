@@ -116,6 +116,23 @@ void InputSystem::update(float deltaTime)
 
         isClicking = true;
     }
+    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !isClicking)
+    {
+        glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
+
+        Unit* unit;
+        List<BaseComponent*>& memory = ComponentManager::getComponentMemory<Transform>();
+        List<BaseComponent*>::iterator i;
+    
+        for(i = memory.begin(); i != memory.end(); ++i)
+        {
+            if((*i)->entity->type != UNIT_ENTITY)
+                continue;
+            
+            unit = (Unit*)((*i)->entity);
+            unit->transform->targetPoint = pos;
+        }
+    }
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
         isClicking = false;
     // -------------------------------------------------------------------------------------------------------------------------
@@ -125,6 +142,7 @@ void InputSystem::update(float deltaTime)
     if(currentDummy != NO_MODEL)
     {
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
+        PlayerSystem::dummy->transform->scale    = { 4.0f, 4.0f, 4.0f };
         PlayerSystem::dummy->meshRenderer->index = currentDummy;
         PlayerSystem::dummy->meshRenderer->isVisible = true;
     }
