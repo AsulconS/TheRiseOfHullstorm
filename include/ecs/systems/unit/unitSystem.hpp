@@ -17,19 +17,22 @@ public:
 
     static void clear();
 
-    static void createUnknown(const glm::vec3& pos, const glm::vec3& rot = glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3& sca = glm::vec3(1.0f, 1.0f, 1.0f));
+    static uint32 registerPlayer();
 
-    static void createVillager(const glm::vec3& pos, const glm::vec3& rot = glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3& sca = glm::vec3(1.0f, 1.0f, 1.0f));
-    static void createChicken(const glm::vec3& pos, const glm::vec3& rot = glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3& sca = glm::vec3(1.0f, 1.0f, 1.0f));
-    
-    static void spawnTree(const glm::vec3& pos, const glm::vec3& rot = glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3& sca = glm::vec3(1.0f, 1.0f, 1.0f));
+    template <typename Factory>
+    static void createUnit(const uint32 player, const UnitType unit, const glm::vec3& pos, const glm::vec3& rot = glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3& sca = glm::vec3(1.0f, 1.0f, 1.0f));
+    template <typename Factory>
+    static void createBuilding(const uint32 player, const UnitType unit, const glm::vec3& pos, const glm::vec3& rot = glm::vec3(0.0f, 0.0f, 0.0f), const glm::vec3& sca = glm::vec3(1.0f, 1.0f, 1.0f));
 
-    static EntityManager<Unit>& getUnits();
+    static EntityManager<Unit>& getUnits(const uint32 player);
+    static EntityManager<Building>& getBuildings(const uint32 player);
 
 private:
     explicit UnitSystem() {}
 
-    static EntityManager<Unit> units;
+    static Vector<EntityManager<Unit>> units;
+    static Vector<EntityManager<Building>> buildings;
+    static uint32 index;
 };
 
 #endif // ECS_UNIT_SYSTEM_H

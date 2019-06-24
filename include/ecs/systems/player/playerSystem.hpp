@@ -16,13 +16,15 @@ public:
     static void update(float deltaTime);
     static void destroy();
 
-    static void createVillager(const glm::vec3& pos);
-    static void createChicken(const glm::vec3& pos);
+    static void createUnit(const UnitType unit, const glm::vec3& pos);
+    static void createBuilding(const BuildingType building, const glm::vec3& pos);
 
     static Unit* dummy;
 
 private:
     explicit PlayerSystem() {}
+    
+    static uint32 playerInstance;
 };
 
 #endif // ECS_PLAYER_SYSTEM_H

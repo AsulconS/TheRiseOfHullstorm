@@ -1,112 +1,53 @@
-EntityManager<Unit> UnitSystem::units;
+Vector<EntityManager<Unit>> UnitSystem::units;
+Vector<EntityManager<Building>> UnitSystem::buildings;
+uint32 UnitSystem::index = 0;
 
 void UnitSystem::init()
 {
-    Unit* unit;
-
-    // VILLAGERS
-    for(size_t i = 0; i < 5; ++i)
-    {
-        unit = units.createEntity();
-
-        unit->transform->position.x = 8.0f * i - 16.0f;
-        unit->transform->position.z = -2.0f;
-
-        unit->transform->rotation.y = 64.0f * i;
-
-        unit->meshRenderer->index = VILLAGER_MODEL;
-
-        unit->stats->velocity = 10.0f;
-    }
-
-    // CHICKENS
-    for(size_t i = 0; i < 5; ++i)
-    {
-        unit = units.createEntity();
-
-        unit->transform->position.x = 4.0f * i - 8.0f;
-        unit->transform->position.z = 8.0f;
-
-        unit->transform->rotation.y = 64.0f * i;
-
-        unit->meshRenderer->index = CHICKEN_MODEL;
-
-        unit->stats->velocity = 10.0f;
-    }
-
-    // TREES
-    for(size_t i = 0; i < 5; ++i)
-    {
-        unit = units.createEntity();
-
-        unit->transform->position.x = 16.0f * i - 32.0f;
-        unit->transform->position.z = -14.0f;
-
-        unit->transform->rotation.y = 64.0f * i;
-
-        unit->transform->scale = { 2.5f, 2.5f, 2.5f };
-
-        unit->meshRenderer->index = TREE_MODEL;
-
-        unit->stats->velocity = 10.0f;
-    }
+    //
 }
 
-void UnitSystem::createUnknown(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
+template <typename Factory>
+void UnitSystem::createUnit(const uint32 player, const UnitType unit, const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
 {
-    Unit* unit = units.createEntity();
-
-    unit->transform->position = pos;
-    unit->transform->rotation = rot;
-    unit->transform->scale    = sca;
-
-    unit->meshRenderer->index = DEFAULT_MODEL;
-
-    unit->stats->velocity = 10.0f;
+    static_assert(std::is_base_of<AbstractFactory, Factory>::value, "This must be a Factory!");
+    
+    Unit* instance = units[player].createEntity();
+    instance->transform->position = pos;
+    instance->transform->rotation = rot;
+    instance->transform->scale    = sca;
+    
+    // Factory of The Race
+    Factory::forge(instance, unit);
 }
 
-void UnitSystem::createVillager(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
+template <typename Factory>
+void UnitSystem::createBuilding(const uint32 player, const UnitType unit, const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
 {
-    Unit* unit = units.createEntity();
-
-    unit->transform->position = pos;
-    unit->transform->rotation = rot;
-    unit->transform->scale    = sca;
-
-    unit->meshRenderer->index = VILLAGER_MODEL;
-
-    unit->stats->velocity = 10.0f;
+    static_assert(std::is_base_of<AbstractFactory, Factory>::value, "This must be a Factory!");
+    
+    Building* instance = buildings[player].createEntity();
+    instance->transform->position = pos;
+    instance->transform->rotation = rot;
+    instance->transform->scale    = sca;
+    
+    // Factory of The Race
+    Factory::forge(instance, unit);
 }
 
-void UnitSystem::createChicken(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
+uint32 UnitSystem::registerPlayer()
 {
-    Unit* unit = units.createEntity();
-
-    unit->transform->position = pos;
-    unit->transform->rotation = rot;
-    unit->transform->scale    = sca;
-
-    unit->meshRenderer->index = CHICKEN_MODEL;
-
-    unit->stats->velocity = 10.0f;
-}
-
-void UnitSystem::spawnTree(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& sca)
-{
-    Unit* unit = units.createEntity();
-
-    unit->transform->position = pos;
-    unit->transform->rotation = rot;
-    unit->transform->scale    = sca;
-
-    unit->meshRenderer->index = TREE_MODEL;
-
-    unit->stats->velocity = 10.0f;
+    units.push_back(EntityManager<Unit>());
+    buildings.push_back(EntityManager<Building>());
+    return index++;
 }
 
 void UnitSystem::clear()
 {
-    units.clear();
+    for(size_t i = 0; i < units.size(); ++i)
+        units[i].clear();
+    for(size_t i = 0; i < buildings.size(); ++i)
+        buildings[i].clear();
 }
 
 void UnitSystem::update(float deltaTime)
@@ -116,11 +57,18 @@ void UnitSystem::update(float deltaTime)
 
 void UnitSystem::destroy()
 {
+    clear();
     units.clear();
+    buildings.clear();
     std::cout << "Unit System Destroyed" << std::endl;
 }
 
-EntityManager<Unit>& UnitSystem::getUnits()
+EntityManager<Unit>& UnitSystem::getUnits(const uint32 player)
 {
-    return units;
+    return units[player];
+}
+
+EntityManager<Building>& UnitSystem::getBuildings(const uint32 player)
+{
+    return buildings[player];
 }

@@ -1,4 +1,5 @@
 Unit* PlayerSystem::dummy;
+uint32 PlayerSystem::playerInstance = 1;
 
 void PlayerSystem::init()
 {
@@ -7,6 +8,8 @@ void PlayerSystem::init()
 
     dummy->meshRenderer->alpha = 0.25f;
     dummy->meshRenderer->isVisible = false;
+
+    playerInstance = UnitSystem::registerPlayer();
 }
 
 void PlayerSystem::update(float deltaTime)
@@ -22,12 +25,12 @@ void PlayerSystem::destroy()
     std::cout << "Player System Destroyed" << std::endl;
 }
 
-void PlayerSystem::createVillager(const glm::vec3& pos)
+void PlayerSystem::createUnit(const UnitType unit, const glm::vec3& pos)
 {
-    UnitSystem::createVillager(pos);
+    UnitSystem::createUnit<HumanFactory>(playerInstance, unit, pos);
 }
 
-void PlayerSystem::createChicken(const glm::vec3& pos)
+void PlayerSystem::createBuilding(const BuildingType building, const glm::vec3& pos)
 {
-    UnitSystem::createChicken(pos);
+    UnitSystem::createBuilding<HumanFactory>(playerInstance, building, pos);
 }

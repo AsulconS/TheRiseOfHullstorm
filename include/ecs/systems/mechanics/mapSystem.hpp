@@ -37,7 +37,7 @@ public:
     static void update(float deltaTime);
     static void destroy();
 
-    static void loadMap(uint32 index);
+    static void loadMap(uint32 index, bool external = true);
 
     static void loadMaps();
 
@@ -45,6 +45,7 @@ private:
     explicit MapSystem() {}
 
     static Vector<GameMap> maps;
+    static uint32 neutralPlayerInstance;
 
     static String loadMapFromFile(const String& filename);
 };

@@ -37,7 +37,7 @@ private:
     static bool isClicking;
     static bool isSaving;
     
-    static uint32 currentDummyModel;
+    static uint32 currentDummy;
 
     static void mouseBoundingsCalculation(float deltaTime);
 

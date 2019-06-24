@@ -47,10 +47,15 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
     // Loading Models
     // ---------------------------------------------------------------------------------
 
-    models.push_back(new Model("res/models/primitives/cube.obj"));      // 0 : DEFAULT
-    models.push_back(new Model("res/models/villager/villager.obj"));    // 1 : VILLAGER
-    models.push_back(new Model("res/models/chicken/chicken.obj"));      // 2 : CHICKEN
-    models.push_back(new Model("res/models/tree/tree.obj"));            // 3 : TREE
+    models.push_back(new Model("res/models/units/primitives/cube.obj"));        // 0 : DEFAULT
+    models.push_back(new Model("res/models/units/tree01/tree.obj"));            // 1 : TREE 1
+    models.push_back(new Model("res/models/units/tree02/tree.obj"));            // 2 : TREE 2
+    models.push_back(new Model("res/models/units/chicken/chicken.obj"));        // 3 : CHICKEN
+    models.push_back(new Model("res/models/units/villager/villager.obj"));      // 4 : VILLAGER
+    models.push_back(new Model("res/models/units/soldier/soldier.obj"));        // 5 : SOLDIER
+    models.push_back(new Model("res/models/units/bowman/bowman.obj"));          // 6 : BOWMAN
+    models.push_back(new Model("res/models/buildings/castle/castle.obj"));      // 7 : CASTLE
+    models.push_back(new Model("res/models/buildings/barracks/barracks.obj"));  // 8 : BARRACKS
 
     // ---------------------------------------------------------------------------------
 }

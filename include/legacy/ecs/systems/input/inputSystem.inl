@@ -10,7 +10,7 @@ bool InputSystem::isInBorder = false;
 bool InputSystem::isClicking = false;
 bool InputSystem::isSaving = false;
 
-uint32 InputSystem::currentDummyModel = DUMMY_MODEL;
+uint32 InputSystem::currentDummy = DUMMY_MODEL;
 
 // ----------------------------------------
 
@@ -88,24 +88,24 @@ void InputSystem::update(float deltaTime)
     
     // Dummy Creator
     if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
-        currentDummyModel = VILLAGER_MODEL;
+        currentDummy = VILLAGER;
     if(glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-        currentDummyModel = CHICKEN_MODEL;
+        currentDummy = CHICKEN;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        currentDummyModel = -1;
+        currentDummy = -1;
     
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking)
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
-        switch (currentDummyModel)
+        switch (currentDummy)
         {
-            case VILLAGER_MODEL:
+            case VILLAGER:
                 PlayerSystem::createVillager(pos);
                 std::cout << "Villager created in pos: " << pos << std::endl;
                 break;
             
-            case CHICKEN_MODEL:
+            case CHICKEN:
                 PlayerSystem::createChicken(pos);
                 std::cout << "Chicken created in pos: " << pos << std::endl;
                 break;
@@ -119,10 +119,10 @@ void InputSystem::update(float deltaTime)
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
         isClicking = false;
     
-    if(currentDummyModel != -1)
+    if(currentDummy != -1)
     {
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
-        PlayerSystem::dummy->meshRenderer->index = currentDummyModel;
+        PlayerSystem::dummy->meshRenderer->index = currentDummy;
         PlayerSystem::dummy->meshRenderer->isVisible = true;
     }
     else

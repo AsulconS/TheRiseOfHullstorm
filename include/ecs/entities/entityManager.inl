@@ -59,7 +59,7 @@ void Unit::init(uint32 _id)
     internalInit(_id, UNIT_ENTITY);
 
     meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
-    meshRenderer->index = DEFAULT_MODEL;
+    meshRenderer->index = UNKNOWN;
     meshRenderer->alpha = 1.0f;
     meshRenderer->isVisible = true;
 
@@ -71,6 +71,34 @@ void Unit::init(uint32 _id)
 }
 
 void Unit::destroy()
+{
+    if(!ComponentManager::deleteComponent<Transform>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<MeshRenderer>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<Stats>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    
+    ++destroyedGlobalEntitiesCount;
+}
+
+void Building::init(uint32 _id)
+{
+    internalInit(_id, BUILDING_ENTITY);
+
+    meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
+    meshRenderer->index = UNKNOWN;
+    meshRenderer->alpha = 1.0f;
+    meshRenderer->isVisible = true;
+
+    stats = ComponentManager::createComponent<Stats>(this);
+    stats->hp       = 1000.0f;
+    stats->damage   = 0.0f;
+    stats->defense  = 100.0f;
+    stats->velocity = 0.0f;
+}
+
+void Building::destroy()
 {
     if(!ComponentManager::deleteComponent<Transform>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
@@ -99,6 +127,11 @@ void Camera::print()
 }
 
 void Unit::print()
+{
+    std::cout << "Unit " << id << " Destroyed Successfully!" << std::endl;
+}
+
+void Building::print()
 {
     std::cout << "Unit " << id << " Destroyed Successfully!" << std::endl;
 }

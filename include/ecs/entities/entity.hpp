@@ -53,4 +53,15 @@ public:
     Stats* stats;
 };
 
+class Building : public Entity
+{
+public:
+    virtual void init(uint32 _id);
+    virtual void destroy();
+    virtual void print();
+
+    MeshRenderer* meshRenderer;
+    Stats* stats;
+};
+
 #endif // ECS_ENTITY_H

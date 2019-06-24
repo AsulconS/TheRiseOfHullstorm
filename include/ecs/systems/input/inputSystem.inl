@@ -14,7 +14,7 @@ double InputSystem::virtualYPos;
 bool InputSystem::isClicking = false;
 bool InputSystem::isSaving = false;
 
-uint32 InputSystem::currentDummyModel = EMPTY_MODEL;
+uint32 InputSystem::currentDummy = NO_MODEL;
 
 // ----------------------------------------
 
@@ -55,7 +55,10 @@ void InputSystem::update(float deltaTime)
     // -------------------------------------------------------------------------------------------------------------
     if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_PRESS && !isSaving)
     {
+        std::cout << "Saving Screenshot . . ." << std::endl;
         RenderingSystem::saveScreenshot("screenshots/screenshot-" + std::to_string(screenshotCount++) + ".jpg");
+        std::cout << "Screenshot Saved Successfully!" << std::endl;
+
         isSaving = true;
     }
     if(glfwGetKey(window, GLFW_KEY_F12) == GLFW_RELEASE)
@@ -76,37 +79,40 @@ void InputSystem::update(float deltaTime)
     
     // Dummy Model
     // -----------------------------------------------
-    if(glfwGetKey(window, GLFW_KEY_V) == GLFW_PRESS)
-        currentDummyModel = VILLAGER_MODEL;
-    if(glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-        currentDummyModel = CHICKEN_MODEL;
+    if(glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
+        currentDummy = UNKNOWN;
+    if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
+        currentDummy = TREE01;
+    if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
+        currentDummy = TREE02;
+    if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
+        currentDummy = CHICKEN;
+    if(glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
+        currentDummy = VILLAGER;
+    if(glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
+        currentDummy = SOLDIER;
+    if(glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
+        currentDummy = BOWMAN;
+    if(glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
+        currentDummy = CASTLE;
+    if(glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
+        currentDummy = BARRACKS;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-        currentDummyModel = EMPTY_MODEL;
+        currentDummy = NO_MODEL;
     // -----------------------------------------------
     
     // Dummy Creator
     // -------------------------------------------------------------------------------------------------------------------------
-    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking && (currentDummyModel != EMPTY_MODEL))
+    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking && (currentDummy != NO_MODEL))
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
-        switch(currentDummyModel)
-        {
-            case VILLAGER_MODEL:
-                PlayerSystem::createVillager(pos);
-                std::cout << "Villager created in pos: " << pos << std::endl;
-                break;
-            
-            case CHICKEN_MODEL:
-                PlayerSystem::createChicken(pos);
-                std::cout << "Chicken created in pos: " << pos << std::endl;
-                break;
-
-            default:
-                UnitSystem::createUnknown(pos);
-                std::cout << "Unknown Unit created in pos: " << pos << std::endl;
-                break;
-        }
+        if(currentDummy < CHICKEN)
+            UnitSystem::createUnit<EnvironmentFactory>(0, currentDummy, pos);
+        else if(currentDummy < CASTLE)
+            PlayerSystem::createUnit(currentDummy, pos);
+        else
+            PlayerSystem::createBuilding(currentDummy, pos);
 
         isClicking = true;
     }
@@ -116,10 +122,10 @@ void InputSystem::update(float deltaTime)
     
     // Dummy Constant Model
     // -----------------------------------------------------------------------------------------------------
-    if(currentDummyModel != EMPTY_MODEL)
+    if(currentDummy != NO_MODEL)
     {
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
-        PlayerSystem::dummy->meshRenderer->index = currentDummyModel;
+        PlayerSystem::dummy->meshRenderer->index = currentDummy;
         PlayerSystem::dummy->meshRenderer->isVisible = true;
     }
     else

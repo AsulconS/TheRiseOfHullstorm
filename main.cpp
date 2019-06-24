@@ -32,10 +32,10 @@ int main()
     RenderingSystem::init();
     InputSystem::init();
 
-    PlayerSystem::init();
     MapSystem::init();
+    PlayerSystem::init();
 
-    MapSystem::loadMap(3);
+    MapSystem::loadMap(4, false);
     while(RenderingSystem::isActive())
     {
         deltaTime = getDeltaTime();

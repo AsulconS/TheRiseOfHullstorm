@@ -1,4 +1,5 @@
 Vector<GameMap> MapSystem::maps;
+uint32 MapSystem::neutralPlayerInstance = 0;
 
 void MapSystem::init(bool mapsOnLoad)
 {
@@ -6,6 +7,7 @@ void MapSystem::init(bool mapsOnLoad)
         loadMaps();
     
     std::sort(maps.begin(), maps.end());
+    neutralPlayerInstance = UnitSystem::registerPlayer();
 }
 
 void MapSystem::update(float deltaTime)
@@ -18,9 +20,11 @@ void MapSystem::destroy()
     std::cout << "Map System Destroyed" << std::endl;
 }
 
-void MapSystem::loadMap(uint32 index)
+void MapSystem::loadMap(uint32 index, bool external)
 {
     UnitSystem::clear();
+
+    float localScale = (external) ? 4.0f : 1.0f;
 
     uint32 marker; // Holds the model
     uint32 count;  // Holds how many models to load
@@ -51,20 +55,24 @@ void MapSystem::loadMap(uint32 index)
 
             switch(marker)
             {
-                case VILLAGER_MODEL:
-                    UnitSystem::createVillager(4.0f * position, rotation, scale);
+                case VILLAGER:
+                    UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, VILLAGER, localScale * position, rotation, scale);
                     break;
                 
-                case CHICKEN_MODEL:
-                    UnitSystem::createChicken(4.0f * position, rotation, scale);
+                case CHICKEN:
+                    UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, CHICKEN, localScale * position, rotation, scale);
                     break;
                 
-                case TREE_MODEL:
-                    UnitSystem::spawnTree(4.0f * position, rotation, scale);
+                case TREE01:
+                    UnitSystem::createUnit<EnvironmentFactory>(neutralPlayerInstance, TREE01, localScale * position, rotation, scale);
+                    break;
+                
+                case TREE02:
+                    UnitSystem::createUnit<EnvironmentFactory>(neutralPlayerInstance, TREE02, localScale * position, rotation, scale);
                     break;
                 
                 default:
-                    UnitSystem::createUnknown(4.0f * position, rotation, scale);
+                    UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, UNKNOWN, localScale * position, rotation, scale);
                     break;
             }
         }

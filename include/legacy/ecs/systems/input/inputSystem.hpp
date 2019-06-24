@@ -34,7 +34,7 @@ private:
     static bool isSaving;
     // -----------------
     
-    static uint32 currentDummyModel;
+    static uint32 currentDummy;
 
     template <typename T>
     static T loadValueFromFile(const String& filename);

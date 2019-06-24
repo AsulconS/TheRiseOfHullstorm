@@ -10,6 +10,9 @@
 #include "ecs/systems/rendering/model.hpp"
 #include "ecs/systems/rendering/sprite.hpp"
 
+#include "ecs/systems/unit/abstractFactory.hpp"
+#include "ecs/systems/unit/environmentFactory.hpp"
+#include "ecs/systems/unit/humanFactory.hpp"
 #include "ecs/systems/unit/unitSystem.hpp"
 
 #ifndef ECS_LEGACY
@@ -33,6 +36,9 @@
     #include "ecs/systems/rendering/model.inl"
     #include "ecs/systems/rendering/sprite.inl"
 
+    #include "ecs/systems/unit/abstractFactory.inl"
+    #include "ecs/systems/unit/environmentFactory.inl"
+    #include "ecs/systems/unit/humanFactory.inl"
     #include "ecs/systems/unit/unitSystem.inl"
 
     #ifndef ECS_LEGACY
