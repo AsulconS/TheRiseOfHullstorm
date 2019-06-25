@@ -14,7 +14,7 @@ public:
 private:
     explicit MovementSystem() {}
 
-    static void move(Unit* unit, float deltaTime);
+    static void moveTowardsTarget(Unit* unit, float deltaTime);
     static void checkColisions(Unit* unit, Unit* other, float deltaTime);
 };
 

@@ -15,15 +15,18 @@
 #define UNKNOWN   0
 #define TREE01    1
 #define TREE02    2
-#define CHICKEN   3
-#define VILLAGER  4
-#define SOLDIER   5
-#define BOWMAN    6
+#define TREE03    3
+#define MINE      4
+#define CHICKEN   5
+#define VILLAGER  6
+#define SOLDIER   7
+#define BOWMAN    8
 // 3D MODELS | BUILDINGS
 // ------------------------
-#define CASTLE    7
-#define BARRACKS  8
-#define ARCHERY   9
+#define CASTLE    9
+#define BARRACKS  10
+#define ARCHERY   11
+#define FARM      12
 // ------------------------
 
 // RACES

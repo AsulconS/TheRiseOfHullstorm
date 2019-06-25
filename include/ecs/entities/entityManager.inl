@@ -12,7 +12,7 @@ void Entity::internalInit(uint32 _id, uint32 _type)
 
     transform->position = { 0.0f, 0.0f, 0.0f };
     transform->rotation = { 0.0f, 0.0f, 0.0f };
-    transform->scale    = { 1.0f, 1.0f, 1.0f };
+    transform->scale    = { 4.0f, 4.0f, 4.0f };
 
     transform->target   = { 0.0f, 0.0f, 0.0f };
 
@@ -65,8 +65,10 @@ void Unit::init(uint32 _id)
     meshRenderer->alpha = 1.0f;
     meshRenderer->isVisible = true;
 
-    circleCollider = ComponentManager::createComponent<CircleCollider>(this);
+    circleCollider = ComponentManager::createComponent<CircleCollider2D>(this);
     circleCollider->radius = 4.0f;
+    circleCollider->isSolid = true;
+    circleCollider->isTrigger = false;
 
     stats = ComponentManager::createComponent<Stats>(this);
     stats->hp       = 100.0f;
@@ -81,7 +83,7 @@ void Unit::destroy()
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<MeshRenderer>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
-    if(!ComponentManager::deleteComponent<CircleCollider>(this))
+    if(!ComponentManager::deleteComponent<CircleCollider2D>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<Stats>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
@@ -98,6 +100,11 @@ void Building::init(uint32 _id)
     meshRenderer->alpha = 1.0f;
     meshRenderer->isVisible = true;
 
+    boxCollider = ComponentManager::createComponent<BoxCollider2D>(this);
+    boxCollider->size = { 8.0f, 8.0f, 8.0f };
+    boxCollider->isSolid = true;
+    boxCollider->isTrigger = false;
+
     stats = ComponentManager::createComponent<Stats>(this);
     stats->hp       = 1000.0f;
     stats->damage   = 0.0f;
@@ -110,6 +117,8 @@ void Building::destroy()
     if(!ComponentManager::deleteComponent<Transform>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<MeshRenderer>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<BoxCollider2D>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;
     if(!ComponentManager::deleteComponent<Stats>(this))
         std::cerr << "Something went wrong with this entity!" << std::endl;

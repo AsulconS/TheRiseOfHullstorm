@@ -86,19 +86,25 @@ void InputSystem::update(float deltaTime)
     if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
         currentDummy = TREE02;
     if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-        currentDummy = CHICKEN;
+        currentDummy = TREE03;
     if(glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-        currentDummy = VILLAGER;
+        currentDummy = MINE;
     if(glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
-        currentDummy = SOLDIER;
+        currentDummy = CHICKEN;
     if(glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-        currentDummy = BOWMAN;
+        currentDummy = VILLAGER;
     if(glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-        currentDummy = CASTLE;
+        currentDummy = SOLDIER;
     if(glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
-        currentDummy = BARRACKS;
+        currentDummy = BOWMAN;
     if(glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
+        currentDummy = CASTLE;
+    if(glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        currentDummy = BARRACKS;
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         currentDummy = ARCHERY;
+    if(glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+        currentDummy = FARM;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         currentDummy = NO_MODEL;
     // -----------------------------------------------
@@ -144,7 +150,6 @@ void InputSystem::update(float deltaTime)
     if(currentDummy != NO_MODEL)
     {
         PlayerSystem::dummy->transform->position = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
-        PlayerSystem::dummy->transform->scale    = { 4.0f, 4.0f, 4.0f };
         PlayerSystem::dummy->meshRenderer->index = currentDummy;
         PlayerSystem::dummy->meshRenderer->isVisible = true;
     }

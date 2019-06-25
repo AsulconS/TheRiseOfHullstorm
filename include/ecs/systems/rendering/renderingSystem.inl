@@ -47,16 +47,19 @@ void RenderingSystem::init(uint32 width, uint32 height, bool fullScreen, uint32 
     // Loading Models
     // ---------------------------------------------------------------------------------
 
-    models.push_back(new Model("res/models/default/primitives/cube.obj"));      // 0 : DEFAULT
-    models.push_back(new Model("res/models/environment/tree01/tree.obj"));      // 1 : TREE 1
-    models.push_back(new Model("res/models/environment/tree02/tree.obj"));      // 2 : TREE 2
-    models.push_back(new Model("res/models/units/chicken/chicken.obj"));        // 3 : CHICKEN
-    models.push_back(new Model("res/models/units/villager/villager.obj"));      // 4 : VILLAGER
-    models.push_back(new Model("res/models/units/soldier/soldier.obj"));        // 5 : SOLDIER
-    models.push_back(new Model("res/models/units/bowman/bowman.obj"));          // 6 : BOWMAN
-    models.push_back(new Model("res/models/buildings/castle/castle.obj"));      // 7 : CASTLE
-    models.push_back(new Model("res/models/buildings/barracks/barracks.obj"));  // 8 : BARRACKS
-    models.push_back(new Model("res/models/buildings/archery/archery.obj"));    // 9 : ARCHERY
+    models.push_back(new Model("res/models/default/primitives/cube.obj"));      // 0  : DEFAULT
+    models.push_back(new Model("res/models/environment/tree01/tree.obj"));      // 1  : TREE 1
+    models.push_back(new Model("res/models/environment/tree02/tree.obj"));      // 2  : TREE 2
+    models.push_back(new Model("res/models/environment/tree03/tree.obj"));      // 3  : TREE 3
+    models.push_back(new Model("res/models/environment/mine/mine.obj"));        // 4  : MINE
+    models.push_back(new Model("res/models/units/chicken/chicken.obj"));        // 5  : CHICKEN
+    models.push_back(new Model("res/models/units/villager/villager.obj"));      // 6  : VILLAGER
+    models.push_back(new Model("res/models/units/soldier/soldier.obj"));        // 7  : SOLDIER
+    models.push_back(new Model("res/models/units/bowman/bowman.obj"));          // 8  : BOWMAN
+    models.push_back(new Model("res/models/buildings/castle/castle.obj"));      // 9  : CASTLE
+    models.push_back(new Model("res/models/buildings/barracks/barracks.obj"));  // 10 : BARRACKS
+    models.push_back(new Model("res/models/buildings/archery/archery.obj"));    // 11 : ARCHERY
+    models.push_back(new Model("res/models/buildings/farm/farm.obj"));          // 12 : FARM
 
     // ---------------------------------------------------------------------------------
 }

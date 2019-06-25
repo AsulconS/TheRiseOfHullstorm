@@ -16,12 +16,12 @@ void MovementSystem::update(float deltaTime)
             continue;
         
         unit = (Unit*)((*i)->entity);
+        if(!unit->circleCollider->isSolid && !unit->circleCollider->isTrigger)
+            continue;
         if(unit->transform->isStatic)
             continue;
-        if(unit->transform->position == unit->transform->target)
-            continue;
-        
-        move(unit, deltaTime);
+        if(unit->transform->position != unit->transform->target)
+            moveTowardsTarget(unit, deltaTime);
 
         // Check Collisions
         // ----------------------------------------------------------------
@@ -33,6 +33,8 @@ void MovementSystem::update(float deltaTime)
             
             other = (Unit*)((*j)->entity);
             if(other == unit)
+                continue;
+            if(!other->circleCollider->isSolid && !other->circleCollider->isTrigger)
                 continue;
 
             checkColisions(unit, other, deltaTime);
@@ -46,7 +48,7 @@ void MovementSystem::destroy()
     std::cout << "Movement System Destroyed" << std::endl;
 }
 
-void MovementSystem::move(Unit* unit, float deltaTime)
+void MovementSystem::moveTowardsTarget(Unit* unit, float deltaTime)
 {
     glm::vec3 directionVector(unit->transform->target - unit->transform->position);
     unit->transform->position += glm::normalize(directionVector) * unit->stats->velocity * deltaTime;

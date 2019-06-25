@@ -33,6 +33,9 @@ void HumanFactory::forge(Building* instance, const BuildingType building)
         case ARCHERY:
             forgeArchery(instance);
             break;
+        case FARM:
+            forgeFarm(instance);
+            break;
         default:
             forgeUnknown(instance);
             break;
@@ -76,4 +79,9 @@ void HumanFactory::forgeBarracks(Building* instance)
 void HumanFactory::forgeArchery(Building* instance)
 {
     instance->meshRenderer->index = ARCHERY;
+}
+
+void HumanFactory::forgeFarm(Building* instance)
+{
+    instance->meshRenderer->index = FARM;
 }

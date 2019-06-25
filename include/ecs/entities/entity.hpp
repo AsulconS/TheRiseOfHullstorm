@@ -50,7 +50,7 @@ public:
     virtual void print();
 
     MeshRenderer* meshRenderer;
-    CircleCollider* circleCollider;
+    CircleCollider2D* circleCollider;
     Stats* stats;
 };
 
@@ -62,6 +62,7 @@ public:
     virtual void print();
 
     MeshRenderer* meshRenderer;
+    BoxCollider2D* boxCollider;
     Stats* stats;
 };
 

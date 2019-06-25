@@ -12,6 +12,8 @@ public:
 private:
     static void forgeTree01(Unit* instance);
     static void forgeTree02(Unit* instance);
+    static void forgeTree03(Unit* instance);
+    static void forgeMine(Unit* instance);
 };
 
 #endif // ECS_ENVIRONMENT_FACTOTY_H

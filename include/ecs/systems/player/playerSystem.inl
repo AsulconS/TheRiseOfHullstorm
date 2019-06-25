@@ -8,6 +8,7 @@ void PlayerSystem::init()
 
     dummy->meshRenderer->alpha = 0.25f;
     dummy->meshRenderer->isVisible = false;
+    dummy->circleCollider->isSolid = false;
 
     playerInstance = UnitSystem::registerPlayer();
 }

@@ -47,18 +47,35 @@ struct CameraComponent : public Component<CameraComponent>
     float cFar;
 };
 
+// Colliders
+// -----------------------------------------------------------
+
+struct BoxCollider2D : public Component<BoxCollider2D>
+{
+    glm::vec3 size;
+
+    bool isSolid;
+    bool isTrigger;
+};
+
 struct BoxCollider : public Component<BoxCollider>
 {
     glm::vec3 center;
     glm::vec3 size;
 
+    bool isSolid;
     bool isTrigger;
 };
 
-struct CircleCollider : public Component<CircleCollider>
+struct CircleCollider2D : public Component<CircleCollider2D>
 {
     float radius;
+
+    bool isSolid;
+    bool isTrigger;
 };
+
+// -----------------------------------------------------------
 
 struct Stats : public Component<Stats>
 {
