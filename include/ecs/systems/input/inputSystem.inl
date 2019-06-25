@@ -97,6 +97,8 @@ void InputSystem::update(float deltaTime)
         currentDummy = CASTLE;
     if(glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
         currentDummy = BARRACKS;
+    if(glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
+        currentDummy = ARCHERY;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         currentDummy = NO_MODEL;
     // -----------------------------------------------
@@ -130,7 +132,7 @@ void InputSystem::update(float deltaTime)
                 continue;
             
             unit = (Unit*)((*i)->entity);
-            unit->transform->targetPoint = pos;
+            unit->transform->target = pos;
         }
     }
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)

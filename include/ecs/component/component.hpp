@@ -24,7 +24,7 @@ struct Transform : public Component<Transform>
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
-    glm::vec3 targetPoint;
+    glm::vec3 target;
 
     bool isStatic;
 };
@@ -53,6 +53,11 @@ struct BoxCollider : public Component<BoxCollider>
     glm::vec3 size;
 
     bool isTrigger;
+};
+
+struct CircleCollider : public Component<CircleCollider>
+{
+    float radius;
 };
 
 struct Stats : public Component<Stats>

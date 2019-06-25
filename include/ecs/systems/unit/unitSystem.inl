@@ -17,7 +17,7 @@ void UnitSystem::createUnit(const uint32 player, const UnitType unit, const glm:
     instance->transform->rotation = rot;
     instance->transform->scale    = { 4.0f, 4.0f, 4.0f };
 
-    instance->transform->targetPoint = pos;
+    instance->transform->target = pos;
     
     // Factory of The Race
     Factory::forge(instance, unit);
@@ -33,7 +33,7 @@ void UnitSystem::createBuilding(const uint32 player, const UnitType unit, const 
     instance->transform->rotation = rot;
     instance->transform->scale    = { 4.0f, 4.0f, 4.0f };
 
-    instance->transform->targetPoint = pos;
+    instance->transform->target = pos;
     
     // Factory of The Race
     Factory::forge(instance, unit);

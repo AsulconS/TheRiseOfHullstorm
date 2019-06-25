@@ -18,6 +18,7 @@ private:
 
     static void forgeCastle(Building* instance);
     static void forgeBarracks(Building* instance);
+    static void forgeArchery(Building* instance);
 };
 
 #endif // ECS_HUMAN_FACTOTY_H

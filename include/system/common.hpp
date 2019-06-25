@@ -23,6 +23,7 @@
 // ------------------------
 #define CASTLE    7
 #define BARRACKS  8
+#define ARCHERY   9
 // ------------------------
 
 // RACES
