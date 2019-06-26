@@ -64,23 +64,23 @@ void MapSystem::loadMap(uint32 index, bool external)
                     break;
                 
                 case TREE01:
-                    UnitSystem::createUnit<EnvironmentFactory>(neutralPlayerInstance, TREE01, localScale * position, rotation, scale);
+                    UnitSystem::createDestructible<EnvironmentFactory>(TREE01, localScale * position, rotation, scale);
                     break;
                 
                 case TREE02:
-                    UnitSystem::createUnit<EnvironmentFactory>(neutralPlayerInstance, TREE02, localScale * position, rotation, scale);
+                    UnitSystem::createDestructible<EnvironmentFactory>(TREE02, localScale * position, rotation, scale);
                     break;
 
                 case TREE03:
-                    UnitSystem::createUnit<EnvironmentFactory>(neutralPlayerInstance, TREE03, localScale * position, rotation, scale);
+                    UnitSystem::createDestructible<EnvironmentFactory>(TREE03, localScale * position, rotation, scale);
                     break;
                 
                 case MINE:
-                    UnitSystem::createUnit<EnvironmentFactory>(neutralPlayerInstance, MINE, localScale * position, rotation, scale);
+                    UnitSystem::createDestructible<EnvironmentFactory>(MINE, localScale * position, rotation, scale);
                     break;
                 
                 default:
-                    UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, UNKNOWN, localScale * position, rotation, scale);
+                    UnitSystem::createDestructible<EnvironmentFactory>(UNKNOWN, localScale * position, rotation, scale);
                     break;
             }
         }

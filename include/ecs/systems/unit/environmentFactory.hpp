@@ -7,13 +7,13 @@
 class EnvironmentFactory : public AbstractFactory
 {
 public:
-    static void forge(Unit* instance, const UnitType unit);
+    static void forge(Destructible* instance, const DestructibleType destructible);
 
 private:
-    static void forgeTree01(Unit* instance);
-    static void forgeTree02(Unit* instance);
-    static void forgeTree03(Unit* instance);
-    static void forgeMine(Unit* instance);
+    static void forgeTree01(Destructible* instance);
+    static void forgeTree02(Destructible* instance);
+    static void forgeTree03(Destructible* instance);
+    static void forgeMine(Destructible* instance);
 };
 
 #endif // ECS_ENVIRONMENT_FACTOTY_H

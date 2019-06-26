@@ -66,4 +66,15 @@ public:
     Stats* stats;
 };
 
+class Destructible : public Entity
+{
+public:
+    virtual void init(uint32 _id);
+    virtual void destroy();
+    virtual void print();
+
+    MeshRenderer* meshRenderer;
+    CircleCollider2D* circleCollider;
+};
+
 #endif // ECS_ENTITY_H

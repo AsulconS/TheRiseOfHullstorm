@@ -2,12 +2,13 @@
 #define COMMON_H
 
 // ENTITIES
-// ------------------------
-#define EMPTY_ENTITY    0
-#define CAMERA_ENTITY   1
-#define UNIT_ENTITY     2
-#define BUILDING_ENTITY 3
-// ------------------------
+// ----------------------------
+#define EMPTY_ENTITY        0
+#define CAMERA_ENTITY       1
+#define UNIT_ENTITY         2
+#define BUILDING_ENTITY     3
+#define DESTRUCTIBLE_ENTITY 4
+// ----------------------------
 
 // 3D MODELS | UNITS
 // ------------------------
@@ -51,5 +52,6 @@ typedef uint64_t uint64;
 
 typedef uint32 UnitType;
 typedef uint32 BuildingType;
+typedef uint32 DestructibleType;
 
 #endif // COMMON_H

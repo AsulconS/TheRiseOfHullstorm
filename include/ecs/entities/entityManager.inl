@@ -126,6 +126,33 @@ void Building::destroy()
     ++destroyedGlobalEntitiesCount;
 }
 
+void Destructible::init(uint32 _id)
+{
+    internalInit(_id, DESTRUCTIBLE_ENTITY);
+
+    meshRenderer = ComponentManager::createComponent<MeshRenderer>(this);
+    meshRenderer->index = UNKNOWN;
+    meshRenderer->alpha = 1.0f;
+    meshRenderer->isVisible = true;
+
+    circleCollider = ComponentManager::createComponent<CircleCollider2D>(this);
+    circleCollider->radius = 4.0f;
+    circleCollider->isSolid = true;
+    circleCollider->isTrigger = false;
+}
+
+void Destructible::destroy()
+{
+    if(!ComponentManager::deleteComponent<Transform>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<MeshRenderer>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<CircleCollider2D>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    
+    ++destroyedGlobalEntitiesCount;
+}
+
 std::ostream& operator<<(std::ostream& o, glm::vec3& v)
 {
     o << '(' << v.x << ", " << v.y << ", " << v.z << ')';
@@ -149,7 +176,12 @@ void Unit::print()
 
 void Building::print()
 {
-    std::cout << "Unit " << id << " Destroyed Successfully!" << std::endl;
+    std::cout << "Building " << id << " Destroyed Successfully!" << std::endl;
+}
+
+void Destructible::print()
+{
+    std::cout << "Destructible " << id << " Destroyed Successfully!" << std::endl;
 }
 
 // ENTITY MANAGER DEFINITIONS

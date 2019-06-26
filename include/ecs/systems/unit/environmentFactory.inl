@@ -1,6 +1,6 @@
-void EnvironmentFactory::forge(Unit* instance, const UnitType unit)
+void EnvironmentFactory::forge(Destructible* instance, const DestructibleType destructible)
 {
-    switch(unit)
+    switch(destructible)
     {
         case TREE01:
             forgeTree01(instance);
@@ -20,30 +20,26 @@ void EnvironmentFactory::forge(Unit* instance, const UnitType unit)
     }
 }
 
-void EnvironmentFactory::forgeTree01(Unit* instance)
+void EnvironmentFactory::forgeTree01(Destructible* instance)
 {
     instance->transform->isStatic = true;
     instance->meshRenderer->index = TREE01;
-    instance->stats->velocity = 0.0f;
 }
 
-void EnvironmentFactory::forgeTree02(Unit* instance)
+void EnvironmentFactory::forgeTree02(Destructible* instance)
 {
     instance->transform->isStatic = true;
     instance->meshRenderer->index = TREE02;
-    instance->stats->velocity = 0.0f;
 }
 
-void EnvironmentFactory::forgeTree03(Unit* instance)
+void EnvironmentFactory::forgeTree03(Destructible* instance)
 {
     instance->transform->isStatic = true;
     instance->meshRenderer->index = TREE03;
-    instance->stats->velocity = 0.0f;
 }
 
-void EnvironmentFactory::forgeMine(Unit* instance)
+void EnvironmentFactory::forgeMine(Destructible* instance)
 {
     instance->transform->isStatic = true;
     instance->meshRenderer->index = MINE;
-    instance->stats->velocity = 0.0f;
 }

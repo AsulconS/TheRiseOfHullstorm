@@ -116,7 +116,7 @@ void InputSystem::update(float deltaTime)
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
         if(currentDummy < CHICKEN)
-            UnitSystem::createUnit<EnvironmentFactory>(0, currentDummy, pos);
+            UnitSystem::createDestructible<EnvironmentFactory>(currentDummy, pos);
         else if(currentDummy < CASTLE)
             PlayerSystem::createUnit(currentDummy, pos);
         else
