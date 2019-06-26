@@ -1,5 +1,5 @@
 // Static Initializations
-// ----------------------------------------
+// -------------------------------------------
 
 GLFWwindow* InputSystem::window = NULL;
 uint32 InputSystem::screenshotCount = 0;
@@ -16,7 +16,7 @@ bool InputSystem::isSaving = false;
 
 uint32 InputSystem::currentDummy = NO_MODEL;
 
-// ----------------------------------------
+// -------------------------------------------
 
 void InputSystem::init()
 {
@@ -110,7 +110,7 @@ void InputSystem::update(float deltaTime)
     // -----------------------------------------------
     
     // Dummy Creator
-    // -------------------------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------------------------------------------
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking && (currentDummy != NO_MODEL))
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
@@ -140,10 +140,12 @@ void InputSystem::update(float deltaTime)
             unit = (Unit*)((*i)->entity);
             unit->transform->target = pos;
         }
+
+        isClicking = true;
     }
-    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE)
+    if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE && glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
         isClicking = false;
-    // -------------------------------------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------------------------------------------
     
     // Dummy Constant Model
     // -----------------------------------------------------------------------------------------------------
