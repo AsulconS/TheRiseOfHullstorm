@@ -8,6 +8,7 @@
 #include "ecs/systems/rendering/shader.hpp"
 #include "ecs/systems/rendering/mesh.hpp"
 #include "ecs/systems/rendering/model.hpp"
+#include "ecs/systems/rendering/animatedModel.hpp"
 #include "ecs/systems/rendering/sprite.hpp"
 
 #include "ecs/systems/unit/abstractFactory.hpp"
@@ -34,6 +35,7 @@
     #include "ecs/systems/rendering/shader.inl"
     #include "ecs/systems/rendering/mesh.inl"
     #include "ecs/systems/rendering/model.inl"
+    #include "ecs/systems/rendering/animatedModel.inl"
     #include "ecs/systems/rendering/sprite.inl"
 
     #include "ecs/systems/unit/abstractFactory.inl"

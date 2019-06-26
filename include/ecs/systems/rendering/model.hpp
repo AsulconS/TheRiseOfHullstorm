@@ -19,15 +19,17 @@ public:
 
     void render(Shader& shader);
 
-private:
+protected:
     // Model Data
     // ----------
     Vector<Mesh> meshes;
-    Vector<Texture> texturesLoaded;
-    String directory;
 
+private:
     // Internal Data Processing
     // ------------------------
+    String directory;
+    Vector<Texture> texturesLoaded;
+
     void loadModel(const String& path);
     void processNode(aiNode* node, const aiScene* scene);
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
