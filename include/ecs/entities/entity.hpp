@@ -64,7 +64,7 @@ public:
     MeshRenderer* meshRenderer;
     BoxCollider2D* boxCollider;
     Stats* stats;
-    UnitType unitCreated;
+    UnitType unitType;
 };
 
 class Destructible : public Entity

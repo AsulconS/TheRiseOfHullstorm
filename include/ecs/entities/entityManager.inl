@@ -111,7 +111,7 @@ void Building::init(uint32 _id)
     stats->defense  = 100.0f;
     stats->velocity = 0.0f;
 
-    unitCreated = UNKNOWN;
+    unitType = UNKNOWN;
 }
 
 void Building::destroy()

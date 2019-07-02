@@ -71,26 +71,26 @@ void HumanFactory::forgeCastle(Building* instance)
 {
     instance->meshRenderer->index = CASTLE;
     instance->boxCollider->size = { 3.0f, 0.0f, 3.0f };
-    instance->unitCreated = VILLAGER;
+    instance->unitType = VILLAGER;
 }
 
 void HumanFactory::forgeBarracks(Building* instance)
 {
     instance->meshRenderer->index = BARRACKS;
     instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
-    instance->unitCreated = SOLDIER;
+    instance->unitType = SOLDIER;
 }
 
 void HumanFactory::forgeArchery(Building* instance)
 {
-    instance->unitCreated = BOWMAN;
-    instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
     instance->meshRenderer->index = ARCHERY;
+    instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
+    instance->unitType = BOWMAN;
 }
 
 void HumanFactory::forgeFarm(Building* instance)
 {
     instance->meshRenderer->index = FARM;
     instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
-    instance->unitCreated = CHICKEN;
+    instance->unitType = CHICKEN;
 }

@@ -36,7 +36,7 @@ void MapSystem::loadMap(uint32 index, bool external)
     std::stringstream mapStream(maps[index].data);
 
     mapStream >> marker;
-    while(marker != NO_MODEL)
+    while(marker != -1)
     {
         mapStream >> count;
         for(size_t i = 0; i < count; ++i)

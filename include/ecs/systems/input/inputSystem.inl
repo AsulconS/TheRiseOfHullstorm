@@ -114,12 +114,11 @@ void InputSystem::update(float deltaTime)
         {
             building = (Building*)(*it);
             if(MovementSystem::isBetween(pos, building->transform->position, building->boxCollider->size))
-                UnitSystem::createUnit<HumanFactory>(PlayerSystem::playerInstance, building->unitCreated, pos + glm::vec3(0.0f, 0.0f, 4.0f));
+                UnitSystem::createUnit<HumanFactory>(PlayerSystem::playerInstance, building->unitType, pos + glm::vec3(0.0f, 0.0f, 8.0f));
         }
 
         isClicking = true;
     }
-    
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !isClicking)
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));

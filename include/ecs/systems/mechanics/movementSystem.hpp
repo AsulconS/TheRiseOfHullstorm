@@ -17,8 +17,8 @@ private:
     explicit MovementSystem() {}
 
     static void moveTowardsTarget(Unit* unit, float deltaTime);
-    static void checkColisions(CircleCollider2D* unit, CircleCollider2D* other, float outer, float deltaTime);
-    static void checkColisions(CircleCollider2D* unit, BoxCollider2D* other, float outer, float deltaTime);
+    static void checkColisions(CircleCollider2D* source, CircleCollider2D* other, float outer, float deltaTime);
+    static void checkColisions(CircleCollider2D* source, BoxCollider2D* other, float outer, float deltaTime);
 };
 
 #endif // ECS_MOVEMENT_SYSTEM_H

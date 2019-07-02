@@ -35,7 +35,7 @@ int main()
     MapSystem::init();
     PlayerSystem::init();
 
-    MapSystem::loadMap(6);
+    MapSystem::loadMap(5);
     while(RenderingSystem::isActive())
     {
         deltaTime = getDeltaTime();
