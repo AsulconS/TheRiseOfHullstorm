@@ -101,7 +101,7 @@ void Building::init(uint32 _id)
     meshRenderer->isVisible = true;
 
     boxCollider = ComponentManager::createComponent<BoxCollider2D>(this);
-    boxCollider->size = { 8.0f, 8.0f, 8.0f };
+    boxCollider->size = { 8.0f, 0.0f, 8.0f };
     boxCollider->isSolid = true;
     boxCollider->isTrigger = false;
 
@@ -110,6 +110,8 @@ void Building::init(uint32 _id)
     stats->damage   = 0.0f;
     stats->defense  = 100.0f;
     stats->velocity = 0.0f;
+
+    unitCreated = UNKNOWN;
 }
 
 void Building::destroy()

@@ -24,7 +24,7 @@ void MapSystem::loadMap(uint32 index, bool external)
 {
     UnitSystem::clear();
 
-    float localScale = (external) ? 2.0f : 1.0f;
+    float localScale = (external) ? 4.0f : 1.0f;
 
     uint32 marker; // Holds the model
     uint32 count;  // Holds how many models to load
@@ -36,7 +36,7 @@ void MapSystem::loadMap(uint32 index, bool external)
     std::stringstream mapStream(maps[index].data);
 
     mapStream >> marker;
-    while(marker != -1)
+    while(marker != NO_MODEL)
     {
         mapStream >> count;
         for(size_t i = 0; i < count; ++i)
@@ -53,36 +53,14 @@ void MapSystem::loadMap(uint32 index, bool external)
             mapStream >> scale.y;
             mapStream >> scale.z;
 
-            switch(marker)
-            {
-                case VILLAGER:
-                    UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, VILLAGER, localScale * position, rotation, scale);
-                    break;
-                
-                case CHICKEN:
-                    UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, CHICKEN, localScale * position, rotation, scale);
-                    break;
-                
-                case TREE01:
-                    UnitSystem::createDestructible<EnvironmentFactory>(TREE01, localScale * position, rotation, scale);
-                    break;
-                
-                case TREE02:
-                    UnitSystem::createDestructible<EnvironmentFactory>(TREE02, localScale * position, rotation, scale);
-                    break;
-
-                case TREE03:
-                    UnitSystem::createDestructible<EnvironmentFactory>(TREE03, localScale * position, rotation, scale);
-                    break;
-                
-                case MINE:
-                    UnitSystem::createDestructible<EnvironmentFactory>(MINE, localScale * position, rotation, scale);
-                    break;
-                
-                default:
-                    UnitSystem::createDestructible<EnvironmentFactory>(UNKNOWN, localScale * position, rotation, scale);
-                    break;
-            }
+            if(marker < CHICKEN)
+                UnitSystem::createDestructible<EnvironmentFactory>(marker, localScale * position, rotation, scale);
+            else if(marker < CASTLE)
+                UnitSystem::createUnit<HumanFactory>(neutralPlayerInstance, marker, localScale * position, rotation, scale);
+            else if(marker < FARM + 1)
+                UnitSystem::createBuilding<HumanFactory>(neutralPlayerInstance, marker, localScale * position, rotation, scale);
+            else
+                UnitSystem::createDestructible<EnvironmentFactory>(UNKNOWN, localScale * position, rotation, scale);
         }
         mapStream >> marker;
     }

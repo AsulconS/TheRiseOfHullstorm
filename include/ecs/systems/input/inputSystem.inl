@@ -79,31 +79,13 @@ void InputSystem::update(float deltaTime)
     
     // Dummy Model
     // -----------------------------------------------
-    if(glfwGetKey(window, GLFW_KEY_0) == GLFW_PRESS)
-        currentDummy = UNKNOWN;
     if(glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
-        currentDummy = TREE01;
-    if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
-        currentDummy = TREE02;
-    if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
-        currentDummy = TREE03;
-    if(glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
-        currentDummy = MINE;
-    if(glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS)
-        currentDummy = CHICKEN;
-    if(glfwGetKey(window, GLFW_KEY_6) == GLFW_PRESS)
-        currentDummy = VILLAGER;
-    if(glfwGetKey(window, GLFW_KEY_7) == GLFW_PRESS)
-        currentDummy = SOLDIER;
-    if(glfwGetKey(window, GLFW_KEY_8) == GLFW_PRESS)
-        currentDummy = BOWMAN;
-    if(glfwGetKey(window, GLFW_KEY_9) == GLFW_PRESS)
         currentDummy = CASTLE;
-    if(glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
         currentDummy = BARRACKS;
-    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
         currentDummy = ARCHERY;
-    if(glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
         currentDummy = FARM;
     if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         currentDummy = NO_MODEL;
@@ -115,15 +97,29 @@ void InputSystem::update(float deltaTime)
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
 
-        if(currentDummy < CHICKEN)
-            UnitSystem::createDestructible<EnvironmentFactory>(currentDummy, pos);
-        else if(currentDummy < CASTLE)
-            PlayerSystem::createUnit(currentDummy, pos);
-        else
-            PlayerSystem::createBuilding(currentDummy, pos);
+        PlayerSystem::createBuilding(currentDummy, pos);
 
         isClicking = true;
     }
+    else if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !isClicking)
+    {
+        glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));
+
+        EntityManager<Building>& buildings = UnitSystem::getBuildings(PlayerSystem::playerInstance);
+        List<Entity*>& buildingList = buildings.getEntities();
+        List<Entity*>::iterator it;
+
+        Building* building;
+        for(it = buildingList.begin(); it != buildingList.end(); ++it)
+        {
+            building = (Building*)(*it);
+            if(MovementSystem::isBetween(pos, building->transform->position, building->boxCollider->size))
+                UnitSystem::createUnit<HumanFactory>(PlayerSystem::playerInstance, building->unitCreated, pos + glm::vec3(0.0f, 0.0f, 4.0f));
+        }
+
+        isClicking = true;
+    }
+    
     if(glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !isClicking)
     {
         glm::vec3 pos = RenderingSystem::from2DPosition(glm::vec2(xPos, yPos));

@@ -20,11 +20,10 @@ public:
     static void createBuilding(const BuildingType building, const glm::vec3& pos);
 
     static Unit* dummy;
+    static uint32 playerInstance;
 
 private:
     explicit PlayerSystem() {}
-    
-    static uint32 playerInstance;
 };
 
 #endif // ECS_PLAYER_SYSTEM_H

@@ -7,6 +7,8 @@ void MovementSystem::update(float deltaTime)
 {
     Unit* unit;
     List<BaseComponent*>& transformMemory = ComponentManager::getComponentMemory<Transform>();
+    List<BaseComponent*>& circleCollider2DMemory = ComponentManager::getComponentMemory<CircleCollider2D>();
+    List<BaseComponent*>& boxCollider2DMemory = ComponentManager::getComponentMemory<BoxCollider2D>();
     List<BaseComponent*>::iterator i;
     List<BaseComponent*>::iterator j;
     
@@ -25,19 +27,25 @@ void MovementSystem::update(float deltaTime)
 
         // Check Collisions
         // ----------------------------------------------------------------
-        Unit* other;
-        for(j = transformMemory.begin(); j != transformMemory.end(); ++j)
-        {
-            if((*j)->entity->type != UNIT_ENTITY)
+        CircleCollider2D* otherCircle;
+        for(j = circleCollider2DMemory.begin(); j != circleCollider2DMemory.end(); ++j)
+        {   
+            otherCircle = (CircleCollider2D*)(*j);
+            if(otherCircle == unit->circleCollider)
                 continue;
-            
-            other = (Unit*)((*j)->entity);
-            if(other == unit)
-                continue;
-            if(!other->circleCollider->isSolid && !other->circleCollider->isTrigger)
+            if(!otherCircle->isSolid && !otherCircle->isTrigger)
                 continue;
 
-            checkColisions(unit, other, deltaTime);
+            checkColisions(unit->circleCollider, otherCircle, unit->stats->velocity, deltaTime);
+        }
+        BoxCollider2D* otherBox;
+        for(j = boxCollider2DMemory.begin(); j != boxCollider2DMemory.end(); ++j)
+        {   
+            otherBox = (BoxCollider2D*)(*j);
+            if(!otherBox->isSolid && !otherBox->isTrigger)
+                continue;
+
+            checkColisions(unit->circleCollider, otherBox, unit->stats->velocity, deltaTime);
         }
         // ----------------------------------------------------------------
     }
@@ -54,11 +62,28 @@ void MovementSystem::moveTowardsTarget(Unit* unit, float deltaTime)
     unit->transform->position += glm::normalize(directionVector) * unit->stats->velocity * deltaTime;
 }
 
-void MovementSystem::checkColisions(Unit* unit, Unit* other, float deltaTime)
+void MovementSystem::checkColisions(CircleCollider2D* source, CircleCollider2D* other, float outer, float deltaTime)
 {
-    glm::vec3 directionVector(other->transform->position - unit->transform->position);
+    glm::vec3 directionVector(other->entity->transform->position - source->entity->transform->position);
     float distance = glm::length(directionVector);
 
-    if(distance <= (unit->circleCollider->radius + other->circleCollider->radius))
-        unit->transform->position -= glm::normalize(directionVector) * unit->stats->velocity * deltaTime;
+    if(distance <= (source->radius + other->radius))
+        source->entity->transform->position -= glm::normalize(directionVector) * outer * deltaTime;
+}
+
+void MovementSystem::checkColisions(CircleCollider2D* source, BoxCollider2D* other, float outer, float deltaTime)
+{
+    glm::vec3 directionVector(other->entity->transform->position - source->entity->transform->position);
+    float distance = glm::length(directionVector);
+
+    if(distance <= (source->radius + glm::length(other->size)))
+        source->entity->transform->position -= glm::normalize(directionVector) * outer * deltaTime;
+}
+
+bool MovementSystem::isBetween(glm::vec3 pos, glm::vec3 origin, glm::vec3 boundings)
+{
+    if((pos.x < (origin.x + boundings.x)) && (pos.x > (origin.x - boundings.x))
+    && (pos.z < (origin.z + boundings.z)) && (pos.z > (origin.z - boundings.z)))
+        return true;
+    return false;
 }

@@ -16,6 +16,8 @@ public:
 
     void printEntities();
 
+    inline List<Entity*>& getEntities() { return this->entities; }
+
 private:
     uint32 currentID = 0;
     List<Entity*> entities;

@@ -14,6 +14,7 @@
 #include "ecs/systems/unit/abstractFactory.hpp"
 #include "ecs/systems/unit/environmentFactory.hpp"
 #include "ecs/systems/unit/humanFactory.hpp"
+#include "ecs/systems/unit/oximorphFactory.hpp"
 #include "ecs/systems/unit/unitSystem.hpp"
 
 #ifndef ECS_LEGACY
@@ -41,6 +42,7 @@
     #include "ecs/systems/unit/abstractFactory.inl"
     #include "ecs/systems/unit/environmentFactory.inl"
     #include "ecs/systems/unit/humanFactory.inl"
+    #include "ecs/systems/unit/oximorphFactory.inl"
     #include "ecs/systems/unit/unitSystem.inl"
 
     #ifndef ECS_LEGACY

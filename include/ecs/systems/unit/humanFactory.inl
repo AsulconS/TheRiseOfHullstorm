@@ -62,6 +62,7 @@ void HumanFactory::forgeBowman(Unit* instance)
 
 void HumanFactory::forgeChicken(Unit* instance)
 {
+    instance->transform->scale = { 1.0f, 1.0f, 1.0f };
     instance->meshRenderer->index = CHICKEN;
     instance->stats->velocity = 10.0f;
 }
@@ -69,19 +70,27 @@ void HumanFactory::forgeChicken(Unit* instance)
 void HumanFactory::forgeCastle(Building* instance)
 {
     instance->meshRenderer->index = CASTLE;
+    instance->boxCollider->size = { 3.0f, 0.0f, 3.0f };
+    instance->unitCreated = VILLAGER;
 }
 
 void HumanFactory::forgeBarracks(Building* instance)
 {
     instance->meshRenderer->index = BARRACKS;
+    instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
+    instance->unitCreated = SOLDIER;
 }
 
 void HumanFactory::forgeArchery(Building* instance)
 {
+    instance->unitCreated = BOWMAN;
+    instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
     instance->meshRenderer->index = ARCHERY;
 }
 
 void HumanFactory::forgeFarm(Building* instance)
 {
     instance->meshRenderer->index = FARM;
+    instance->boxCollider->size = { 2.0f, 0.0f, 2.0f };
+    instance->unitCreated = CHICKEN;
 }
