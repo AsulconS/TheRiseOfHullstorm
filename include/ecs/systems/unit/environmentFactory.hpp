@@ -1,8 +1,9 @@
 #ifndef ECS_ENVIRONMENT_FACTOTY_H
 #define ECS_ENVIRONMENT_FACTOTY_H
 
-#include "ecs/component/componentManager.hpp"
 #include "ecs/systems/unit/abstractFactory.hpp"
+
+#include "ecs/entity/entities.hpp"
 
 class EnvironmentFactory : public AbstractFactory
 {

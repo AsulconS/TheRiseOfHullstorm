@@ -5,9 +5,6 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "system/common.hpp"
-#include "dataStructures.hpp"
-
 #include "ecs/systems/rendering/mesh.hpp"
 #include "ecs/systems/rendering/renderingSystem.hpp"
 

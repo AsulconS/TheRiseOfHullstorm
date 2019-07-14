@@ -3,9 +3,8 @@
 
 #include <GLFW/glfw3.h>
 
-#include "system/common.hpp"
-#include "ecs/systems/rendering/renderingSystem.hpp"
 #include "ecs/systems/player/playerSystem.hpp"
+#include "ecs/systems/rendering/renderingSystem.hpp"
 
 /* Input System:
  * --------------

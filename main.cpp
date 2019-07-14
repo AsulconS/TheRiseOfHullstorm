@@ -1,27 +1,5 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
-#include <cstdio>
-#include <chrono>
-
 #define  ECS_IMPLEMENTATION
-#define  STB_IMAGE_IMPLEMENTATION
-#define  STB_IMAGE_WRITE_IMPLEMENTATION
 #include "ecs.hpp"
-
-static auto currentTime = std::chrono::steady_clock::now();
-static auto lastTime = currentTime;
-static auto timeSpan = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - lastTime);
-
-static float deltaTime = 0.0f;
-
-static float getDeltaTime()
-{
-    currentTime = std::chrono::steady_clock::now();
-    timeSpan = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime - lastTime);
-    lastTime = currentTime;
-    return timeSpan.count();
-}
 
 int main()
 {
@@ -29,13 +7,15 @@ int main()
     UnitSystem::init();
     MovementSystem::init();
 
-    RenderingSystem::init();
+    RenderingSystem::init(AUTO_SIZE, true);
     InputSystem::init();
 
     MapSystem::init();
     PlayerSystem::init();
 
     MapSystem::loadMap(5);
+
+    float deltaTime = 0.0f;
     while(RenderingSystem::isActive())
     {
         deltaTime = getDeltaTime();
@@ -61,8 +41,7 @@ int main()
     MapSystem::destroy();
 
     ComponentManager::outLog();
-    std::cout << createdGlobalEntitiesCount << " entities created!" << std::endl;
-    std::cout << destroyedGlobalEntitiesCount << " entities destroyed!" << std::endl;
+    EntityManagerLogger::outLog();
 
     return 0;
 }

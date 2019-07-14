@@ -1,7 +1,10 @@
 #ifndef ECS_UNIT_SYSTEM_H
 #define ECS_UNIT_SYSTEM_H
 
-#include "ecs/entities/entityManager.hpp"
+#include "ecs/entity/entityManager.hpp"
+#include "ecs/entity/entities.hpp"
+
+#include "ecs/systems/unit/abstractFactory.hpp"
 
 /* Unit System:
  * ---------------

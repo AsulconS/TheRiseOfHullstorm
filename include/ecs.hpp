@@ -1,8 +1,21 @@
 #ifndef ECS_H
 #define ECS_H
 
+#ifdef ECS_IMPLEMENTATION
+    #define STB_IMAGE_IMPLEMENTATION
+    #define STB_IMAGE_WRITE_IMPLEMENTATION
+#endif
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include "core/common.hpp"
+#include "core/time.hpp"
+#include "core/dataStructures.hpp"
+
 #include "ecs/component/componentManager.hpp"
-#include "ecs/entities/entityManager.hpp"
+#include "ecs/component/components.hpp"
+#include "ecs/entity/entityManager.hpp"
 
 #include "ecs/systems/rendering/renderingSystem.hpp"
 #include "ecs/systems/rendering/shader.hpp"
@@ -29,8 +42,11 @@
 #include "ecs/systems/player/playerSystem.hpp"
 
 #ifdef ECS_IMPLEMENTATION
+    #include "core/time/deltaTime.inl"
+
     #include "ecs/component/componentManager.inl"
-    #include "ecs/entities/entityManager.inl"
+    #include "ecs/entity/entityManager.inl"
+    #include "ecs/entity/entities.inl"
 
     #include "ecs/systems/rendering/renderingSystem.inl"
     #include "ecs/systems/rendering/shader.inl"

@@ -1,7 +1,7 @@
 #ifndef ECS_ABSTRACT_FACTOTY_H
 #define ECS_ABSTRACT_FACTOTY_H
 
-#include "ecs/component/componentManager.hpp"
+#include "ecs/entity/entities.hpp"
 
 class AbstractFactory
 {

@@ -2,7 +2,7 @@
 #define ECS_PLAYER_SYSTEM_H
 
 #include "ecs/component/componentManager.hpp"
-#include "ecs/entities/entityManager.hpp"
+#include "ecs/entity/entityManager.hpp"
 
 /* Input System:
  * --------------

@@ -1,7 +1,6 @@
 #ifndef ECS_MOVEMENT_SYSTEM_H
 #define ECS_MOVEMENT_SYSTEM_H
 
-#include "ecs/entities/entityManager.hpp"
 #include "ecs/systems/unit/unitSystem.hpp"
 
 class MovementSystem

@@ -3,9 +3,6 @@
 
 #include <iostream>
 
-#include "system/common.hpp"
-#include "dataStructures.hpp"
-
 #include "ecs/component/component.hpp"
 
 /* Component Manger:
@@ -46,6 +43,7 @@ private:
     static uint32 componentID;
     static uint32 createdGlobalComponentsCount;
     static uint32 destroyedGlobalComponentsCount;
+
     static Vector<List<BaseComponent*>> componentMemory;
     static List<BaseComponent*>::iterator componentIt;
 };

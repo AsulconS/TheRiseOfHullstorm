@@ -8,9 +8,6 @@
 #include <fstream>
 #include <sstream>
 
-#include "system/common.hpp"
-#include "dataStructures.hpp"
-
 class Shader
 {
 public:

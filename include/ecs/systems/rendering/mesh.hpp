@@ -3,8 +3,6 @@
 
 #include <glm/glm.hpp>
 
-#include "system/common.hpp"
-#include "dataStructures.hpp"
 #include "ecs/systems/rendering/shader.hpp"
 
 struct Vertex

@@ -5,13 +5,12 @@
 #include <algorithm>
 
 #ifdef _WIN32
-    #include "system/dirent.h"
+    #include "core/dirent.h"
 #else
     #include <dirent.h>
 #endif
 
-#include "ecs/component/componentManager.hpp"
-#include "ecs/entities/entityManager.hpp"
+#include "ecs/systems/unit/unitSystem.hpp"
 
 /* Map System:
  * --------------

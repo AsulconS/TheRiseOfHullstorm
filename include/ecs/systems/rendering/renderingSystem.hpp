@@ -7,12 +7,13 @@
 
 #include <cmath>
 
-#include "system/stb_image.h"
-#include "system/stb_image_write.h"
-#include "system/common.hpp"
-#include "dataStructures.hpp"
+#include "core/stb_image.h"
+#include "core/stb_image_write.h"
+
 #include "ecs/component/componentManager.hpp"
-#include "ecs/entities/entityManager.hpp"
+
+#include "ecs/entity/entities.hpp"
+
 #include "ecs/systems/rendering/shader.hpp"
 #include "ecs/systems/rendering/model.hpp"
 #include "ecs/systems/rendering/sprite.hpp"

@@ -10,7 +10,7 @@ List<BaseComponent*>::iterator ComponentManager::componentIt;
 
 uint32 ComponentManager::registerComponentType()
 {
-    componentMemory.push_back(List<BaseComponent*>());
+    componentMemory.push_back(List<BaseComponent*>{});
     return componentID++;
 }
 
@@ -19,10 +19,10 @@ uint32 ComponentManager::registerComponentType()
 // The Components are registered into the Manager
 // ----------------------------------------------
 template <typename T>
-const uint32 Component<T>::ID(ComponentManager::registerComponentType());
+const uint32 Component<T>::ID{ComponentManager::registerComponentType()};
 
 template <typename T>
-const uint32 Component<T>::SIZE(sizeof(T));
+const uint32 Component<T>::SIZE{sizeof(T)};
 
 template <typename C>
 C* ComponentManager::createComponent(Entity* entity)
@@ -97,4 +97,12 @@ void ComponentManager::outLog()
 {
     std::cout << createdGlobalComponentsCount << " components created!" << std::endl;
     std::cout << destroyedGlobalComponentsCount << " components destroyed!" << std::endl;
+}
+
+// For Printing Vec3
+// -----------------
+std::ostream& operator<<(std::ostream& o, glm::vec3& v)
+{
+    o << '(' << v.x << ", " << v.y << ", " << v.z << ')';
+    return o;
 }

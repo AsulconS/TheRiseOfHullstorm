@@ -1,8 +1,9 @@
 #ifndef ECS_OXIMORPH_FACTOTY_H
 #define ECS_OXIMORPH_FACTOTY_H
 
-#include "ecs/entities/entity.hpp"
 #include "ecs/systems/unit/abstractFactory.hpp"
+
+#include "ecs/entity/entities.hpp"
 
 class OximorphFactory : public AbstractFactory
 {
