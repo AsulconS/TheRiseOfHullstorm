@@ -4,10 +4,11 @@
 // ENTITIES
 // ----------------------------
 #define EMPTY_ENTITY        0
-#define CAMERA_ENTITY       1
-#define UNIT_ENTITY         2
-#define BUILDING_ENTITY     3
-#define DESTRUCTIBLE_ENTITY 4
+#define PLAYER_ENTITY       1
+#define CAMERA_ENTITY       2
+#define UNIT_ENTITY         3
+#define BUILDING_ENTITY     4
+#define DESTRUCTIBLE_ENTITY 5
 // ----------------------------
 
 // 3D MODELS | UNITS

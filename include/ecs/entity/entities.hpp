@@ -13,6 +13,15 @@ public:
     virtual void destroy() override;
 };
 
+class Player : public Entity
+{
+public:
+    virtual void init(uint32 _id) override;
+    virtual void destroy() override;
+
+    PlayerData* playerData;
+};
+
 class Camera : public Entity
 {
 public:

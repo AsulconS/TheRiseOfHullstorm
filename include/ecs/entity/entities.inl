@@ -31,6 +31,25 @@ void EmptyEntity::destroy()
     EntityManagerLogger::increaseDestroyedGlobalEntitiesCounter();
 }
 
+void Player::init(uint32 _id)
+{
+    internalInit(_id, PLAYER_ENTITY);
+
+    playerData = ComponentManager::createComponent<PlayerData>(this);
+    playerData->username = "Default";
+    playerData->score = 0;
+}
+
+void Player::destroy()
+{
+    if(!ComponentManager::deleteComponent<Transform>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    if(!ComponentManager::deleteComponent<PlayerData>(this))
+        std::cerr << "Something went wrong with this entity!" << std::endl;
+    
+    EntityManagerLogger::increaseDestroyedGlobalEntitiesCounter();
+}
+
 void Camera::init(uint32 _id)
 {
     internalInit(_id, CAMERA_ENTITY);

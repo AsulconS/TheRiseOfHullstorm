@@ -71,4 +71,10 @@ struct Stats : public Component<Stats>
     float velocity;
 };
 
+struct PlayerData : public Component<PlayerData>
+{
+    String username;
+    uint32 score;
+};
+
 #endif // ECS_COMPONENTS_H

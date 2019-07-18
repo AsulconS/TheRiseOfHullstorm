@@ -11,6 +11,9 @@ void PlayerSystem::init()
     dummy->circleCollider->isSolid = false;
 
     playerInstance = UnitSystem::registerPlayer();
+
+    ConnectionSystem::setURL("http://localhost:8080/players");
+    ConnectionSystem::registerPlayer();
 }
 
 void PlayerSystem::update(float deltaTime)
