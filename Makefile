@@ -9,10 +9,10 @@ C_OS		:=
 LIBS		:=
 ifeq ($(OS),Windows_NT)
 	C_OS += Windows
-	LIBS += -lglfw3 -lopengl32 -lglu32 -lgdi32 -luser32 -lkernel32 -lassimp -lcurlcpp -lcurl
+	LIBS += -lglfw3 -lopengl32 -lglu32 -lgdi32 -luser32 -lkernel32 -lassimp
 else
 	C_OS += Linux
-	LIBS += -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lassimp -lcurlcpp -lcurl
+	LIBS += -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lassimp
 endif
 
 ifndef ARGS

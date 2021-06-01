@@ -4,8 +4,6 @@
 int main()
 {
     // Component Manager is Implicitly Initialized
-    ConnectionSystem::init();;
-
     UnitSystem::init();
     MovementSystem::init();
 
@@ -21,9 +19,6 @@ int main()
     while(RenderingSystem::isActive())
     {
         deltaTime = getDeltaTime();
-
-        // Process Connection
-        ConnectionSystem::update(deltaTime);
 
         // Process Input
         InputSystem::update(deltaTime);
@@ -44,7 +39,6 @@ int main()
     PlayerSystem::destroy();
     UnitSystem::destroy();
     MapSystem::destroy();
-    ConnectionSystem::destroy();
 
     ComponentManager::outLog();
     EntityManagerLogger::outLog();

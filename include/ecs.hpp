@@ -18,8 +18,6 @@
 #include "ecs/entity/entityManager.hpp"
 #include "ecs/entity/entities.hpp"
 
-#include "ecs/systems/connection/connectionSystem.hpp"
-
 #include "ecs/systems/rendering/renderingSystem.hpp"
 #include "ecs/systems/rendering/shader.hpp"
 #include "ecs/systems/rendering/mesh.hpp"
@@ -50,8 +48,6 @@
     #include "ecs/component/componentManager.inl"
     #include "ecs/entity/entityManager.inl"
     #include "ecs/entity/entities.inl"
-
-    #include "ecs/systems/connection/connectionSystem.inl"
 
     #include "ecs/systems/rendering/renderingSystem.inl"
     #include "ecs/systems/rendering/shader.inl"
