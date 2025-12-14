@@ -1,5 +1,4 @@
-#ifndef ECS_RENDERING_MODEL_H
-#define ECS_RENDERING_MODEL_H
+#pragma once
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -11,26 +10,24 @@
 class Model
 {
 public:
-    Model(const String& path);
-    virtual ~Model();
+	Model(const String& path);
+	virtual ~Model();
 
-    void render(Shader& shader);
+	void render(Shader& shader);
 
 protected:
-    // Model Data
-    // ----------
-    Vector<Mesh> meshes;
+	// Model Data
+	// ----------
+	Vector<Mesh> meshes;
 
 private:
-    // Internal Data Processing
-    // ------------------------
-    String directory;
-    Vector<Texture> texturesLoaded;
+	// Internal Data Processing
+	// ------------------------
+	String directory;
+	Vector<Texture> texturesLoaded;
 
-    void loadModel(const String& path);
-    void processNode(aiNode* node, const aiScene* scene);
-    Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-    Vector<Texture> loadMaterialTextures(aiMaterial* material, aiTextureType type, const String& typeName);
+	void loadModel(const String& path);
+	void processNode(aiNode* node, const aiScene* scene);
+	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+	Vector<Texture> loadMaterialTextures(aiMaterial* material, aiTextureType type, const String& typeName);
 };
-
-#endif // ECS_RENDERING_MODEL_H

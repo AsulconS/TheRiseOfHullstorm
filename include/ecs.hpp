@@ -1,9 +1,8 @@
-#ifndef ECS_H
-#define ECS_H
+#pragma once
 
 #ifdef ECS_IMPLEMENTATION
-    #define STB_IMAGE_IMPLEMENTATION
-    #define STB_IMAGE_WRITE_IMPLEMENTATION
+	#define STB_IMAGE_IMPLEMENTATION
+	#define STB_IMAGE_WRITE_IMPLEMENTATION
 #endif
 
 #include <glad/glad.h>
@@ -32,9 +31,9 @@
 #include "ecs/systems/unit/unitSystem.hpp"
 
 #ifndef ECS_LEGACY
-    #include "ecs/systems/input/inputSystem.hpp"
+	#include "ecs/systems/input/inputSystem.hpp"
 #else
-    #include "legacy/ecs/systems/input/inputSystem.hpp"
+	#include "legacy/ecs/systems/input/inputSystem.hpp"
 #endif
 
 #include "ecs/systems/mechanics/movementSystem.hpp"
@@ -43,35 +42,33 @@
 #include "ecs/systems/player/playerSystem.hpp"
 
 #ifdef ECS_IMPLEMENTATION
-    #include "core/time/deltaTime.inl"
+	#include "core/time/deltaTime.inl"
 
-    #include "ecs/component/componentManager.inl"
-    #include "ecs/entity/entityManager.inl"
-    #include "ecs/entity/entities.inl"
+	#include "ecs/component/componentManager.inl"
+	#include "ecs/entity/entityManager.inl"
+	#include "ecs/entity/entities.inl"
 
-    #include "ecs/systems/rendering/renderingSystem.inl"
-    #include "ecs/systems/rendering/shader.inl"
-    #include "ecs/systems/rendering/mesh.inl"
-    #include "ecs/systems/rendering/model.inl"
-    #include "ecs/systems/rendering/animatedModel.inl"
-    #include "ecs/systems/rendering/sprite.inl"
+	#include "ecs/systems/rendering/renderingSystem.inl"
+	#include "ecs/systems/rendering/shader.inl"
+	#include "ecs/systems/rendering/mesh.inl"
+	#include "ecs/systems/rendering/model.inl"
+	#include "ecs/systems/rendering/animatedModel.inl"
+	#include "ecs/systems/rendering/sprite.inl"
 
-    #include "ecs/systems/unit/abstractFactory.inl"
-    #include "ecs/systems/unit/environmentFactory.inl"
-    #include "ecs/systems/unit/humanFactory.inl"
-    #include "ecs/systems/unit/oximorphFactory.inl"
-    #include "ecs/systems/unit/unitSystem.inl"
+	#include "ecs/systems/unit/abstractFactory.inl"
+	#include "ecs/systems/unit/environmentFactory.inl"
+	#include "ecs/systems/unit/humanFactory.inl"
+	#include "ecs/systems/unit/oximorphFactory.inl"
+	#include "ecs/systems/unit/unitSystem.inl"
 
-    #ifndef ECS_LEGACY
-        #include "ecs/systems/input/inputSystem.inl"
-    #else
-        #include "legacy/ecs/systems/input/inputSystem.inl"
-    #endif
+	#ifndef ECS_LEGACY
+		#include "ecs/systems/input/inputSystem.inl"
+	#else
+		#include "legacy/ecs/systems/input/inputSystem.inl"
+	#endif
 
-    #include "ecs/systems/mechanics/movementSystem.inl"
-    #include "ecs/systems/mechanics/mapSystem.inl"
+	#include "ecs/systems/mechanics/movementSystem.inl"
+	#include "ecs/systems/mechanics/mapSystem.inl"
 
-    #include "ecs/systems/player/playerSystem.inl"
+	#include "ecs/systems/player/playerSystem.inl"
 #endif
-
-#endif // ECS_H

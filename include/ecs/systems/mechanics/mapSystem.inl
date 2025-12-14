@@ -69,29 +69,11 @@ void MapSystem::loadMap(uint32 index, bool external)
 void MapSystem::loadMaps()
 {
     maps.clear();
-
-    String filename;
-    DIR* directory = opendir("res/maps");
-    dirent* filedir;
-
-    if(directory != NULL)
+    for (const auto& entry : std::filesystem::directory_iterator("res/maps"))
     {
-        filedir = readdir(directory);
-        while(filedir != NULL)
-        {
-            filename = filedir->d_name;
-            if(filename == "." || filename == "..")
-            {
-                filedir = readdir(directory);
-                continue;
-            }
-            maps.push_back(GameMap(filename, loadMapFromFile(filename)));
-            filedir = readdir(directory);
-        }
-        closedir(directory);
+        const String filename = entry.path().filename().string();
+        maps.push_back(GameMap(filename, loadMapFromFile(filename)));
     }
-    else
-        perror("Could not open the directory!");
 }
 
 String MapSystem::loadMapFromFile(const String& filename)

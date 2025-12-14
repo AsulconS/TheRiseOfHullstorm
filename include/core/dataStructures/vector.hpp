@@ -1,8 +1,6 @@
-#ifndef DSTR_VECTOR_H
-#define DSTR_VECTOR_H
+#pragma once
 
 #include <vector>
 
-#define Vector std::vector
-
-#endif // DSTR_VECTOR_H
+template <typename T>
+using Vector = std::vector<T>;

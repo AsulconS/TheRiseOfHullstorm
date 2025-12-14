@@ -1,8 +1,6 @@
-#ifndef DSTR_TUPLE_H
-#define DSTR_TUPLE_H
+#pragma once
 
 #include <tuple>
 
-#define Tuple std::tuple
-
-#endif // DSTR_TUPLE_H
+template <typename... TArgs>
+using Tuple = std::tuple<TArgs...>;

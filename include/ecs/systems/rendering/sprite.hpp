@@ -1,5 +1,4 @@
-#ifndef ECS_RENDERING_SPRITE_H
-#define ECS_RENDERING_SPRITE_H
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -9,26 +8,24 @@
 class Sprite
 {
 public:
-    void init(uint32 width, uint32 height, const glm::vec2& pos, const String& path, const String& name);
-    void destroy();
-    void render(Shader& shader);
+	void init(uint32 width, uint32 height, const glm::vec2& pos, const String& path, const String& name);
+	void destroy();
+	void render(Shader& shader);
 
-    void setTexture(const String& path, const String& name);
-    void setPosition(const glm::vec2& pos);
+	void setTexture(const String& path, const String& name);
+	void setPosition(const glm::vec2& pos);
 
 private:
-    uint32 VAO;
-    uint32 VBO;
-    uint32 EBO;
+	uint32 VAO;
+	uint32 VBO;
+	uint32 EBO;
 
-    uint32 texture;
-    String texturePath;
-    String textureName;
+	uint32 texture;
+	String texturePath;
+	String textureName;
 
-    Vector<float> vertices;
-    Vector<uint32> indices;
+	Vector<float> vertices;
+	Vector<uint32> indices;
 
-    glm::vec2 position;
+	glm::vec2 position;
 };
-
-#endif // ECS_RENDERING_SPRITE

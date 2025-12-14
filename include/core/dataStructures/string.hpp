@@ -1,8 +1,5 @@
-#ifndef DSTR_STRING_H
-#define DSTR_STRING_H
+#pragma once
 
 #include <string>
 
-#define String std::string
-
-#endif // DSTR_STRING_H
+using String = std::string;

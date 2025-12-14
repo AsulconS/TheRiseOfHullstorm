@@ -1,5 +1,4 @@
-#ifndef ECS_COMPONENT_MANAGER_H
-#define ECS_COMPONENT_MANAGER_H
+#pragma once
 
 #include <iostream>
 
@@ -16,36 +15,34 @@
 class ComponentManager
 {
 public:
-    static uint32 registerComponentType();
+	static uint32 registerComponentType();
 
-    template <typename C>
-    static C* createComponent(Entity* entity);
+	template <typename C>
+	static C* createComponent(Entity* entity);
 
-    class Experimental
-    {
-        template <typename C>
-        static C* registerComponent(C* component, Entity* entity);
+	class Experimental
+	{
+		template <typename C>
+		static C* registerComponent(C* component, Entity* entity);
 
-        static void clearMemory();
-    };
+		static void clearMemory();
+	};
 
-    template <typename C>
-    static bool deleteComponent(Entity* entity);
+	template <typename C>
+	static bool deleteComponent(Entity* entity);
 
-    template <typename C>
-    static List<BaseComponent*>& getComponentMemory();
+	template <typename C>
+	static List<BaseComponent*>& getComponentMemory();
 
-    static void outLog();
+	static void outLog();
 
 private:
-    explicit ComponentManager() {}
+	explicit ComponentManager() {}
 
-    static uint32 componentID;
-    static uint32 createdGlobalComponentsCount;
-    static uint32 destroyedGlobalComponentsCount;
+	static uint32 componentID;
+	static uint32 createdGlobalComponentsCount;
+	static uint32 destroyedGlobalComponentsCount;
 
-    static Vector<List<BaseComponent*>> componentMemory;
-    static List<BaseComponent*>::iterator componentIt;
+	static Vector<List<BaseComponent*>> componentMemory;
+	static List<BaseComponent*>::iterator componentIt;
 };
-
-#endif // ECS_COMPONENT_MANAGER_H

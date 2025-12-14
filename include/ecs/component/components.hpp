@@ -1,5 +1,4 @@
-#ifndef ECS_COMPONENTS_H
-#define ECS_COMPONENTS_H
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -7,30 +6,30 @@
 
 struct Transform : public Component<Transform>
 {
-    glm::vec3 position;
-    glm::vec3 rotation;
-    glm::vec3 scale;
-    glm::vec3 target;
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 scale;
+	glm::vec3 target;
 
-    bool isStatic;
+	bool isStatic;
 };
 
 struct MeshRenderer : public Component<MeshRenderer>
 {
-    uint32 index;
+	uint32 index;
 
-    float alpha;
-    bool isVisible;
+	float alpha;
+	bool isVisible;
 };
 
 struct CameraComponent : public Component<CameraComponent>
 {
-    bool mainCamera;
-    bool perspective;
-    
-    float fov;
-    float cNear;
-    float cFar;
+	bool mainCamera;
+	bool perspective;
+	
+	float fov;
+	float cNear;
+	float cFar;
 };
 
 // Colliders
@@ -38,43 +37,41 @@ struct CameraComponent : public Component<CameraComponent>
 
 struct BoxCollider2D : public Component<BoxCollider2D>
 {
-    glm::vec3 size;
+	glm::vec3 size;
 
-    bool isSolid;
-    bool isTrigger;
+	bool isSolid;
+	bool isTrigger;
 };
 
 struct BoxCollider : public Component<BoxCollider>
 {
-    glm::vec3 center;
-    glm::vec3 size;
+	glm::vec3 center;
+	glm::vec3 size;
 
-    bool isSolid;
-    bool isTrigger;
+	bool isSolid;
+	bool isTrigger;
 };
 
 struct CircleCollider2D : public Component<CircleCollider2D>
 {
-    float radius;
+	float radius;
 
-    bool isSolid;
-    bool isTrigger;
+	bool isSolid;
+	bool isTrigger;
 };
 
 // -----------------------------------------------------------
 
 struct Stats : public Component<Stats>
 {
-    float hp;
-    float damage;
-    float defense;
-    float velocity;
+	float hp;
+	float damage;
+	float defense;
+	float velocity;
 };
 
 struct PlayerData : public Component<PlayerData>
 {
-    String username;
-    uint32 score;
+	String username;
+	uint32 score;
 };
-
-#endif // ECS_COMPONENTS_H

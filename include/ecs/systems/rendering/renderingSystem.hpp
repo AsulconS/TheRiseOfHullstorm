@@ -1,5 +1,4 @@
-#ifndef ECS_RENDERING_SYSTEM_H
-#define ECS_RENDERING_SYSTEM_H
+#pragma once
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -7,8 +6,8 @@
 
 #include <cmath>
 
-#include "core/stb_image.h"
-#include "core/stb_image_write.h"
+#include <stb_image.h>
+#include <stb_image_write.h>
 
 #include "ecs/component/componentManager.hpp"
 
@@ -26,59 +25,57 @@
 class RenderingSystem
 {
 public:
-    static void init(uint32 width = 1280, uint32 height = 720, bool fullScreen = false, uint32 glVersion = 3);
-    static void update(float deltaTime);
-    static void destroy();
+	static void init(uint32 width = 1280, uint32 height = 720, bool fullScreen = false, uint32 glVersion = 3);
+	static void update(float deltaTime);
+	static void destroy();
 
-    static bool isActive();
-    static void stop();
+	static bool isActive();
+	static void stop();
 
-    static glm::vec3 from2DPosition(const glm::vec2& pos);
-    static glm::vec3 rayCast(const glm::vec2& pos);
+	static glm::vec3 from2DPosition(const glm::vec2& pos);
+	static glm::vec3 rayCast(const glm::vec2& pos);
 
-    // Utils
-    // -----
-    static uint32 loadTextureFromFile(const char* filename, const String& directory, bool isFlipped);
-    static void saveScreenshot(const String& filename);
+	// Utils
+	// -----
+	static uint32 loadTextureFromFile(const char* filename, const String& directory, bool isFlipped);
+	static void saveScreenshot(const String& filename);
 
-    // Main Camera
-    // -----------
-    static Camera* mainCamera;
-    static Sprite cursor;
+	// Main Camera
+	// -----------
+	static Camera* mainCamera;
+	static Sprite cursor;
 
-    // Window Properties
-    // -----------------
-    static GLFWwindow* window;
-    static uint32 windowWidth;
-    static uint32 windowHeight;
+	// Window Properties
+	// -----------------
+	static GLFWwindow* window;
+	static uint32 windowWidth;
+	static uint32 windowHeight;
 
 private:
-    explicit RenderingSystem() {}
+	explicit RenderingSystem() {}
 
-    static Shader shader;
-    static Shader hudShader;
+	static Shader shader;
+	static Shader hudShader;
 
-    // HUD Properties
-    // --------------
-    static Sprite hud;
+	// HUD Properties
+	// --------------
+	static Sprite hud;
 
-    // Loaded Models
-    static Vector<Model*> models;
+	// Loaded Models
+	static Vector<Model*> models;
 
-    // Camera Properties
-    // -----------------
-    static glm::mat4 projection;
-    static glm::mat4 view;
-    static glm::vec3 cameraFront;
+	// Camera Properties
+	// -----------------
+	static glm::mat4 projection;
+	static glm::mat4 view;
+	static glm::vec3 cameraFront;
 
-    // Setup Functions
-    // ---------------------------------------------------------------------
-    static void initDisplay(uint32 width, uint32 height, bool fullScreen, uint32 glVersion);
-    static void setupCamera();
-    static void setupLights();
-    static void centerWindow();
+	// Setup Functions
+	// ---------------------------------------------------------------------
+	static void initDisplay(uint32 width, uint32 height, bool fullScreen, uint32 glVersion);
+	static void setupCamera();
+	static void setupLights();
+	static void centerWindow();
 
-    static void framebufferSizeCallback(GLFWwindow* _window, int32 width, int32 height);
+	static void framebufferSizeCallback(GLFWwindow* _window, int32 width, int32 height);
 };
-
-#endif // ESC_RENDERING_SYSTEM_H

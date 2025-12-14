@@ -7,5 +7,5 @@ uniform sampler2D spriteTexture;
 
 void main()
 {
-    FragColor = texture(spriteTexture, UV);
+	FragColor = texture(spriteTexture, UV);
 }

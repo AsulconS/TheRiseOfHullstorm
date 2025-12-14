@@ -1,8 +1,6 @@
-#ifndef DSTR_LIST_H
-#define DSTR_LIST_H
+#pragma once
 
 #include <list>
 
-#define List std::list
-
-#endif // DSTR_LIST_H
+template <typename T>
+using List = std::list<T>;

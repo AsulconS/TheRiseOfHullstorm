@@ -1,9 +1,9 @@
-#ifndef DSTR_MAP_H
-#define DSTR_MAP_H
+#pragma once
 
 #include <map>
 
-#define Map  std::map
-#define Pair std::pair
+template <typename K, typename V>
+using Map = std::map<K, V>;
 
-#endif // DSTR_MAP_H
+template <typename T, typename U>
+using Pair = std::pair<T, U>;

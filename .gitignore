@@ -1,3 +1,30 @@
+# Root directories to ignore
+/[Bb]uild/
+/[Dd]oc/
+/[Ll]ib/
+/[Oo]ther/[Mm]isc/
+/[Bb]inaries/
+/[Bb]in/
+
+# Visual Studio cache directory
+.vs/
+
+# Visual Studio Code configuration directory
 .vscode/
-main.exe
-main
+
+# Visual Studio Code counter extension directory
+.VSCodeCounter/
+
+# Utility files
+*.priv
+*.bat
+
+# OS generated files
+desktop.ini
+
+# Builds
+*.so
+*.dll
+*.lib
+*.pdb
+*.exe

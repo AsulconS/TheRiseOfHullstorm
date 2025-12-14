@@ -202,11 +202,19 @@ T InputSystem::loadValueFromFile(const String& filename)
 {
     T value;
     std::ifstream file;
+    std::string fullPath{ std::format("meta/{}.meta", filename) };
+    if (!std::filesystem::exists(fullPath))
+    {
+        std::filesystem::create_directory("meta");
+        std::ofstream ofs{ fullPath };
+        ofs << T{};
+        ofs.close();
+    }
 
     file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     try
     {
-        file.open("meta/" + filename + ".meta");
+        file.open(fullPath);
         file >> value;
         file.close();
     }

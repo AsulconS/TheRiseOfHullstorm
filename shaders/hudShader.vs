@@ -9,6 +9,6 @@ uniform vec2 offset;
 
 void main()
 {
-    gl_Position = vec4(aPos + offset, depth, 1.0f);
-    UV = aUV;
+	gl_Position = vec4(aPos + offset, depth, 1.0f);
+	UV = aUV;
 }
