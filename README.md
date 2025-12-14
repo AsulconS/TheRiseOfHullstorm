@@ -1,1 +1,1 @@
-# TheRiseOfHullstorm (Remastered)
+# The Rise Of Hullstorm (Remastered)
